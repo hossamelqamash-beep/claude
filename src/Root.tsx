@@ -1,7 +1,9 @@
 import { Composition, Folder } from "remotion";
+import { ImpactLogo, impactLogoSchema } from "./compositions/ImpactLogo";
 import { Showcase, showcaseSchema } from "./compositions/Showcase";
 import {
   getShowcaseDurationInFrames,
+  IMPACT_LOGO_SECONDS,
   SHOWCASE_SCENES,
   toFrames,
   VIDEO,
@@ -15,6 +17,22 @@ import { FeaturesScene, IntroScene, OutroScene, ShapesScene } from "./scenes";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="ImpactLogo"
+        component={ImpactLogo}
+        schema={impactLogoSchema}
+        width={VIDEO.width}
+        height={VIDEO.height}
+        fps={VIDEO.fps}
+        durationInFrames={toFrames(IMPACT_LOGO_SECONDS, VIDEO.fps)}
+        defaultProps={{
+          line1: "Every drop makes an impact.",
+          line2: "Every ripple moves us forward.",
+          wordmarkColor: "#FFFFFF",
+          taglineColor: "#BDEBFF",
+          withAudio: true,
+        }}
+      />
       <Composition
         id="Showcase"
         component={Showcase}

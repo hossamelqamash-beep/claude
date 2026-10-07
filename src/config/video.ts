@@ -36,3 +36,31 @@ export const getShowcaseDurationInFrames = (fps: number) => {
     (scenes.length - 1) * toFrames(SHOWCASE_TRANSITION_SECONDS, fps);
   return sceneFrames - transitionFrames;
 };
+
+/** Length of the Impact logo animation, in seconds. */
+export const IMPACT_LOGO_SECONDS = 30;
+
+/**
+ * Key moments of the Impact logo animation, in seconds.
+ * Most land on beats of the 120 BPM soundtrack (every 0.5 s).
+ */
+export const IMPACT_CUES = {
+  dropStart: 0.6,
+  impact: 2,
+  line1In: 2.5,
+  line1Out: 4,
+  tunnelIn: 4.5,
+  line2In: 5.5,
+  line2Out: 9.4,
+  collapse: 10,
+  pillar: 11,
+  arches: 11.5,
+  arcs: 12.25,
+  lockup: 15,
+  letters: 15.75,
+  tagline: 16.6,
+  sheen: 17.5,
+  lens: 19.5,
+  echo: 24,
+  sheen2: 26.5,
+} as const;
