@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Green Phosphor -->
+<theme>
+  <variables>
+    <palette>phosphor</palette>
+    <inkColor>0A1910FF</inkColor>
+    <paperColor>86F29AFF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>86F29AFF</color></image>
+    <text name="systemInfo"><color>86F29AFF</color></text>
+    <helpsystem name="help"><textColor>0A1910FF</textColor><iconColor>0A1910FF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>0A1910FF</color></image>
+    <text name="logoText"><color>0A1910FF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>0A1910FF</selectorColor>
+      <selectedColor>86F29AFF</selectedColor>
+      <primaryColor>0A1910FF</primaryColor>
+      <secondaryColor>0A1910FF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/phosphor/noart.png</default></image>
+    <rating name="md_rating"><color>0A1910FF</color><unfilledColor>0A1910FF</unfilledColor></rating>
+    <text name="md_genre"><color>0A1910FF</color></text>
+    <text name="md_description"><color>0A1910FF</color></text>
+    <helpsystem name="help"><textColor>0A1910FF</textColor><iconColor>0A1910FF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>0A1910FF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>0A1910FF</color></menuText>
+    <menuText name="menufooter"><color>0A1910FF</color></menuText>
+    <menuText name="menutext">
+      <color>0A1910FF</color>
+      <separatorColor>0A191040</separatorColor>
+      <selectorColor>0A1910FF</selectorColor>
+      <selectedColor>86F29AFF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>0A1910FF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>0A1910FF</color></menuGroup>
+  </view>
+</theme>

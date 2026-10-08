@@ -65,3 +65,7 @@ public/            audio, fonts, images (use staticFile())
 Remotion requires a company license for organizations with more than 3 people. See
 [remotion.pro/license](https://www.remotion.pro/license). Bundled fonts (Inter, Space Grotesk) are
 SIL Open Font License 1.1.
+
+## EmulationStation theme
+
+This repo also contains **DeskOS**, a 1-bit pixel EmulationStation theme for the R36S. See [`emulationstation/README.md`](emulationstation/README.md).

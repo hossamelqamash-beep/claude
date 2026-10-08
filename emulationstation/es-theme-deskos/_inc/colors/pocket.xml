@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Pocket Pea -->
+<theme>
+  <variables>
+    <palette>pocket</palette>
+    <inkColor>1E2A1CFF</inkColor>
+    <paperColor>C4D08CFF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>C4D08CFF</color></image>
+    <text name="systemInfo"><color>C4D08CFF</color></text>
+    <helpsystem name="help"><textColor>1E2A1CFF</textColor><iconColor>1E2A1CFF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>1E2A1CFF</color></image>
+    <text name="logoText"><color>1E2A1CFF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>1E2A1CFF</selectorColor>
+      <selectedColor>C4D08CFF</selectedColor>
+      <primaryColor>1E2A1CFF</primaryColor>
+      <secondaryColor>1E2A1CFF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/pocket/noart.png</default></image>
+    <rating name="md_rating"><color>1E2A1CFF</color><unfilledColor>1E2A1CFF</unfilledColor></rating>
+    <text name="md_genre"><color>1E2A1CFF</color></text>
+    <text name="md_description"><color>1E2A1CFF</color></text>
+    <helpsystem name="help"><textColor>1E2A1CFF</textColor><iconColor>1E2A1CFF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>1E2A1CFF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>1E2A1CFF</color></menuText>
+    <menuText name="menufooter"><color>1E2A1CFF</color></menuText>
+    <menuText name="menutext">
+      <color>1E2A1CFF</color>
+      <separatorColor>1E2A1C40</separatorColor>
+      <selectorColor>1E2A1CFF</selectorColor>
+      <selectedColor>C4D08CFF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>1E2A1CFF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>1E2A1CFF</color></menuGroup>
+  </view>
+</theme>

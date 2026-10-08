@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Paper White -->
+<theme>
+  <variables>
+    <palette>paperwhite</palette>
+    <inkColor>1A1A1AFF</inkColor>
+    <paperColor>F4F4F0FF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>F4F4F0FF</color></image>
+    <text name="systemInfo"><color>F4F4F0FF</color></text>
+    <helpsystem name="help"><textColor>1A1A1AFF</textColor><iconColor>1A1A1AFF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>1A1A1AFF</color></image>
+    <text name="logoText"><color>1A1A1AFF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>1A1A1AFF</selectorColor>
+      <selectedColor>F4F4F0FF</selectedColor>
+      <primaryColor>1A1A1AFF</primaryColor>
+      <secondaryColor>1A1A1AFF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/paperwhite/noart.png</default></image>
+    <rating name="md_rating"><color>1A1A1AFF</color><unfilledColor>1A1A1AFF</unfilledColor></rating>
+    <text name="md_genre"><color>1A1A1AFF</color></text>
+    <text name="md_description"><color>1A1A1AFF</color></text>
+    <helpsystem name="help"><textColor>1A1A1AFF</textColor><iconColor>1A1A1AFF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>1A1A1AFF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>1A1A1AFF</color></menuText>
+    <menuText name="menufooter"><color>1A1A1AFF</color></menuText>
+    <menuText name="menutext">
+      <color>1A1A1AFF</color>
+      <separatorColor>1A1A1A40</separatorColor>
+      <selectorColor>1A1A1AFF</selectorColor>
+      <selectedColor>F4F4F0FF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>1A1A1AFF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>1A1A1AFF</color></menuGroup>
+  </view>
+</theme>

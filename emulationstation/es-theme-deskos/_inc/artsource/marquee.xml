@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Which gamelist.xml tag fills the BOX ART window -->
+<theme>
+  <view name="detailed,video">
+    <image name="md_image"><visible>false</visible></image>
+    <image name="md_thumbnail"><visible>false</visible></image>
+    <image name="md_marquee"><visible>true</visible></image>
+  </view>
+</theme>

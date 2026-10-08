@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Bubblegum -->
+<theme>
+  <variables>
+    <palette>bubblegum</palette>
+    <inkColor>2A1426FF</inkColor>
+    <paperColor>FFC9E0FF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>FFC9E0FF</color></image>
+    <text name="systemInfo"><color>FFC9E0FF</color></text>
+    <helpsystem name="help"><textColor>2A1426FF</textColor><iconColor>2A1426FF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>2A1426FF</color></image>
+    <text name="logoText"><color>2A1426FF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>2A1426FF</selectorColor>
+      <selectedColor>FFC9E0FF</selectedColor>
+      <primaryColor>2A1426FF</primaryColor>
+      <secondaryColor>2A1426FF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/bubblegum/noart.png</default></image>
+    <rating name="md_rating"><color>2A1426FF</color><unfilledColor>2A1426FF</unfilledColor></rating>
+    <text name="md_genre"><color>2A1426FF</color></text>
+    <text name="md_description"><color>2A1426FF</color></text>
+    <helpsystem name="help"><textColor>2A1426FF</textColor><iconColor>2A1426FF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>2A1426FF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>2A1426FF</color></menuText>
+    <menuText name="menufooter"><color>2A1426FF</color></menuText>
+    <menuText name="menutext">
+      <color>2A1426FF</color>
+      <separatorColor>2A142640</separatorColor>
+      <selectorColor>2A1426FF</selectorColor>
+      <selectedColor>FFC9E0FF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>2A1426FF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>2A1426FF</color></menuGroup>
+  </view>
+</theme>

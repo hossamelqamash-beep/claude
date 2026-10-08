@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Classic Cream -->
+<theme>
+  <variables>
+    <palette>classic</palette>
+    <inkColor>2A2C33FF</inkColor>
+    <paperColor>E9E2C9FF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>E9E2C9FF</color></image>
+    <text name="systemInfo"><color>E9E2C9FF</color></text>
+    <helpsystem name="help"><textColor>2A2C33FF</textColor><iconColor>2A2C33FF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>2A2C33FF</color></image>
+    <text name="logoText"><color>2A2C33FF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>2A2C33FF</selectorColor>
+      <selectedColor>E9E2C9FF</selectedColor>
+      <primaryColor>2A2C33FF</primaryColor>
+      <secondaryColor>2A2C33FF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/classic/noart.png</default></image>
+    <rating name="md_rating"><color>2A2C33FF</color><unfilledColor>2A2C33FF</unfilledColor></rating>
+    <text name="md_genre"><color>2A2C33FF</color></text>
+    <text name="md_description"><color>2A2C33FF</color></text>
+    <helpsystem name="help"><textColor>2A2C33FF</textColor><iconColor>2A2C33FF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>2A2C33FF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>2A2C33FF</color></menuText>
+    <menuText name="menufooter"><color>2A2C33FF</color></menuText>
+    <menuText name="menutext">
+      <color>2A2C33FF</color>
+      <separatorColor>2A2C3340</separatorColor>
+      <selectorColor>2A2C33FF</selectorColor>
+      <selectedColor>E9E2C9FF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>2A2C33FF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>2A2C33FF</color></menuGroup>
+  </view>
+</theme>

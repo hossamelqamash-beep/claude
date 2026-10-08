@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Font size: Big  (list 25px, description 20px, menu 25px) -->
+<theme>
+  <view name="system">
+    <text name="systemInfo"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></text>
+    <helpsystem name="help"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <text name="logoText"><fontPath>../../_art/fonts/Silkscreen-Bold.ttf</fontPath><fontSize>0.033333</fontSize></text>
+    <textlist name="gamelist">
+      <fontPath>../../_art/fonts/Jersey25-Regular.ttf</fontPath>
+      <fontSize>0.052083</fontSize>
+      <lineSpacing>1.35</lineSpacing>
+    </textlist>
+    <text name="md_genre"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></text>
+    <text name="md_description"><fontPath>../../_art/fonts/Jersey20-Regular.ttf</fontPath><fontSize>0.041667</fontSize></text>
+    <helpsystem name="help"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><fontPath>../../_art/fonts/Silkscreen-Bold.ttf</fontPath><fontSize>0.050000</fontSize></menuText>
+    <menuText name="menufooter"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></menuText>
+    <menuText name="menutext"><fontPath>../../_art/fonts/Jersey25-Regular.ttf</fontPath><fontSize>0.052083</fontSize></menuText>
+    <menuTextSmall name="menutextsmall"><fontPath>../../_art/fonts/Jersey20-Regular.ttf</fontPath><fontSize>0.041667</fontSize></menuTextSmall>
+    <menuGroup name="menugroup"><fontPath>../../_art/fonts/Jersey15-Regular.ttf</fontPath><fontSize>0.031250</fontSize></menuGroup>
+  </view>
+</theme>

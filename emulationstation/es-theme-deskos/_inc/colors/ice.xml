@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Ice Blue -->
+<theme>
+  <variables>
+    <palette>ice</palette>
+    <inkColor>111A2CFF</inkColor>
+    <paperColor>CFE2FFFF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>CFE2FFFF</color></image>
+    <text name="systemInfo"><color>CFE2FFFF</color></text>
+    <helpsystem name="help"><textColor>111A2CFF</textColor><iconColor>111A2CFF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>111A2CFF</color></image>
+    <text name="logoText"><color>111A2CFF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>111A2CFF</selectorColor>
+      <selectedColor>CFE2FFFF</selectedColor>
+      <primaryColor>111A2CFF</primaryColor>
+      <secondaryColor>111A2CFF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/ice/noart.png</default></image>
+    <rating name="md_rating"><color>111A2CFF</color><unfilledColor>111A2CFF</unfilledColor></rating>
+    <text name="md_genre"><color>111A2CFF</color></text>
+    <text name="md_description"><color>111A2CFF</color></text>
+    <helpsystem name="help"><textColor>111A2CFF</textColor><iconColor>111A2CFF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>111A2CFF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>111A2CFF</color></menuText>
+    <menuText name="menufooter"><color>111A2CFF</color></menuText>
+    <menuText name="menutext">
+      <color>111A2CFF</color>
+      <separatorColor>111A2C40</separatorColor>
+      <selectorColor>111A2CFF</selectorColor>
+      <selectedColor>CFE2FFFF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>111A2CFF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>111A2CFF</color></menuGroup>
+  </view>
+</theme>

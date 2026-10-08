@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <include>../_inc/main.xml</include>
+  <view name="system">
+    <image name="sysPaper" extra="true">
+      <pos>0.000000 0.000000</pos>
+      <size>1.000000 1.000000</size>
+      <path>../_art/systems/gb/screen_paper.png</path>
+      <color>${paperColor}</color>
+      <zIndex>2</zIndex>
+    </image>
+    <image name="sysInk" extra="true">
+      <pos>0.000000 0.000000</pos>
+      <size>1.000000 1.000000</size>
+      <path>../_art/systems/gb/screen_ink.png</path>
+      <color>${inkColor}</color>
+      <zIndex>3</zIndex>
+    </image>
+    <image name="logo">
+      <path>../_art/systems/gb/logo.png</path>
+    </image>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo">
+      <path>../_art/systems/gb/logo_header.png</path>
+    </image>
+  </view>
+</theme>

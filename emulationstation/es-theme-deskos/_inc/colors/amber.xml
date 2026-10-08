@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Colorset: Amber CRT -->
+<theme>
+  <variables>
+    <palette>amber</palette>
+    <inkColor>1B1308FF</inkColor>
+    <paperColor>FFB547FF</paperColor>
+  </variables>
+  <view name="system">
+    <carousel name="systemcarousel"><color>00000000</color></carousel>
+    <image name="logo"><color>FFB547FF</color></image>
+    <text name="systemInfo"><color>FFB547FF</color></text>
+    <helpsystem name="help"><textColor>1B1308FF</textColor><iconColor>1B1308FF</iconColor></helpsystem>
+  </view>
+  <view name="basic,detailed,video,grid">
+    <image name="logo"><color>1B1308FF</color></image>
+    <text name="logoText"><color>1B1308FF</color></text>
+    <textlist name="gamelist">
+      <selectorColor>1B1308FF</selectorColor>
+      <selectedColor>FFB547FF</selectedColor>
+      <primaryColor>1B1308FF</primaryColor>
+      <secondaryColor>1B1308FF</secondaryColor>
+    </textlist>
+    <image name="md_image"><default>../../_art/palette/amber/noart.png</default></image>
+    <rating name="md_rating"><color>1B1308FF</color><unfilledColor>1B1308FF</unfilledColor></rating>
+    <text name="md_genre"><color>1B1308FF</color></text>
+    <text name="md_description"><color>1B1308FF</color></text>
+    <helpsystem name="help"><textColor>1B1308FF</textColor><iconColor>1B1308FF</iconColor></helpsystem>
+  </view>
+  <view name="screen">
+    <text name="clock"><color>1B1308FF</color></text>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><color>1B1308FF</color></menuText>
+    <menuText name="menufooter"><color>1B1308FF</color></menuText>
+    <menuText name="menutext">
+      <color>1B1308FF</color>
+      <separatorColor>1B130840</separatorColor>
+      <selectorColor>1B1308FF</selectorColor>
+      <selectedColor>FFB547FF</selectedColor>
+    </menuText>
+    <menuTextSmall name="menutextsmall"><color>1B1308FF</color></menuTextSmall>
+    <menuGroup name="menugroup"><color>1B1308FF</color></menuGroup>
+  </view>
+</theme>
