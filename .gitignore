@@ -8,3 +8,6 @@ out
 
 # Python bytecode from theme-tools
 __pycache__/
+
+# Downloadable theme archive (build output)
+es-theme-vcr-osd.zip
