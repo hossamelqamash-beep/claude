@@ -1,0 +1,7 @@
+<!-- Game list letter case: AS SCRAPED -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="basic,detailed,video">
+    <textlist name="gamelist"><forceUppercase>false</forceUppercase></textlist>
+  </view>
+</theme>

@@ -1,0 +1,57 @@
+<!-- Colour set: VCR BLUE -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <image name="background"><path>./../_art/ui/bg_system_blue.png</path></image>
+    <text name="systemInfo"><color>8C9CFFFF</color></text>
+    <helpsystem name="help">
+      <textColor>000FC0FF</textColor>
+      <iconColor>000FC0FF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="basic,detailed,video">
+    <image name="background"><path>./../_art/ui/bg_gamelist_blue.png</path></image>
+    <text name="sysTag"><color>000FC0FF</color></text>
+    <textlist name="gamelist">
+      <selectedColor>000FC0FF</selectedColor>
+      <secondaryColor>8C9CFFFF</secondaryColor>
+    </textlist>
+    <helpsystem name="help">
+      <textColor>000FC0FF</textColor>
+      <iconColor>000FC0FF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="grid">
+    <image name="background"><path>./../_art/ui/bg_plain_blue.png</path></image>
+    <helpsystem name="help">
+      <textColor>000FC0FF</textColor>
+      <iconColor>000FC0FF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="menu">
+    <menuBackground name="menubg">
+      <color>000FC0FF</color>
+      <path>./../_art/ui/menu_frame_blue.png</path>
+    </menuBackground>
+    <menuText name="menutext">
+      <separatorColor>8C9CFF80</separatorColor>
+      <selectedColor>000FC0FF</selectedColor>
+    </menuText>
+    <menuText name="menutextsmall">
+      <color>8C9CFFFF</color>
+      <selectedColor>000FC0FF</selectedColor>
+    </menuText>
+    <menuText name="menufooter"><color>8C9CFFFF</color></menuText>
+    <menuSwitch name="menuswitch">
+      <pathOn>./../_art/ui/switch_on_blue.png</pathOn>
+    </menuSwitch>
+    <menuButton name="menubutton"><path>./../_art/ui/button_blue.png</path></menuButton>
+    <menuTextEdit name="menutextedit">
+      <inactive>./../_art/ui/textinput_blue.png</inactive>
+      <active>./../_art/ui/textinput_active_blue.png</active>
+    </menuTextEdit>
+  </view>
+  <view name="splash">
+    <image name="background"><path>./../_art/loading/loading_blue.png</path></image>
+  </view>
+</theme>

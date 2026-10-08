@@ -1,0 +1,28 @@
+<!-- Font style: CLEAN OSD -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="logoText"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+    <text name="sysInfo"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+    <text name="systemInfo"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+    <helpsystem name="help"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></helpsystem>
+  </view>
+  <view name="basic,detailed,video">
+    <text name="sysTag"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+    <textlist name="gamelist"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></textlist>
+    <text name="md_description"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+    <helpsystem name="help"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></helpsystem>
+  </view>
+  <view name="grid">
+    <helpsystem name="help"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></helpsystem>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></menuText>
+    <menuText name="menutext"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></menuText>
+    <menuText name="menutextsmall"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></menuText>
+    <menuText name="menufooter"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></menuText>
+  </view>
+  <view name="splash">
+    <text name="label"><fontPath>./../_art/fonts/OSDTape-Regular.ttf</fontPath></text>
+  </view>
+</theme>

@@ -1,0 +1,35 @@
+<!-- VCR OSD theme: 3DO -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <variables>
+    <sysArt>3do</sysArt>
+    <sysName>3DO</sysName>
+    <sysMaker>PANASONIC</sysMaker>
+    <sysYear>1993</sysYear>
+    <sysKind>CONSOLE</sysKind>
+    <tagW>0.12187</tagW>
+  </variables>
+  <include>./../_inc/main.xml</include>
+  <subset name="colorset" displayName="COLOR SET">
+    <include name="VCR BLUE">./../_inc/color-blue.xml</include>
+    <include name="DEEP NAVY">./../_inc/color-navy.xml</include>
+    <include name="MIDNIGHT">./../_inc/color-midnight.xml</include>
+  </subset>
+  <subset name="fontsize" displayName="FONT SIZE">
+    <include name="MEDIUM">./../_inc/fontsize-medium.xml</include>
+    <include name="SMALL">./../_inc/fontsize-small.xml</include>
+    <include name="BIG">./../_inc/fontsize-big.xml</include>
+  </subset>
+  <subset name="fontstyle" displayName="FONT STYLE">
+    <include name="CHUNKY VCR">./../_inc/fontstyle-chunky.xml</include>
+    <include name="CLEAN OSD">./../_inc/fontstyle-clean.xml</include>
+  </subset>
+  <subset name="textcase" displayName="LETTER CASE">
+    <include name="ALL CAPS">./../_inc/case-upper.xml</include>
+    <include name="AS SCRAPED">./../_inc/case-mixed.xml</include>
+  </subset>
+  <subset name="scanlines" displayName="CRT SCANLINES">
+    <include name="OFF">./../_inc/scanlines-off.xml</include>
+    <include name="ON">./../_inc/scanlines-on.xml</include>
+  </subset>
+</theme>

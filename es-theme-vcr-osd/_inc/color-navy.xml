@@ -1,0 +1,57 @@
+<!-- Colour set: DEEP NAVY -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <image name="background"><path>./../_art/ui/bg_system_navy.png</path></image>
+    <text name="systemInfo"><color>7C88E8FF</color></text>
+    <helpsystem name="help">
+      <textColor>00087CFF</textColor>
+      <iconColor>00087CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="basic,detailed,video">
+    <image name="background"><path>./../_art/ui/bg_gamelist_navy.png</path></image>
+    <text name="sysTag"><color>00087CFF</color></text>
+    <textlist name="gamelist">
+      <selectedColor>00087CFF</selectedColor>
+      <secondaryColor>7C88E8FF</secondaryColor>
+    </textlist>
+    <helpsystem name="help">
+      <textColor>00087CFF</textColor>
+      <iconColor>00087CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="grid">
+    <image name="background"><path>./../_art/ui/bg_plain_navy.png</path></image>
+    <helpsystem name="help">
+      <textColor>00087CFF</textColor>
+      <iconColor>00087CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="menu">
+    <menuBackground name="menubg">
+      <color>00087CFF</color>
+      <path>./../_art/ui/menu_frame_navy.png</path>
+    </menuBackground>
+    <menuText name="menutext">
+      <separatorColor>7C88E880</separatorColor>
+      <selectedColor>00087CFF</selectedColor>
+    </menuText>
+    <menuText name="menutextsmall">
+      <color>7C88E8FF</color>
+      <selectedColor>00087CFF</selectedColor>
+    </menuText>
+    <menuText name="menufooter"><color>7C88E8FF</color></menuText>
+    <menuSwitch name="menuswitch">
+      <pathOn>./../_art/ui/switch_on_navy.png</pathOn>
+    </menuSwitch>
+    <menuButton name="menubutton"><path>./../_art/ui/button_navy.png</path></menuButton>
+    <menuTextEdit name="menutextedit">
+      <inactive>./../_art/ui/textinput_navy.png</inactive>
+      <active>./../_art/ui/textinput_active_navy.png</active>
+    </menuTextEdit>
+  </view>
+  <view name="splash">
+    <image name="background"><path>./../_art/loading/loading_navy.png</path></image>
+  </view>
+</theme>

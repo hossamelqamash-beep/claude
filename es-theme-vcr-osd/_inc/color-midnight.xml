@@ -1,0 +1,57 @@
+<!-- Colour set: MIDNIGHT -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <image name="background"><path>./../_art/ui/bg_system_midnight.png</path></image>
+    <text name="systemInfo"><color>6A6AD0FF</color></text>
+    <helpsystem name="help">
+      <textColor>05053CFF</textColor>
+      <iconColor>05053CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="basic,detailed,video">
+    <image name="background"><path>./../_art/ui/bg_gamelist_midnight.png</path></image>
+    <text name="sysTag"><color>05053CFF</color></text>
+    <textlist name="gamelist">
+      <selectedColor>05053CFF</selectedColor>
+      <secondaryColor>6A6AD0FF</secondaryColor>
+    </textlist>
+    <helpsystem name="help">
+      <textColor>05053CFF</textColor>
+      <iconColor>05053CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="grid">
+    <image name="background"><path>./../_art/ui/bg_plain_midnight.png</path></image>
+    <helpsystem name="help">
+      <textColor>05053CFF</textColor>
+      <iconColor>05053CFF</iconColor>
+    </helpsystem>
+  </view>
+  <view name="menu">
+    <menuBackground name="menubg">
+      <color>05053CFF</color>
+      <path>./../_art/ui/menu_frame_midnight.png</path>
+    </menuBackground>
+    <menuText name="menutext">
+      <separatorColor>6A6AD080</separatorColor>
+      <selectedColor>05053CFF</selectedColor>
+    </menuText>
+    <menuText name="menutextsmall">
+      <color>6A6AD0FF</color>
+      <selectedColor>05053CFF</selectedColor>
+    </menuText>
+    <menuText name="menufooter"><color>6A6AD0FF</color></menuText>
+    <menuSwitch name="menuswitch">
+      <pathOn>./../_art/ui/switch_on_midnight.png</pathOn>
+    </menuSwitch>
+    <menuButton name="menubutton"><path>./../_art/ui/button_midnight.png</path></menuButton>
+    <menuTextEdit name="menutextedit">
+      <inactive>./../_art/ui/textinput_midnight.png</inactive>
+      <active>./../_art/ui/textinput_active_midnight.png</active>
+    </menuTextEdit>
+  </view>
+  <view name="splash">
+    <image name="background"><path>./../_art/loading/loading_midnight.png</path></image>
+  </view>
+</theme>

@@ -1,0 +1,14 @@
+<!-- Font size: MEDIUM (24px list and menu text; descriptions stay small at 16px) -->
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="basic,detailed,video">
+    <textlist name="gamelist">
+      <fontSize>0.05006</fontSize>
+      <lineSpacing>1.5</lineSpacing>
+    </textlist>
+  </view>
+  <view name="menu">
+    <menuText name="menutitle"><fontSize>0.06673</fontSize></menuText>
+    <menuText name="menutext"><fontSize>0.05006</fontSize></menuText>
+  </view>
+</theme>
