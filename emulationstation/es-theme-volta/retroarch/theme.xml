@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Libretro</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>Libretro</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

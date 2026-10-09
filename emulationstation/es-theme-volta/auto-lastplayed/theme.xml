@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Collection</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>Collection</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Beat 'em up engine</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>Beat 'em up engine</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

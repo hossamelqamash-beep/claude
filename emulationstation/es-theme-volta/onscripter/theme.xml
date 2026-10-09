@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Visual novels</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>Visual novels</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

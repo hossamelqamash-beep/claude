@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Tandy</sysMaker>
+		<sysYear>1980</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Tandy · 1980</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

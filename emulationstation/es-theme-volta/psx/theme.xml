@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Sony</sysMaker>
+		<sysYear>1994</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Sony · 1994</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

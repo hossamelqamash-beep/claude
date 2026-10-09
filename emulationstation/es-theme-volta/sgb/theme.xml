@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Nintendo</sysMaker>
+		<sysYear>1994</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Nintendo · 1994</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

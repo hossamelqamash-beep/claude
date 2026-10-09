@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>ArkOS</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>ArkOS</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

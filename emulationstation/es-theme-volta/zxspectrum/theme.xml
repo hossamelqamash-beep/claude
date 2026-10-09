@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Sinclair</sysMaker>
+		<sysYear>1982</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Sinclair · 1982</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

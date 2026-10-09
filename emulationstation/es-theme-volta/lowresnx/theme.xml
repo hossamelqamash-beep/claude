@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Fantasy console</sysMaker>
+		<sysYear>2017</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Fantasy console · 2017</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

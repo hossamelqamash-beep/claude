@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Sega</sysMaker>
+		<sysYear>1990</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Sega · 1990</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

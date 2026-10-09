@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Bandai</sysMaker>
+		<sysYear>2000</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Bandai · 2000</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

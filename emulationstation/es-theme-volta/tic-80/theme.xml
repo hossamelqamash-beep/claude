@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Nesbox</sysMaker>
+		<sysYear>2017</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Nesbox · 2017</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

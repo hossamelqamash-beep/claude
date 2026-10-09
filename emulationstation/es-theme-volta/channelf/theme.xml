@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Fairchild</sysMaker>
+		<sysYear>1976</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Fairchild · 1976</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

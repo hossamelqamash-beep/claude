@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Point &amp; Click</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>Point &amp; Click</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

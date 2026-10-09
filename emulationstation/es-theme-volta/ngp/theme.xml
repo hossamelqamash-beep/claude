@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>SNK</sysMaker>
+		<sysYear>1998</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>SNK · 1998</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

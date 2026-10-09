@@ -1,0 +1,5 @@
+<!-- Fallback for systems without their own folder -->
+<theme>
+	<formatVersion>6</formatVersion>
+	<include>./_inc/main.xml</include>
+</theme>

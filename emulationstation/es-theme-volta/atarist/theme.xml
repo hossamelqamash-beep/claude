@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Atari</sysMaker>
+		<sysYear>1985</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Atari · 1985</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

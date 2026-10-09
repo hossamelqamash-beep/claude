@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>RPG Maker</sysMaker>
+		<sysYear></sysYear>
+		<sysYearLabel></sysYearLabel>
+		<sysMakerYear>RPG Maker</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Amstrad</sysMaker>
+		<sysYear>1984</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Amstrad · 1984</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

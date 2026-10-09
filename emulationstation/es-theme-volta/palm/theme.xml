@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Palm</sysMaker>
+		<sysYear>1996</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Palm · 1996</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

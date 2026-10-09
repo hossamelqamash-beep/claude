@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>GCE</sysMaker>
+		<sysYear>1982</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>GCE · 1982</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

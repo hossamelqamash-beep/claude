@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>ASCII / Microsoft</sysMaker>
+		<sysYear>1985</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>ASCII / Microsoft · 1985</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

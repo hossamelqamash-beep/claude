@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>id Software</sysMaker>
+		<sysYear>1996</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>id Software · 1996</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

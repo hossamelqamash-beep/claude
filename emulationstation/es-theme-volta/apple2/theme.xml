@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Apple</sysMaker>
+		<sysYear>1977</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Apple · 1977</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

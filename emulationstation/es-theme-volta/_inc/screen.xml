@@ -1,0 +1,28 @@
+<!-- Always-on overlays: clock + battery inside the top-right status capsule -->
+<theme>
+	<formatVersion>6</formatVersion>
+	<view name="screen">
+		<text name="clock">
+			<pos>0.75313 0.01667</pos>
+			<size>0.10938 0.06667</size>
+			<fontPath>${fontSemi}</fontPath>
+			<fontSize>0.02604</fontSize>
+			<color>${statusText}</color>
+			<alignment>center</alignment>
+			<verticalAlignment>center</verticalAlignment>
+		</text>
+		<batteryIndicator name="batteryIndicator">
+			<pos>0.87813 0.02917</pos>
+			<size>0.09062 0.04167</size>
+			<itemSpacing>0.0047</itemSpacing>
+			<horizontalAlignment>center</horizontalAlignment>
+			<color>${statusText}</color>
+			<incharge>./../_art/ui/battery-charging.svg</incharge>
+			<full>./../_art/ui/battery-100.svg</full>
+			<at75>./../_art/ui/battery-75.svg</at75>
+			<at50>./../_art/ui/battery-50.svg</at50>
+			<at25>./../_art/ui/battery-25.svg</at25>
+			<empty>./../_art/ui/battery-0.svg</empty>
+		</batteryIndicator>
+	</view>
+</theme>

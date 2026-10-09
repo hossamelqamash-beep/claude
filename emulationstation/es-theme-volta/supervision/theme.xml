@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Watara</sysMaker>
+		<sysYear>1992</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Watara · 1992</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

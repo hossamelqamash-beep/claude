@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Tiger</sysMaker>
+		<sysYear>1997</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Tiger · 1997</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

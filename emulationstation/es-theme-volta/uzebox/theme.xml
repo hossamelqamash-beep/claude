@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Belogic</sysMaker>
+		<sysYear>2008</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Belogic · 2008</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>

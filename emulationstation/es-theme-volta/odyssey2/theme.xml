@@ -1,0 +1,10 @@
+<theme>
+	<formatVersion>6</formatVersion>
+	<variables>
+		<sysMaker>Magnavox</sysMaker>
+		<sysYear>1978</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Magnavox · 1978</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+</theme>
