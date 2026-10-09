@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>6</formatVersion>
+  <variables><sysColor>E03A2A</sysColor></variables>
+  <include>./../theme.xml</include>
+</theme>
