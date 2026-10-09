@@ -10,8 +10,20 @@
 		<fontDot>./../_fonts/Doto-Black.ttf</fontDot>
 	</variables>
 
-	<!-- first entry of each subset is the default -->
-	<subset name="colorset" displayName="Color scheme">
+	<!--
+		Defaults first, so the theme still works if a subset setting holds a value
+		this theme does not know. The subsets below override these variables.
+	-->
+	<include>./color-volta-dark.xml</include>
+	<include>./font-medium.xml</include>
+
+	<!--
+		Options use Volta-specific setting keys (subset.voltacolor, ...). The shared
+		keys (ThemeColorSet, ThemeSystemView) often hold names saved by the previous
+		theme; no entry would match and ES would load no colours or carousel at all.
+		First entry of each subset is the default.
+	-->
+	<subset name="voltacolor" displayName="Color scheme">
 		<include name="volta-dark" displayName="Volta Dark">./color-volta-dark.xml</include>
 		<include name="volta-light" displayName="Volta Light">./color-volta-light.xml</include>
 		<include name="violet-dark" displayName="Violet Dark">./color-violet-dark.xml</include>
@@ -26,12 +38,12 @@
 		<include name="mint-light" displayName="Mint Light">./color-mint-light.xml</include>
 		<include name="citrine-pop" displayName="Citrine Pop">./color-citrine-pop.xml</include>
 	</subset>
-	<subset name="fontsize" displayName="Font size">
+	<subset name="voltafont" displayName="Font size">
 		<include name="medium" displayName="Medium">./font-medium.xml</include>
 		<include name="small" displayName="Small">./font-small.xml</include>
 		<include name="large" displayName="Large">./font-large.xml</include>
 	</subset>
-	<subset name="systemview" displayName="System carousel">
+	<subset name="voltacarousel" displayName="System carousel">
 		<include name="horizontal" displayName="Horizontal">./system-horizontal.xml</include>
 		<include name="vertical" displayName="Vertical list">./system-vertical.xml</include>
 		<include name="wheel" displayName="Wheel">./system-wheel.xml</include>

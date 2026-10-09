@@ -50,6 +50,20 @@ loading-screen image, which is rendered with ES's own SVG renderer.
    - *System carousel* (Horizontal / Vertical list / Wheel)
 4. Optional: in *UI Settings*, set *Game list view style* to *Detailed* (or *Video* / *Grid*).
 
+### Troubleshooting
+
+- **The theme isn't in the list, or every system looks unthemed.** The folder must sit directly in
+  `themes`: `themes/es-theme-volta/theme.xml`. Unzipping with "Extract all…" often creates
+  `themes/es-theme-volta/es-theme-volta/`. Move the inner folder up one level.
+- **Grey carousel, black game list, no colours** (versions before 1.1). Another theme had saved a colour
+  set or carousel name that Volta doesn't have, so nothing loaded. Volta now keeps its options under
+  its own keys and always falls back to Volta Dark / Medium / Horizontal. Update to the current version.
+- **Text looks small on ROCKNIX / AmberELEC / Knulli.** The sizes are tuned for ArkOS and dArkOS, whose
+  EmulationStation enlarges fonts by 1.31× on 640×480 screens. Pick *Font size → Large* in Theme
+  Configuration.
+- Still broken? Send `/home/ark/.emulationstation/es_log.txt` (or `~/.emulationstation/es_log.txt` on
+  other firmwares) and the name and version of your firmware.
+
 ### Boot logo and loading screens
 
 `_boot/install.sh` replaces three things:
