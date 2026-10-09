@@ -1,0 +1,37 @@
+<theme>
+	<formatVersion>7</formatVersion>
+	<variables>
+		<sysLogo>snes-msu1</sysLogo>
+		<sysName>SNES MSU-1</sysName>
+		<sysMaker>Nintendo</sysMaker>
+		<sysYear>1991</sysYear>
+		<sysYearLabel>Released</sysYearLabel>
+		<sysMakerYear>Nintendo · 1991</sysMakerYear>
+	</variables>
+	<include>./../_inc/main.xml</include>
+	<subset name="colorset" displayName="Color scheme">
+		<include name="volta-dark" displayName="Volta Dark">./../_inc/color-volta-dark.xml</include>
+		<include name="volta-light" displayName="Volta Light">./../_inc/color-volta-light.xml</include>
+		<include name="violet-dark" displayName="Violet Dark">./../_inc/color-violet-dark.xml</include>
+		<include name="violet-light" displayName="Violet Light">./../_inc/color-violet-light.xml</include>
+		<include name="indigo-dark" displayName="Indigo Dark">./../_inc/color-indigo-dark.xml</include>
+		<include name="indigo-light" displayName="Indigo Light">./../_inc/color-indigo-light.xml</include>
+		<include name="aqua-dark" displayName="Aqua Dark">./../_inc/color-aqua-dark.xml</include>
+		<include name="aqua-light" displayName="Aqua Light">./../_inc/color-aqua-light.xml</include>
+		<include name="ember-dark" displayName="Ember Dark">./../_inc/color-ember-dark.xml</include>
+		<include name="ember-light" displayName="Ember Light">./../_inc/color-ember-light.xml</include>
+		<include name="mint-dark" displayName="Mint Dark">./../_inc/color-mint-dark.xml</include>
+		<include name="mint-light" displayName="Mint Light">./../_inc/color-mint-light.xml</include>
+		<include name="citrine-pop" displayName="Citrine Pop">./../_inc/color-citrine-pop.xml</include>
+	</subset>
+	<subset name="fontsize" displayName="Font size">
+		<include name="medium" displayName="Medium">./../_inc/font-medium.xml</include>
+		<include name="small" displayName="Small">./../_inc/font-small.xml</include>
+		<include name="large" displayName="Large">./../_inc/font-large.xml</include>
+	</subset>
+	<subset name="systemview" displayName="System carousel">
+		<include name="horizontal" displayName="Horizontal">./../_inc/system-horizontal.xml</include>
+		<include name="vertical" displayName="Vertical list">./../_inc/system-vertical.xml</include>
+		<include name="wheel" displayName="Wheel">./../_inc/system-wheel.xml</include>
+	</subset>
+</theme>
