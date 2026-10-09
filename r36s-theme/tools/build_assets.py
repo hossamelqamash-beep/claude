@@ -6,6 +6,7 @@ Inputs : tools/.cache/carbon (Carbon logo pack, fetched automatically)
 Outputs: neonglow/art/**  and  extras/**
 """
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -242,6 +243,18 @@ STAR = ("M32 4 L40.2 22.6 L60.4 24.6 L45.2 38.2 L49.6 58.2 L32 47.8 L14.4 58.2 L
         "L3.6 24.6 L23.8 22.6 Z")
 
 
+def svgs_to_png(folder, scale=2):
+    """ES on the device gets PNGs only (rendered here with librsvg); the SVG sources are removed."""
+    for f in sorted(os.listdir(folder)):
+        if f.endswith(".svg"):
+            src = os.path.join(folder, f)
+            with open(src) as fh:
+                head = fh.read(300)
+            w = int(re.search(r'width="(\d+)"', head).group(1)) * scale
+            subprocess.check_call(["rsvg-convert", "-w", str(w), "-a", src, "-o", src[:-4] + ".png"])
+            os.remove(src)
+
+
 def build_ui():
     d = mk(ART, "ui")
     ninepatch(os.path.join(d, "panel.png"), 48, 14)
@@ -256,18 +269,6 @@ def build_ui():
     svg(os.path.join(d, "star_empty.svg"),
         f'<path d="{STAR}" fill="#FFFFFF" fill-opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.55" '
         'stroke-width="3" stroke-linejoin="round"/>')
-
-    # battery (white; tinted by the theme)
-    b = mk(ART, "battery")
-    shell = ('<rect x="3" y="9" width="50" height="30" rx="7" fill="none" stroke="#FFFFFF" stroke-width="4"/>'
-             '<rect x="56" y="17" width="5" height="14" rx="2" fill="#FFFFFF"/>')
-    for name, frac in (("full", 1.0), ("75", 0.75), ("50", 0.5), ("25", 0.25), ("empty", 0.0)):
-        fill = "" if frac == 0 else f'<rect x="9" y="15" width="{38 * frac:.1f}" height="18" rx="3" fill="#FFFFFF"/>'
-        if frac == 0:
-            fill = '<rect x="9" y="15" width="5" height="18" rx="2" fill="#FF3B3B"/>'
-        svg(os.path.join(b, name + ".svg"), shell + fill, 64, 48)
-    svg(os.path.join(b, "incharge.svg"),
-        shell + '<path d="M31 12 L19 26 H28 L24 37 L37 22 H28 Z" fill="#FFFFFF"/>', 64, 48)
 
     # menu icons (white, ES tints them with the menu text color)
     mi = mk(ART, "menu")
@@ -319,6 +320,8 @@ def build_ui():
         svg(os.path.join(sw, f"off_{name}.svg"),
             f'<rect x="4" y="8" width="72" height="36" rx="18" fill="none" stroke="{col}" stroke-width="4"/>'
             f'<circle cx="24" cy="26" r="11" fill="{col}"/>', 80, 52)
+    for folder in (d, mi, sw):
+        svgs_to_png(folder)
 
 
 # --------------------------------------------------------------------------

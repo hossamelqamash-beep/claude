@@ -1,6 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <theme>
-  <formatVersion>6</formatVersion>
-  <variables><sysColor>7233FF</sysColor></variables>
-  <include>./../theme.xml</include>
+	<formatVersion>7</formatVersion>
+	<variables>
+		<sysColor>7233FF</sysColor>
+	</variables>
+	<include>./../_inc/main.xml</include>
+	<subset name="systemview" displayName="System list layout">
+		<include name="list" displayName="VERTICAL LIST + ICON">./../_inc/layout-list.xml</include>
+		<include name="horizontal" displayName="HORIZONTAL CAROUSEL">./../_inc/layout-horizontal.xml</include>
+		<include name="vertical" displayName="VERTICAL CAROUSEL">./../_inc/layout-vertical.xml</include>
+		<include name="wheel" displayName="WHEEL">./../_inc/layout-wheel.xml</include>
+	</subset>
+	<subset name="colorset" displayName="Color scheme">
+		<include name="dark-red" displayName="DARK · NEON RED">./../_inc/color-dark-red.xml</include>
+		<include name="dark-blue" displayName="DARK · ELECTRIC BLUE">./../_inc/color-dark-blue.xml</include>
+		<include name="dark-amber" displayName="DARK · AMBER GOLD">./../_inc/color-dark-amber.xml</include>
+		<include name="dark-green" displayName="DARK · TOXIC GREEN">./../_inc/color-dark-green.xml</include>
+		<include name="dark-violet" displayName="DARK · ULTRA VIOLET">./../_inc/color-dark-violet.xml</include>
+		<include name="dark-pink" displayName="DARK · HOT PINK">./../_inc/color-dark-pink.xml</include>
+		<include name="dark-cyan" displayName="DARK · ICE CYAN">./../_inc/color-dark-cyan.xml</include>
+		<include name="dark-multi" displayName="DARK · MULTICOLOR (PER SYSTEM)">./../_inc/color-dark-multi.xml</include>
+		<include name="light-red" displayName="LIGHT · CRIMSON">./../_inc/color-light-red.xml</include>
+		<include name="light-blue" displayName="LIGHT · COBALT">./../_inc/color-light-blue.xml</include>
+		<include name="light-violet" displayName="LIGHT · GRAPE">./../_inc/color-light-violet.xml</include>
+		<include name="light-teal" displayName="LIGHT · TEAL">./../_inc/color-light-teal.xml</include>
+		<include name="light-multi" displayName="LIGHT · MULTICOLOR (PER SYSTEM)">./../_inc/color-light-multi.xml</include>
+	</subset>
+	<subset name="fontsize" displayName="Font size">
+		<include name="medium" displayName="MEDIUM">./../_inc/font-medium.xml</include>
+		<include name="small" displayName="SMALL">./../_inc/font-small.xml</include>
+		<include name="large" displayName="LARGE">./../_inc/font-large.xml</include>
+	</subset>
+	<subset name="background" displayName="Background">
+		<include name="dotted" displayName="DOTTED">./../_inc/bg-dotted.xml</include>
+		<include name="solid" displayName="SOLID BLACK / WHITE">./../_inc/bg-solid.xml</include>
+		<include name="plus" displayName="PLUS GRID">./../_inc/bg-plus.xml</include>
+	</subset>
 </theme>

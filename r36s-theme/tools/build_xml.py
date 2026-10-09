@@ -145,7 +145,14 @@ def glow_tile(cx, cy, w, z=20):
     ]
 
 
-def kicker(text, x=0.04, y=0.028):
+def carousel(**kw):
+    props = dict(logoAlignment="center", logoRotation="0", logoRotationOrigin="0.5 0.5", color="00000000",
+                 zIndex=40, systemInfoDelay="300")
+    props.update(kw)
+    return E("carousel", "systemcarousel", **props)
+
+
+def kicker(text, x=0.17, y=0.028):
     return [
         E("text", "kicker", True, text=text, pos=f"{x} {y}", size="0.5 0.05", fontPath=F_SEMI,
           fontSize="{fsKicker}", color="{dim}", forceUppercase="true", zIndex=30),
@@ -163,7 +170,7 @@ SYSINFO = dict(fontPath=F_SEMI, fontSize="{fsInfo}", color="{accent}", forceUppe
 # --------------------------------------------------------------------------
 def layout_list():
     return [V("system", *background((0.765, 0.45), (1.05, 1.4)), *kicker("Choose a system"),
-              E("carousel", "systemcarousel", type="vertical", pos="0.025 0.095", size="0.575 0.83",
+              carousel(type="vertical", pos="0.025 0.095", size="0.575 0.83",
                 logoSize="0.41 0.13", logoScale="1.32", maxLogoCount="5", logoAlignment="left",
                 color="00000000", zIndex=40, systemInfoDelay="300"),
               E("text", "logoText", fontPath=F_BOLD, fontSize="{fsSys}", color="{text}", forceUppercase="true"),
@@ -176,11 +183,11 @@ def layout_list():
 
 def layout_horizontal():
     return [V("system", *background((0.5, 0.42), (1.1, 1.3)), *kicker("Choose a system"),
-              E("carousel", "systemcarousel", type="horizontal", pos="0 0.13", size="1 0.54",
+              carousel(type="horizontal", pos="0 0.13", size="1 0.54",
                 logoSize="0.30 0.40", logoScale="1.32", maxLogoCount="3", color="00000000",
                 zIndex=40, systemInfoDelay="300"),
               E("image", "logo", path=f"{A}/icons/${{system.theme}}.png"),
-              E("text", "logoText", fontPath=F_BOLD, fontSize="{fsTitle}", color="{text}", forceUppercase="true"),
+              E("text", "logoText", fontPath=F_BOLD, fontSize="{fsSys}", color="{text}", forceUppercase="true"),
               E("text", "sysName", True, text="${system.fullName}", pos="0.05 0.675", size="0.9 0.10",
                 alignment="center", fontPath=F_BOLD, fontSize="{fsTitle}", color="{text}",
                 forceUppercase="true", zIndex=45),
@@ -190,7 +197,7 @@ def layout_horizontal():
 
 def layout_vertical():
     return [V("system", *background((0.2, 0.5), (0.9, 1.25)),
-              E("carousel", "systemcarousel", type="vertical", pos="0.02 0.09", size="0.36 0.835",
+              carousel(type="vertical", pos="0.02 0.09", size="0.36 0.835",
                 logoSize="0.19 0.2533", logoScale="1.38", maxLogoCount="3", logoAlignment="center",
                 color="00000000", zIndex=40, systemInfoDelay="300"),
               E("image", "logo", path=f"{A}/icons/${{system.theme}}.png"),
@@ -205,7 +212,7 @@ def layout_vertical():
 
 def layout_wheel():
     return [V("system", *background((0.78, 0.5), (1.0, 1.333)),
-              E("carousel", "systemcarousel", type="vertical_wheel", pos="0.50 0.085", size="0.50 0.84",
+              carousel(type="vertical_wheel", pos="0.50 0.085", size="0.50 0.84",
                 logoSize="0.26 0.3467", logoScale="1.25", maxLogoCount="5", logoAlignment="right",
                 logoRotation="24", logoRotationOrigin="-1.25 0.5", color="00000000", zIndex=40,
                 systemInfoDelay="300"),
@@ -256,15 +263,15 @@ HIDE_VAL = ["md_developer", "md_publisher", "md_players", "md_playcount"]
 
 def gamelist_views():
     header = [
-        E("image", "logo", path=f"{A}/icons/${{system.theme}}.png", pos="0.008 0.004", origin="0 0",
+        E("image", "logo", path=f"{A}/icons/${{system.theme}}.png", pos="0.155 0.004", origin="0 0",
           maxSize="0.085 0.1133",
           zIndex=30),
-        E("text", "logoText", pos="0.09 0.012", size="0.6 0.075", fontPath=F_BOLD, fontSize="{fsHeader}",
+        E("text", "logoText", pos="0.24 0.012", size="0.55 0.075", fontPath=F_BOLD, fontSize="{fsHeader}",
           color="{text}", forceUppercase="true", alignment="left", zIndex=30, visible="false"),
-        E("text", "headerName", True, text="${system.fullName}", pos="0.09 0.013", size="0.56 0.07",
+        E("text", "headerName", True, text="${system.fullName}", pos="0.24 0.013", size="0.55 0.07",
           alignment="left", verticalAlignment="center", fontPath=F_BOLD, fontSize="{fsHeader}",
           color="{text}", forceUppercase="true", zIndex=30),
-        E("image", "headerBar", True, path=f"{A}/bg/hfade.png", pos="0.09 0.083", size="0.30 0.004",
+        E("image", "headerBar", True, path=f"{A}/bg/hfade.png", pos="0.24 0.083", size="0.30 0.004",
           color="{accent}", zIndex=30),
     ]
     tl = E("textlist", "gamelist", pos=f"{LIST_X} {TOP}", size=f"{LIST_W} {BOTTOM - TOP:.4f}",
@@ -278,7 +285,7 @@ def gamelist_views():
     pad = 0.02
     info = [
         E("rating", "md_rating", pos=f"{ix + pad} {iy + 0.02:.4f}", size=f"0.17 0.036", color="{accent}",
-          unfilledColor="{muted}", filledPath=f"{A}/ui/star_filled.svg", unfilledPath=f"{A}/ui/star_empty.svg",
+          unfilledColor="{muted}", filledPath=f"{A}/ui/star_filled.png", unfilledPath=f"{A}/ui/star_empty.png",
           zIndex=40),
         E("datetime", "md_releasedate", pos=f"{ix + iw - pad - 0.12:.4f} {iy + 0.012:.4f}", size="0.12 0.05",
           format="%Y", alignment="right", fontPath=F_SEMI, fontSize="{fsMeta}", color="{dim}", zIndex=40),
@@ -354,30 +361,118 @@ def menu_views():
           E("menuText", "menutext", fontPath=F_BODY, fontSize="{fsMenu}", color="{text}",
             separatorColor="{menuSep}", selectorColor="{accent}", selectedColor="{selText}"),
           E("menuTextSmall", "menutextsmall", fontPath=F_BODY, fontSize="{fsMenuSmall}", color="{dim}"),
-          E("menuSwitch", "menuswitch", pathOn=f"{A}/switch/on_{{accentKey}}.svg",
-            pathOff=f"{A}/switch/off_{{off}}.svg"),
-          E("menuSlider", "menuslider", path=f"{A}/switch/knob_{{accentKey}}.svg"),
+          E("menuSwitch", "menuswitch", pathOn=f"{A}/switch/on_{{accentKey}}.png",
+            pathOff=f"{A}/switch/off_{{off}}.png"),
+          E("menuSlider", "menuslider", path=f"{A}/switch/knob_{{accentKey}}.png"),
           E("menuButton", "menubutton", path=f"{A}/ui/button.png", filledPath=f"{A}/ui/button_filled.png"),
           E("menuTextEdit", "menutextedit", active=f"{A}/ui/textinput_active.png",
             inactive=f"{A}/ui/textinput.png"),
-          E("menuIcons", "menuicons", **{k: f"{A}/menu/{v}.svg" for k, v in icons.items()})),
-        V("screen",
-          E("batteryIndicator", "batteryIndicator", pos="0.79 0.016", size="0.195 0.048",
-            horizontalAlignment="right", itemSpacing="0.006", color="{text}",
-            incharge=f"{A}/battery/incharge.svg", full=f"{A}/battery/full.svg", at75=f"{A}/battery/75.svg",
-            at50=f"{A}/battery/50.svg", at25=f"{A}/battery/25.svg", empty=f"{A}/battery/empty.svg",
-            zIndex=100),
-          E("text", "clock", pos="0.60 0.016", size="0.18 0.048", alignment="right", fontPath=F_SEMI,
-            fontSize="{fsClock}", color="{dim}")),
+          E("menuIcons", "menuicons", **{k: f"{A}/menu/{v}.png" for k, v in icons.items()})),
     ]
 
 
 # --------------------------------------------------------------------------
-def accent_override(views):
-    out = []
+# Structure (mirrors the R36S-proven Volta layout):
+#   _inc/main.xml        every view with LITERAL default values (no variables)
+#   _inc/<option>.xml    small property overrides for one option
+#   <system>/theme.xml   per-system variables, include main.xml, then the option subsets
+# Stale ES subset settings from another theme simply leave the defaults in place,
+# and no property can ever resolve to an empty variable.
+# --------------------------------------------------------------------------
+DEFAULT = dict(color="dark-red", font="medium", bg="dotted", layout="list")
+
+
+def color_vars(cs):
+    v = {k: cs[k] for k in ("bg", "pattern", "radial", "vignette", "text", "list", "dim", "muted", "panel",
+                            "panelEdge", "helpBar", "helpText", "selText", "menuBg", "menuSep", "off")}
+    v["accent"] = "${sysColor}" if cs["multi"] else cs["accent"]
+    v["accentKey"] = cs["accentKey"]
+    v["desc"] = "B9B9C6" if cs["dark"] else "3A3A47"
+    v["noart"] = f"{A}/noart/{cs['name']}.png"
+    return v
+
+
+def resolve(v, vars_):
+    def rep(m):
+        if m.group(1) not in vars_:
+            raise KeyError(m.group(1))
+        return str(vars_[m.group(1)])
+    return re.sub(r"(?<!\$)\{(\w+)\}", rep, str(v))
+
+
+def full_theme(color, font, bg, layout):
+    cs = next(c for c in COLORSETS if c["name"] == color)
+    vars_ = dict(color_vars(cs))
+    vars_.update(FONT_SIZES[font][1])
+    vars_["bgPattern"] = BACKGROUNDS[bg][1]
+    views = LAYOUTS[layout][1]() + gamelist_views() + [gridfix()] + menu_views()
+    t = {}
     for v in views:
-        x = v.xml(lambda s: tok(s, "${sysColor}"), only_accent=True)
-        out.append(x)
+        for e in v.elements:
+            key = (v.names, e.name)
+            cur = t.setdefault(key, {"type": e.type, "extra": e.extra, "props": {}})
+            assert cur["type"] == e.type, key
+            cur["extra"] = cur["extra"] or e.extra
+            for k, val in e.props.items():
+                cur["props"][k] = resolve(val, vars_)
+    return t
+
+
+def diff(base, other):
+    out = {}
+    for key, e in other.items():
+        b = base.get(key)
+        if b is None:
+            out[key] = {"type": e["type"], "extra": e["extra"], "props": dict(e["props"])}
+            continue
+        props = {k: v for k, v in e["props"].items() if b["props"].get(k) != v}
+        if props:
+            out[key] = {"type": e["type"], "extra": e["extra"] and not b["extra"], "props": props}
+    for key, b in base.items():   # elements the option does not use: move them off screen
+        if key not in other:
+            out[key] = {"type": b["type"], "extra": False, "props": {"pos": "2 2"}}
+    return out
+
+
+def merge(*themes):
+    t = {}
+    for th in themes:
+        for key, e in th.items():
+            cur = t.setdefault(key, {"type": e["type"], "extra": False, "props": {}})
+            cur["extra"] = cur["extra"] or e["extra"]
+            cur["props"].update(e["props"])
+    return t
+
+
+def union(*diffs):
+    out = {}
+    for d in diffs:
+        for key, e in d.items():
+            cur = out.setdefault(key, {"type": e["type"], "extra": e["extra"], "props": {}})
+            for k, v in e["props"].items():
+                assert cur["props"].get(k, v) == v, (key, k)
+                cur["props"][k] = v
+    return out
+
+
+def render(t, comment):
+    out = [f"<!-- {comment} (generated by tools/build_xml.py) -->\n<theme>\n\t<formatVersion>7</formatVersion>\n"]
+    groups = []
+    for (view, name) in t:
+        if view not in groups:
+            groups.append(view)
+    for view in groups:
+        out.append(f'\t<view name="{view}">\n')
+        for (v, name), e in t.items():
+            if v != view:
+                continue
+            extra = ' extra="true"' if e["extra"] else ""
+            out.append(f'\t\t<{e["type"]} name="{name}"{extra}>\n')
+            for k, val in e["props"].items():
+                out.append(f"\t\t\t<{k}>{escape(str(val))}</{k}>\n")
+            out.append(f'\t\t</{e["type"]}>\n')
+        out.append("\t</view>\n")
+    out.append("</theme>\n")
     return "".join(out)
 
 
@@ -385,84 +480,89 @@ def main():
     if os.path.isdir(INC):
         shutil.rmtree(INC)
     os.makedirs(INC)
-
     syscolors = {}
     with open(os.path.join(TOOLS, ".cache", "syscolors.txt")) as f:
         for line in f:
             k, v = line.split()
             syscolors[k] = v
 
-    for cs in COLORSETS:
-        v = {k: cs[k] for k in ("bg", "pattern", "radial", "vignette", "text", "list", "dim", "muted", "panel",
-                                "panelEdge", "helpBar", "helpText", "selText", "menuBg", "menuSep", "off")}
-        v["accent"] = cs["accent"]
-        v["accentKey"] = cs["accentKey"]
-        v["desc"] = "B9B9C6" if cs["dark"] else "3A3A47"
-        v["noart"] = f"{A}/noart/{cs['name']}.png"
-        write(os.path.join(INC, f"colors-{cs['name']}.xml"), variables=v)
+    D = DEFAULT
+    base = full_theme(D["color"], D["font"], D["bg"], D["layout"])
+    lays, colors, fonts, bgs = list(LAYOUTS), [c["name"] for c in COLORSETS], list(FONT_SIZES), list(BACKGROUNDS)
+    # each option's override = union over every layout (so it also covers elements of other layouts)
+    lay_d = {l: diff(base, full_theme(D["color"], D["font"], D["bg"], l)) for l in lays}
+    def opt_diff(**kw):
+        ds = []
+        for l in lays:
+            b = full_theme(D["color"], D["font"], D["bg"], l)
+            a = dict(color=D["color"], font=D["font"], bg=D["bg"], layout=l)
+            a.update(kw)
+            o = full_theme(a["color"], a["font"], a["bg"], l)
+            ds.append({k: e for k, e in diff(b, o).items()})
+        return union(*ds)
+    col_d = {c: opt_diff(color=c) for c in colors}
+    font_d = {f: opt_diff(font=f) for f in fonts}
+    bg_d = {b: opt_diff(bg=b) for b in bgs}
+    for d in list(col_d.values()) + list(font_d.values()) + list(bg_d.values()):
+        for e in d.values():
+            assert e["props"].get("pos") != "2 2", "options must not remove elements"
+            e["extra"] = False
 
-    for name, (_, fv) in FONT_SIZES.items():
-        write(os.path.join(INC, f"font-{name}.xml"), variables=fv)
-    for name, (_, path) in BACKGROUNDS.items():
-        write(os.path.join(INC, f"bg-{name}.xml"), variables={"bgPattern": path})
+    # proof: main + layout + colour + font + background == the full theme, for every combination
+    n = 0
+    for l in lays:
+        for c in colors:
+            for f in fonts:
+                for b in bgs:
+                    want = full_theme(c, f, b, l)
+                    got = merge(base, lay_d[l], col_d[c], font_d[f], bg_d[b])
+                    for key, e in want.items():
+                        assert got[key]["props"] == e["props"], (l, c, f, b, key)
+                        assert got[key]["extra"] == e["extra"], (l, c, f, b, key, "extra")
+                    for key, e in got.items():
+                        if key not in want and e["extra"]:
+                            assert e["props"].get("pos") == "2 2", (l, key, "visible stray extra")
+                    n += 1
 
-    all_views = []
-    for name, (_, fn) in LAYOUTS.items():
-        views = fn()
-        all_views += views
-        write(os.path.join(INC, f"layout-{name}.xml"), views)
-    gl = gamelist_views() + [gridfix()]
-    all_views += gl
-    write(os.path.join(INC, "gamelist.xml"), gl)
-    mv = menu_views()
-    all_views += mv
-    write(os.path.join(INC, "menu.xml"), mv)
+    def w(name, t, comment):
+        with open(os.path.join(INC, name), "w", encoding="utf-8") as fh:
+            fh.write(render(t, comment))
+    w("main.xml", base, "NeonGlow: every view with its default values")
+    for l in lays:
+        w(f"layout-{l}.xml", lay_d[l], f"System list layout {l}")
+    for c in colors:
+        w(f"color-{c}.xml", col_d[c], f"Colour scheme {c}")
+    for f in fonts:
+        w(f"font-{f}.xml", font_d[f], f"Font size {f}")
+    for b in bgs:
+        w(f"bg-{b}.xml", bg_d[b], f"Background {b}")
 
-    # multicolor override: every accent property re-declared with ${sysColor}
-    override = accent_override(all_views)
-    for cs in COLORSETS:
-        if cs["multi"]:
-            write(os.path.join(INC, f"multi-{cs['name']}.xml"), raw=override)
-
-    def subset(name, display, items, path_fmt):
-        s = [f'  <subset name="{name}" displayName="{display}">\n']
+    def subset(name, display, items, fmt):
+        s = [f'\t<subset name="{name}" displayName="{display}">\n']
         for key, label in items:
-            s.append(f'    <include name="{key}" displayName="{label}">./_inc/{path_fmt.format(key)}</include>\n')
-        s.append("  </subset>\n")
+            s.append(f'\t\t<include name="{key}" displayName="{label}">./../_inc/{fmt.format(key)}</include>\n')
+        s.append("\t</subset>\n")
         return "".join(s)
+    subsets = (subset("systemview", "System list layout", [(k, v[0]) for k, v in LAYOUTS.items()], "layout-{}.xml")
+               + subset("colorset", "Color scheme", [(c["name"], c["display"]) for c in COLORSETS], "color-{}.xml")
+               + subset("fontsize", "Font size", [(k, v[0]) for k, v in FONT_SIZES.items()], "font-{}.xml")
+               + subset("background", "Background", [(k, v[0]) for k, v in BACKGROUNDS.items()], "bg-{}.xml"))
 
-    main_xml = ['<?xml version="1.0" encoding="UTF-8"?>\n',
-                "<!--\n  NeonGlow - EmulationStation theme for the R36S (ArkOS / dArkOS, 640x480)\n"
-                "  Generated by tools/build_xml.py - edit the generator, not this file.\n-->\n",
-                "<theme>\n  <formatVersion>6</formatVersion>\n",
-                subset("colorset", "COLOR SCHEME", [(c["name"], c["display"]) for c in COLORSETS],
-                       "colors-{}.xml"),
-                subset("fontsize", "FONT SIZE", [(k, v[0]) for k, v in FONT_SIZES.items()], "font-{}.xml"),
-                subset("background", "BACKGROUND STYLE", [(k, v[0]) for k, v in BACKGROUNDS.items()],
-                       "bg-{}.xml"),
-                "  <include>./_inc/gamelist.xml</include>\n",
-                "  <include>./_inc/menu.xml</include>\n",
-                subset("systemview", "SYSTEM LIST LAYOUT", [(k, v[0]) for k, v in LAYOUTS.items()],
-                       "layout-{}.xml"),
-                subset("colorset", "COLOR SCHEME",
-                       [(c["name"], c["display"]) for c in COLORSETS if c["multi"]], "multi-{}.xml"),
-                "</theme>\n"]
-    with open(os.path.join(THEME, "theme.xml"), "w", encoding="utf-8") as f:
-        f.write("".join(main_xml))
-
-    # one folder per system: sets the per-system glow color then pulls in the shared theme
+    root_xml = os.path.join(THEME, "theme.xml")
+    if os.path.exists(root_xml):
+        os.remove(root_xml)
     for entry in os.listdir(THEME):
         p = os.path.join(THEME, entry)
-        if os.path.isdir(p) and entry not in ("art", "_inc"):
+        if os.path.isdir(p) and entry != "art" and not entry.startswith("_"):
             shutil.rmtree(p)
     for theme in sorted(SYSTEMS):
         d = os.path.join(THEME, theme)
         os.makedirs(d, exist_ok=True)
-        with open(os.path.join(d, "theme.xml"), "w", encoding="utf-8") as f:
-            f.write('<?xml version="1.0" encoding="UTF-8"?>\n<theme>\n  <formatVersion>6</formatVersion>\n'
-                    f"  <variables><sysColor>{syscolors[theme]}</sysColor></variables>\n"
-                    "  <include>./../theme.xml</include>\n</theme>\n")
-    print(f"xml: {len(SYSTEMS)} system folders, {len(COLORSETS)} color schemes")
+        with open(os.path.join(d, "theme.xml"), "w", encoding="utf-8") as fh:
+            fh.write("<theme>\n\t<formatVersion>7</formatVersion>\n"
+                     f"\t<variables>\n\t\t<sysColor>{syscolors[theme]}</sysColor>\n\t</variables>\n"
+                     "\t<include>./../_inc/main.xml</include>\n" + subsets + "</theme>\n")
+    print(f"xml: {len(SYSTEMS)} system folders, {len(COLORSETS)} color schemes, {n} combinations verified")
 
 
 if __name__ == "__main__":
