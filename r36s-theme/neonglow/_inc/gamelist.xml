@@ -3,7 +3,7 @@
 <theme>
   <view name="basic, detailed, video, grid">
     <image name="bgFill" extra="true"><path>./../art/bg/pixel.png</path><pos>0 0</pos><size>1 1</size><color>${bg}</color><zIndex>0</zIndex></image>
-    <image name="bgPattern" extra="true"><path>${bgPattern}</path><tile>true</tile><pos>0 0</pos><size>1 1</size><color>${pattern}</color><zIndex>1</zIndex></image>
+    <image name="bgPattern" extra="true"><path>${bgPattern}</path><pos>0 0</pos><size>1 1</size><color>${pattern}</color><zIndex>1</zIndex></image>
     <image name="bgGlow" extra="true"><path>./../art/bg/radial.png</path><pos>0.745 0.36933333333333335</pos><origin>0.5 0.5</origin><size>0.95 1.2</size><color>${accent}${radial}</color><zIndex>2</zIndex></image>
     <image name="bgVignette" extra="true"><path>./../art/bg/vignette.png</path><pos>0 0</pos><size>1 1</size><color>${vignette}</color><zIndex>3</zIndex></image>
     <image name="logo"><path>./../art/icons/${system.theme}.png</path><pos>0.008 0.004</pos><origin>0 0</origin><maxSize>0.085 0.1133</maxSize><zIndex>30</zIndex></image>
@@ -15,7 +15,7 @@
     <ninepatch name="artPanelEdge" extra="true"><path>./../art/ui/panel_edge.png</path><pos>0.51 0.1050</pos><size>0.47 0.5287</size><color>${panelEdge}</color><zIndex>16</zIndex></ninepatch>
     <ninepatch name="infoPanel" extra="true"><path>./../art/ui/panel.png</path><pos>0.51 0.6497</pos><size>0.47 0.2603</size><color>${panel}</color><zIndex>15</zIndex></ninepatch>
     <ninepatch name="infoPanelEdge" extra="true"><path>./../art/ui/panel_edge.png</path><pos>0.51 0.6497</pos><size>0.47 0.2603</size><color>${panelEdge}</color><zIndex>16</zIndex></ninepatch>
-    <image name="md_image"><pos>0.7450 0.3693</pos><origin>0.5 0.5</origin><maxSize>0.4300 0.4887</maxSize><default>${noart}</default><roundCorners>0.03</roundCorners><zIndex>30</zIndex></image>
+    <image name="md_image"><pos>0.7450 0.3693</pos><origin>0.5 0.5</origin><maxSize>0.4300 0.4887</maxSize><default>${noart}</default><zIndex>30</zIndex></image>
     <rating name="md_rating"><pos>0.53 0.6697</pos><size>0.17 0.036</size><color>${accent}</color><unfilledColor>${muted}</unfilledColor><filledPath>./../art/ui/star_filled.svg</filledPath><unfilledPath>./../art/ui/star_empty.svg</unfilledPath><zIndex>40</zIndex></rating>
     <datetime name="md_releasedate"><pos>0.8400 0.6617</pos><size>0.12 0.05</size><format>%Y</format><alignment>right</alignment><fontPath>./../art/fonts/BarlowCondensed-SemiBold.ttf</fontPath><fontSize>${fsMeta}</fontSize><color>${dim}</color><zIndex>40</zIndex></datetime>
     <text name="md_genre"><pos>0.7200 0.6617</pos><size>0.1000 0.05</size><alignment>right</alignment><fontPath>./../art/fonts/BarlowCondensed-SemiBold.ttf</fontPath><fontSize>${fsMeta}</fontSize><color>${dim}</color><forceUppercase>true</forceUppercase><zIndex>40</zIndex></text>
@@ -31,8 +31,8 @@
     <text name="md_developer"><visible>false</visible></text>
     <text name="md_publisher"><visible>false</visible></text>
     <text name="md_players"><visible>false</visible></text>
-    <text name="md_lastplayed"><visible>false</visible></text>
     <text name="md_playcount"><visible>false</visible></text>
+    <datetime name="md_lastplayed"><visible>false</visible></datetime>
     <text name="md_name"><visible>false</visible></text>
     <image name="md_thumbnail"><visible>false</visible></image>
     <image name="md_marquee"><visible>false</visible></image>
@@ -42,7 +42,7 @@
     <helpsystem name="help"><pos>0.022 0.9625</pos><origin>0 0.5</origin><textColor>${helpText}</textColor><iconColor>${accent}</iconColor><fontPath>./../art/fonts/BarlowCondensed-SemiBold.ttf</fontPath><fontSize>${fsHelp}</fontSize></helpsystem>
   </view>
   <view name="video">
-    <video name="md_video"><pos>0.7450 0.3693</pos><origin>0.5 0.5</origin><maxSize>0.4300 0.4887</maxSize><delay>1.2</delay><showSnapshotNoVideo>true</showSnapshotNoVideo><showSnapshotDelay>true</showSnapshotDelay><roundCorners>0.03</roundCorners><zIndex>31</zIndex></video>
+    <video name="md_video"><pos>0.7450 0.3693</pos><origin>0.5 0.5</origin><maxSize>0.4300 0.4887</maxSize><delay>1.2</delay><showSnapshotNoVideo>true</showSnapshotNoVideo><showSnapshotDelay>true</showSnapshotDelay><zIndex>31</zIndex></video>
   </view>
   <view name="basic">
     <image name="tileBody" extra="true"><path>./../art/tile/body.png</path><zIndex>20</zIndex><pos>0.745 0.36433333333333334</pos><origin>0.5 0.5</origin><size>0.3600 0.4800</size></image>

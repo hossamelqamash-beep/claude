@@ -47,9 +47,9 @@ FONT_SIZES = {
 }
 
 BACKGROUNDS = {
-    "dotted": ("DOTTED", f"{A}/bg/dots.png"),
+    "dotted": ("DOTTED", f"{A}/bg/dots_full.png"),
     "solid": ("SOLID BLACK / WHITE", f"{A}/bg/none.png"),
-    "plus": ("PLUS GRID", f"{A}/bg/plus.png"),
+    "plus": ("PLUS GRID", f"{A}/bg/plus_full.png"),
 }
 
 
@@ -112,7 +112,7 @@ def bool_(b):
 def background(glow_pos, glow_size=(1.0, 1.333)):
     return [
         E("image", "bgFill", True, path=f"{A}/bg/pixel.png", pos="0 0", size="1 1", color="{bg}", zIndex=0),
-        E("image", "bgPattern", True, path="{bgPattern}", tile="true", pos="0 0", size="1 1",
+        E("image", "bgPattern", True, path="{bgPattern}", pos="0 0", size="1 1",
           color="{pattern}", zIndex=1),
         E("image", "bgGlow", True, path=f"{A}/bg/radial.png", pos=f"{glow_pos[0]} {glow_pos[1]}",
           origin="0.5 0.5", size=f"{glow_size[0]} {glow_size[1]}", color="{accent}{radial}", zIndex=2),
@@ -195,10 +195,6 @@ def layout_vertical():
                 color="00000000", zIndex=40, systemInfoDelay="300"),
               E("image", "logo", path=f"{A}/icons/${{system.theme}}.png"),
               E("text", "logoText", fontPath=F_BOLD, fontSize="{fsSys}", color="{text}", forceUppercase="true"),
-              E("image", "fadeTop", True, path=f"{A}/bg/vfade.png", flipY="true", pos="0 0.085",
-                size="0.40 0.10", color="{bg}", zIndex=42),
-              E("image", "fadeBottom", True, path=f"{A}/bg/vfade.png", pos="0 0.83", size="0.40 0.10",
-                color="{bg}", zIndex=42),
               *kicker("Choose a system", 0.42, 0.30),
               E("text", "sysName", True, text="${system.fullName}", pos="0.42 0.37", size="0.56 0.37",
                 alignment="left", verticalAlignment="top", fontPath=F_BOLD, fontSize="{fsTitle}",
@@ -255,7 +251,7 @@ def panel(name, box, z=15):
 
 HIDE = ["md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher", "md_lbl_genre",
         "md_lbl_players", "md_lbl_lastplayed", "md_lbl_playcount"]
-HIDE_VAL = ["md_developer", "md_publisher", "md_players", "md_lastplayed", "md_playcount"]
+HIDE_VAL = ["md_developer", "md_publisher", "md_players", "md_playcount"]
 
 
 def gamelist_views():
@@ -295,11 +291,12 @@ def gamelist_views():
     ]
     art = [
         E("image", "md_image", pos=f"{ART_C[0]:.4f} {ART_C[1]:.4f}", origin="0.5 0.5",
-          maxSize=f"{RW - 0.04:.4f} {ART[3] - 0.04:.4f}", default="{noart}", roundCorners="0.03", zIndex=30),
+          maxSize=f"{RW - 0.04:.4f} {ART[3] - 0.04:.4f}", default="{noart}", zIndex=30),
     ]
     hidden = [E("text", n, visible="false") for n in HIDE] + \
              [E("text", n, visible="false") for n in HIDE_VAL] + \
-             [E("text", "md_name", visible="false"),
+             [E("datetime", "md_lastplayed", visible="false"),
+              E("text", "md_name", visible="false"),
               E("image", "md_thumbnail", visible="false"),
               E("image", "md_marquee", visible="false")]
     views = [
@@ -307,7 +304,7 @@ def gamelist_views():
           *hidden, *helpbar()),
         V("video", E("video", "md_video", pos=f"{ART_C[0]:.4f} {ART_C[1]:.4f}", origin="0.5 0.5",
                      maxSize=f"{RW - 0.04:.4f} {ART[3] - 0.04:.4f}", delay="1.2", showSnapshotNoVideo="true",
-                     showSnapshotDelay="true", roundCorners="0.03", zIndex=31)),
+                     showSnapshotDelay="true", zIndex=31)),
         # basic view has no metadata: show the system tile and a hint instead
         V("basic", *glow_tile(ART_C[0], ART_C[1] - 0.005, 0.36),
           E("text", "basicTitle", True, text="${system.fullName}", pos=f"{ix + pad} {iy + 0.018:.4f}",

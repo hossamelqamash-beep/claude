@@ -1,6 +1,8 @@
 # NeonGlow: EmulationStation theme for the R36S
 
-A dark "deep glow" theme for the **R36S** (and clones) running **ArkOS** or **dArkOS** (EmulationStation-fcamod, 640×480). It comes with its own boot logo, EmulationStation loading screen and game-launch screen.
+A dark "deep glow" theme for the **R36S** (and clones) running **ArkOS** or **dArkOS** (EmulationStation-fcamod, 640×480).
+
+> **v1.1 (safe release).** The boot logo, ES loading-screen and game-launch-screen overrides from v1.0 have been **removed**. The installer now only copies the theme folder. It never touches the BOOT partition, never edits `es_settings.cfg` and never stops or restarts EmulationStation. If v1.0 left your device restarting, see [Recovering from v1.0](#recovering-from-v10).
 
 ![showcase](previews/showcase.jpg)
 
@@ -18,37 +20,35 @@ A dark "deep glow" theme for the **R36S** (and clones) running **ArkOS** or **dA
 | **Settings menu** | Menus match the active scheme: fonts, colors, selector, switches, sliders, buttons and line icons. |
 | **Battery** | The battery indicator (with % text) sits in the **top-right corner**. The theme keeps that corner clear in every view and draws it with its own icons, including a charging icon. |
 | **Font** | Barlow Condensed for titles and lists, Barlow for body text (both SIL OFL). |
-| **Boot + loading screens** | The u-boot logo (`logo.bmp`), the ES loading splash (overrides the built-in one) and the game-launch screen (`/roms/launchimages/loading.jpg`). Each comes in 11 accent colors. |
 
 ## Install
 
-### Option A: installer script (recommended)
+### Option A: copy the folder (simplest)
 
-1. Copy this whole `r36s-theme` folder onto the SD card's **EASYROMS** partition and rename it `neonglow-install` (on the device it becomes `/roms/neonglow-install`).
-2. Run the installer with one of these:
-   * **SSH** (`ark` / `ark`): `sudo /roms/neonglow-install/install.sh --set-theme`
-   * **From ES:** copy `extras/ports/NeonGlow Installer.sh` to `/roms/ports/`, then start it from the *Ports* menu.
+Copy the `neonglow` folder to the **themes** folder on the SD card's **EASYROMS** partition (it appears on the device as `/roms/themes/neonglow`). Then on the device, open **Start → UI Settings → Theme** and choose **NEONGLOW**.
+
+### Option B: installer script
+
+Copy this whole folder to EASYROMS as `neonglow-install`, then run it over SSH:
 
 ```
-sudo ./install.sh                     # theme + boot logo + ES loading screen + launch screen (red)
-sudo ./install.sh --accent cyan       # red blue amber green violet pink cyan red-deep blue-deep violet-deep teal-deep
-sudo ./install.sh --set-theme         # also select NeonGlow and restart EmulationStation
-sudo ./install.sh --no-boot           # skip the boot logo (also: --no-splash, --no-launch)
-sudo ./install.sh --uninstall         # remove everything and restore the original files
+sudo /roms/neonglow-install/install.sh                      # copy the theme (nothing else)
+sudo /roms/neonglow-install/install.sh --restore-originals  # undo v1.0's boot/loading changes
+sudo /roms/neonglow-install/install.sh --uninstall          # remove the theme (+ restore originals)
 ```
 
-The installer backs up every file it replaces as `*.neonglow-bak`, and `--uninstall` puts them back.
+You can also copy `extras/ports/NeonGlow Installer.sh` to `/roms/ports/` and run it from the *Ports* menu. It only copies the theme.
 
-### Option B: manual
+## Recovering from v1.0
 
-| What | Copy | To |
-|---|---|---|
-| Theme | `neonglow/` | `/roms/themes/neonglow` (or `EASYROMS/themes/` from a PC) |
-| ES loading screen | `extras/es-resources/<accent>/splash.svg` | `/home/ark/.emulationstation/resources/splash.svg` |
-| Game launch screen | `extras/launchimages/<accent>/loading.jpg` | `/roms/launchimages/loading.jpg` |
-| Boot logo | `extras/boot/<accent>/logo.bmp` | the **BOOT** partition, replacing `logo.bmp` (keep a copy of the original) |
+v1.0 replaced the boot logo, the ES loading screen and the launch screen, and saved each original as `*.neonglow-bak`. To put them back:
 
-Then open **Start → UI Settings → Theme** and choose **NEONGLOW**.
+* **If you can reach a shell (SSH):** run `sudo ./install.sh --restore-originals`.
+* **From a PC, with the SD card in a reader:**
+  1. On the **BOOT** partition: if `logo.bmp.neonglow-bak` exists, delete `logo.bmp` and rename `logo.bmp.neonglow-bak` to `logo.bmp`. Do the same for `logo_kernel.bmp.neonglow-bak` if it is there.
+  2. On **EASYROMS**: if `launchimages/loading.jpg.neonglow-bak` exists, delete `loading.jpg` and rename the backup.
+  3. If EmulationStation still restarts, delete `themes/neonglow` on EASYROMS. ES then falls back to another theme.
+  4. The v1.0 ES splash (`/home/ark/.emulationstation/resources/splash.svg`) lives on the Linux partition. `--restore-originals` removes it. It is not needed for booting.
 
 ## Theme options
 
@@ -71,32 +71,29 @@ Then open **Start → UI Settings → Theme** and choose **NEONGLOW**.
 | ![](previews/system-light.png) | ![](previews/gamelist-light.png) | ![](previews/system-light-horizontal.png) |
 | **Settings menu** | **Theme configuration** | **Grid view** |
 | ![](previews/menu-dark.png) | ![](previews/theme-config.png) | ![](previews/gamelist-grid.png) |
-| **Boot logo** | **ES loading screen** | **Game launch screen** |
-| ![](previews/boot-logo.png) | ![](previews/es-loading.png) | ![](previews/launch-screen.jpg) |
 
 These screenshots come from the real ArkOS EmulationStation (`christianhaitian/EmulationStation-fcamod`, branch `351v`), built for desktop and run at 640×480. They are not mock-ups.
 
 ## How it was tested
 
-* Built the R36S branch of ES-fcamod on Linux and ran it under Xvfb at 640×480, with a fake battery, scraped and unscraped ROM folders, and the auto collections.
-* Captured every layout, color scheme family, font size, view style and menu, and fixed what looked wrong: clipped and truncated text, help-bar overflow, the header icon origin, fade bands, and dark logos on dark tiles.
-* Loaded all 183 non-collection system folders at once with **zero theme warnings** in `es_log.txt`.
-* Rasterized every SVG (splash, battery, menu icons, switches, stars) with ES's own **nanosvg**. The splash was redesigned because nanosvg mis-renders radial gradients.
-* Ran the installer end to end on a simulated ArkOS layout (install, backups, `--set-theme`, uninstall/restore) and checked it with `shellcheck`.
+* Built the R36S branch of ES-fcamod (`christianhaitian/EmulationStation-fcamod`, branch `351v`) for desktop and ran it under Xvfb at 640×480, with a fake battery, scraped and unscraped ROM folders, and the auto collections.
+* Captured every layout, color scheme family, font size, view style (detailed, video, grid, basic) and menu. Every combination logs **zero theme warnings**.
+* Ran an **AddressSanitizer + UBSan** build through system/gamelist navigation, the menus, and live theme switching (color scheme, font size, background, layout). The theme produced no memory errors or crashes.
+* Loaded all 183 non-collection systems at once: zero warnings, and lower memory use than the Carbon theme (≈291 MB vs ≈347 MB peak RSS).
+* Avoided the features that behave differently on the device's GLES 1.0 renderer: no `roundCorners` (which needs a stencil buffer ES doesn't request on GLES) and no tiled (`GL_REPEAT`) textures. Backgrounds are full-screen images.
+* Ran the installer end to end on a simulated ArkOS layout (install, restore, uninstall) and checked it with `shellcheck`.
 
-## Notes and limitations
+## Notes
 
-* **Progress bar color.** The ES loading screen's progress bar (blue) and "Loading…" text are hard-coded in the ES binary. The theme replaces the logo artwork (`splash.svg`), not the bar.
-* **Launch screen.** `/roms/launchimages/loading.jpg` is shown by dArkOS/ArkOS's `perfmax` launch script. Builds that don't show launch images ignore it.
-* **Boot logo.** `logo.bmp` is a 640×480 24-bit BMP for the standard R36S panel. Clones with a different panel resolution or rotation need their own size, so use `--no-boot` on those.
-* **Older ES builds.** On ES builds without `batteryIndicator` theming (non-351v branches), the battery element is ignored and ES's built-in indicator is used. Everything else works the same.
+* **Older ES builds.** On ES builds without `batteryIndicator` theming (non-351v branches), the battery element is ignored and ES's built-in indicator is used.
+* **Boot/loading art.** The generator can still produce the boot logo / loading art (`python3 tools/build_assets.py --extras`), but none of it is shipped or installed.
 
 ## Rebuilding / customising
 
 All art and XML is generated:
 
 ```
-python3 tools/build_assets.py   # logos, glow tiles, backgrounds, UI icons, no-art cards, boot/loading/splash
+python3 tools/build_assets.py   # logos, glow tiles, backgrounds, UI icons, no-art cards
 python3 tools/build_xml.py      # theme.xml, subsets, layouts, 194 system folders
 ```
 
@@ -110,4 +107,4 @@ Requirements: Python 3 with Pillow, numpy and fontTools; `rsvg-convert`; `git`. 
 
 * **System logos**: vector logos from the *Carbon* theme family (Rookervik / RetroPie, Batocera and fcamod contributors, [fabricecaruso/es-theme-carbon](https://github.com/fabricecaruso/es-theme-carbon)), licensed **CC BY-NC-SA**. This theme is therefore for **non-commercial use**. Console names and logos are trademarks of their respective owners.
 * **Fonts**: Barlow / Barlow Condensed by Jeremy Tribby, SIL Open Font License (`tools/fonts/OFL.txt`).
-* **Glow tiles, backgrounds, icons, placeholders, boot/loading art and theme XML**: original work generated by the scripts in `tools/`.
+* **Glow tiles, backgrounds, icons, placeholders and theme XML**: original work generated by the scripts in `tools/`.

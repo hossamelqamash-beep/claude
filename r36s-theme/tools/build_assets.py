@@ -185,6 +185,15 @@ def build_backgrounds():
     m = m.resize((t, t), Image.LANCZOS)
     gfx.white_alpha(gfx.arr(m)).save(os.path.join(d, "plus.png"))
 
+    # full-screen versions: the theme draws these stretched 1:1, no texture tiling needed
+    for name in ("dots", "plus"):
+        tile = Image.open(os.path.join(d, f"{name}.png"))
+        full = Image.new("RGBA", (640, 480), (255, 255, 255, 0))
+        for x in range(0, 640, tile.width):
+            for y in range(0, 480, tile.height):
+                full.paste(tile, (x, y))
+        full.save(os.path.join(d, f"{name}_full.png"), optimize=True)
+
     # soft radial light (tinted with the accent in the theme)
     n = 512
     yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
@@ -514,7 +523,10 @@ def main():
     build_ui()
     colors = build_tiles()
     build_noart()
-    build_extras({k: v for k, v in ACCENTS.items()})
+    # Boot logo / ES splash / launch screen overrides are disabled by default
+    # (they are not needed by the theme). Opt in with --extras.
+    if "--extras" in sys.argv:
+        build_extras({k: v for k, v in ACCENTS.items()})
     with open(os.path.join(CACHE, "syscolors.txt"), "w") as f:
         for k, v in sorted(colors.items()):
             f.write(f"{k} {v}\n")

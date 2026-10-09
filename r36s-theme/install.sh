@@ -1,33 +1,28 @@
 #!/bin/bash
-# NeonGlow installer for the R36S (ArkOS / dArkOS and their R36S clone builds)
+# NeonGlow theme installer for the R36S (ArkOS / dArkOS)
 #
-#   sudo ./install.sh                     install theme + splash + launch screen + boot logo (red)
-#   sudo ./install.sh --accent cyan       pick the accent of the boot / loading screens
-#   sudo ./install.sh --set-theme         also switch ES to NeonGlow and restart it
-#   sudo ./install.sh --no-boot --no-splash --no-launch   install only the theme
-#   sudo ./install.sh --uninstall         remove the theme and restore every backup
+#   sudo ./install.sh                     copy the theme to the themes folder (that's all)
+#   sudo ./install.sh --restore-originals restore the boot logo / ES loading screen / launch
+#                                         screen that the FIRST NeonGlow release replaced
+#   sudo ./install.sh --uninstall         remove the theme (and restore those originals)
 #
-# Accents: red blue amber green violet pink cyan red-deep blue-deep violet-deep teal-deep
+# This installer never touches the boot partition, never edits es_settings.cfg and never
+# stops or restarts EmulationStation. After installing, pick the theme in
+# Start > UI Settings > Theme.
 
 set -u
 SRC="$(cd "$(dirname "$0")" && pwd)"
 ARGS=("$@")
-ACCENT="red"
-DO_BOOT=1; DO_SPLASH=1; DO_LAUNCH=1; SET_THEME=0; UNINSTALL=0
+MODE="install"
 BAK=".neonglow-bak"
 
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --accent) ACCENT="$2"; shift ;;
-    --no-boot) DO_BOOT=0 ;;
-    --no-splash) DO_SPLASH=0 ;;
-    --no-launch) DO_LAUNCH=0 ;;
-    --set-theme) SET_THEME=1 ;;
-    --uninstall) UNINSTALL=1 ;;
+for a in "$@"; do
+  case "$a" in
+    --restore-originals) MODE="restore" ;;
+    --uninstall) MODE="uninstall" ;;
     -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
-    *) echo "Unknown option: $1"; exit 1 ;;
+    *) echo "Unknown option: $a"; exit 1 ;;
   esac
-  shift
 done
 
 say() { echo "[NeonGlow] $*"; }
@@ -37,11 +32,6 @@ if [ "$(id -u)" != "0" ]; then
   say "please run as root (sudo)"; exit 1
 fi
 
-if [ ! -d "$SRC/extras/boot/$ACCENT" ]; then
-  say "unknown accent '$ACCENT'. Available: $(ls "$SRC/extras/boot" | tr '\n' ' ')"; exit 1
-fi
-
-# --- locations ---------------------------------------------------------------
 ES_USER="ark"
 id "$ES_USER" >/dev/null 2>&1 || ES_USER="$(stat -c %U "$SRC" 2>/dev/null || echo root)"
 ES_HOME="$(getent passwd "$ES_USER" | cut -d: -f6)"
@@ -55,98 +45,45 @@ if [ ${#THEME_DIRS[@]} -eq 0 ]; then
   else mkdir -p "$ES_DIR/themes"; THEME_DIRS+=("$ES_DIR/themes"); fi
 fi
 
-LAUNCH_DIRS=()
-for d in /roms /roms2; do [ -d "$d" ] && LAUNCH_DIRS+=("$d/launchimages"); done
-
-BOOT_DIR=""
-for d in /boot /flash /media/boot; do
-  if [ -f "$d/logo.bmp" ] || [ -f "$d/uInitrd" ] || [ -f "$d/Image" ]; then BOOT_DIR="$d"; break; fi
-done
-
-backup() { [ -f "$1" ] && [ ! -f "$1$BAK" ] && cp -p "$1" "$1$BAK"; }
-restore() {
-  if [ -f "$1$BAK" ]; then mv -f "$1$BAK" "$1"; say "restored $1"
-  elif [ -n "${2:-}" ] && [ -f "$1" ]; then rm -f "$1"; say "removed $1"; fi
-}
-
-remount_boot() {
-  # the BOOT partition is FAT and sometimes mounted read-only
-  if ! touch "$BOOT_DIR/.neonglow-test" 2>/dev/null; then mount -o remount,rw "$BOOT_DIR" 2>/dev/null; fi
-  rm -f "$BOOT_DIR/.neonglow-test"
-}
-
-# --- uninstall ---------------------------------------------------------------
-if [ $UNINSTALL -eq 1 ]; then
-  for d in "${THEME_DIRS[@]}"; do [ -d "$d/neonglow" ] && rm -rf "$d/neonglow" && say "removed $d/neonglow"; done
-  restore "$ES_DIR/resources/splash.svg" new
-  for d in "${LAUNCH_DIRS[@]}"; do restore "$d/loading.jpg" new; done
-  if [ -n "$BOOT_DIR" ]; then
-    remount_boot
-    restore "$BOOT_DIR/logo.bmp"; restore "$BOOT_DIR/logo_kernel.bmp"; sync
-  fi
-  say "done. Pick another theme in Start > UI Settings > Theme."
-  exit 0
-fi
-
-# --- theme -------------------------------------------------------------------
-for d in "${THEME_DIRS[@]}"; do
-  rm -rf "$d/neonglow"
-  cp -r "$SRC/neonglow" "$d/neonglow"
-  chown -R "$ES_USER": "$d/neonglow" 2>/dev/null
-  say "theme installed to $d/neonglow"
-done
-
-# --- ES loading screen (overrides the built-in splash) -------------------------
-if [ $DO_SPLASH -eq 1 ]; then
-  mkdir -p "$ES_DIR/resources"
-  backup "$ES_DIR/resources/splash.svg"
-  cp "$SRC/extras/es-resources/$ACCENT/splash.svg" "$ES_DIR/resources/splash.svg"
-  chown -R "$ES_USER": "$ES_DIR/resources" 2>/dev/null
-  say "ES loading screen installed ($ES_DIR/resources/splash.svg)"
-fi
-
-# --- game launch screen ------------------------------------------------------
-if [ $DO_LAUNCH -eq 1 ]; then
-  for d in "${LAUNCH_DIRS[@]}"; do
-    mkdir -p "$d"
-    backup "$d/loading.jpg"
-    cp "$SRC/extras/launchimages/$ACCENT/loading.jpg" "$d/loading.jpg"
-    say "game launch screen installed ($d/loading.jpg)"
+# Put back every file the first release replaced (it saved them as *.neonglow-bak).
+restore_originals() {
+  local found=0 f
+  # ES loading screen: the original release added this file; remove it (or restore a backup)
+  f="$ES_DIR/resources/splash.svg"
+  if [ -f "$f$BAK" ]; then mv -f "$f$BAK" "$f"; say "restored $f"; found=1
+  elif [ -f "$f" ] && grep -q "NEONGLOW\|fill=\"url(#b)\"" "$f" 2>/dev/null; then rm -f "$f"; say "removed $f"; found=1; fi
+  for f in /roms/launchimages/loading.jpg /roms2/launchimages/loading.jpg; do
+    if [ -f "$f$BAK" ]; then mv -f "$f$BAK" "$f"; say "restored $f"; found=1; fi
   done
-fi
-
-# --- boot logo ---------------------------------------------------------------
-if [ $DO_BOOT -eq 1 ]; then
-  if [ -n "$BOOT_DIR" ]; then
-    remount_boot
-    for f in logo.bmp logo_kernel.bmp; do
-      if [ -f "$BOOT_DIR/$f" ] || [ "$f" = "logo.bmp" ]; then
-        backup "$BOOT_DIR/$f"
-        cp "$SRC/extras/boot/$ACCENT/logo.bmp" "$BOOT_DIR/$f"
-        say "boot logo installed ($BOOT_DIR/$f)"
+  for d in /boot /flash /media/boot; do
+    for f in "$d/logo.bmp" "$d/logo_kernel.bmp"; do
+      if [ -f "$f$BAK" ]; then
+        touch "$d/.ng" 2>/dev/null || mount -o remount,rw "$d" 2>/dev/null
+        rm -f "$d/.ng"
+        mv -f "$f$BAK" "$f" && say "restored $f"; found=1
       fi
     done
+  done
+  sync
+  if [ $found -eq 0 ]; then say "nothing to restore (no NeonGlow backups found)"; fi
+  return 0
+}
+
+case "$MODE" in
+  restore)
+    restore_originals ;;
+  uninstall)
+    for d in "${THEME_DIRS[@]}"; do [ -d "$d/neonglow" ] && rm -rf "$d/neonglow" && say "removed $d/neonglow"; done
+    restore_originals
+    say "done. Pick another theme in Start > UI Settings > Theme." ;;
+  install)
+    for d in "${THEME_DIRS[@]}"; do
+      rm -rf "$d/neonglow"
+      cp -r "$SRC/neonglow" "$d/neonglow"
+      chown -R "$ES_USER": "$d/neonglow" 2>/dev/null
+      say "theme installed to $d/neonglow"
+    done
     sync
-  else
-    say "BOOT partition not found - skipped the boot logo (copy extras/boot/$ACCENT/logo.bmp to the BOOT partition manually)"
-  fi
-fi
-
-# --- select the theme --------------------------------------------------------
-if [ $SET_THEME -eq 1 ]; then
-  CFG="$ES_DIR/es_settings.cfg"
-  systemctl stop emulationstation 2>/dev/null
-  sleep 1
-  if [ -f "$CFG" ]; then
-    backup "$CFG"
-    if grep -q 'name="ThemeSet"' "$CFG"; then
-      sed -i 's|<string name="ThemeSet" value="[^"]*" */>|<string name="ThemeSet" value="neonglow" />|' "$CFG"
-    else
-      sed -i 's|</config>|<string name="ThemeSet" value="neonglow" />\n</config>|' "$CFG"
-    fi
-  fi
-  systemctl start emulationstation 2>/dev/null
-  say "EmulationStation switched to NeonGlow"
-fi
-
-say "all done. Theme options: Start > UI Settings > Theme Configuration."
+    say "done. Select it in Start > UI Settings > Theme > NEONGLOW." ;;
+esac
+exit 0

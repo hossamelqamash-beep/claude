@@ -3,7 +3,7 @@
 <theme>
   <view name="system">
     <image name="bgFill" extra="true"><path>./../art/bg/pixel.png</path><pos>0 0</pos><size>1 1</size><color>${bg}</color><zIndex>0</zIndex></image>
-    <image name="bgPattern" extra="true"><path>${bgPattern}</path><tile>true</tile><pos>0 0</pos><size>1 1</size><color>${pattern}</color><zIndex>1</zIndex></image>
+    <image name="bgPattern" extra="true"><path>${bgPattern}</path><pos>0 0</pos><size>1 1</size><color>${pattern}</color><zIndex>1</zIndex></image>
     <image name="bgGlow" extra="true"><path>./../art/bg/radial.png</path><pos>0.78 0.5</pos><origin>0.5 0.5</origin><size>1.0 1.333</size><color>${accent}${radial}</color><zIndex>2</zIndex></image>
     <image name="bgVignette" extra="true"><path>./../art/bg/vignette.png</path><pos>0 0</pos><size>1 1</size><color>${vignette}</color><zIndex>3</zIndex></image>
     <carousel name="systemcarousel"><type>vertical_wheel</type><pos>0.50 0.085</pos><size>0.50 0.84</size><logoSize>0.26 0.3467</logoSize><logoScale>1.25</logoScale><maxLogoCount>5</maxLogoCount><logoAlignment>right</logoAlignment><logoRotation>24</logoRotation><logoRotationOrigin>-1.25 0.5</logoRotationOrigin><color>00000000</color><zIndex>40</zIndex><systemInfoDelay>300</systemInfoDelay></carousel>
