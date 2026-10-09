@@ -1,108 +1,120 @@
 # Volta: an EmulationStation theme for the R36S
 
-A dark/light, multi-colour EmulationStation theme for the **R36S running ArkOS** (640×480). It was
-designed from the "energy dashboard" UI references: graphite tiles, glossy gradient cards, tick-ring gauges,
-dot-matrix numerals and a yellow accent.
+A dark/light, multi-colour EmulationStation theme for the **R36S running ArkOS / dArkOS** (640×480),
+based on the "energy dashboard" UI references: graphite tiles, glossy gradient cards, tick-ring
+gauges, dot-matrix numerals and a yellow accent.
 
 ![System view](es-theme-volta/_preview/system-horizontal-dark.png)
 ![Game list](es-theme-volta/_preview/gamelist-dark.png)
 
 | | |
 |---|---|
-| ![](es-theme-volta/_preview/system-vertical-light.png) | ![](es-theme-volta/_preview/system-wheel-indigo.png) |
-| ![](es-theme-volta/_preview/gamelist-citrine-noart.png) | ![](es-theme-volta/_preview/menu-mint.png) |
-| ![](es-theme-volta/_preview/grid-light.png) | ![](es-theme-volta/_preview/basic-violet.png) |
-| ![](es-theme-volta/_preview/loading-screen.png) | ![](es-theme-volta/_preview/boot-logo.png) |
+| ![](es-theme-volta/_preview/system-vertical-light.png) | ![](es-theme-volta/_preview/system-wheel-citrine.png) |
+| ![](es-theme-volta/_preview/gamelist-indigo-noart.png) | ![](es-theme-volta/_preview/gamelist-citrine-large.png) |
+| ![](es-theme-volta/_preview/grid-citrine.png) | ![](es-theme-volta/_preview/menu-dark.png) |
 
 All 13 colour schemes: [`_preview/all-colorsets.png`](es-theme-volta/_preview/all-colorsets.png).
-Every screenshot above was taken from ArkOS's own EmulationStation, built from source, except the
-loading-screen image, which is rendered with ES's own SVG renderer.
+The screenshots come from ArkOS's EmulationStation (the `503` and `351v` branches of
+christianhaitian/EmulationStation-fcamod), built from source.
 
 ## Features
 
 - **Game list**: list of games on the left half. Box art fills the top two thirds on the right, and
   rating, genre, year and a scrolling description fill the bottom third. Games without box art show a
   "No artwork" placeholder. Detailed, video, grid and basic (unscraped) styles are all themed.
-- **System carousel with three orientations**: Horizontal, Vertical list, or Wheel. The vertical and
-  wheel layouts show a per-system card with maker, release year (dot-matrix) and game count.
+- **System carousel with three orientations**: Horizontal, Vertical list or Wheel. The vertical and
+  wheel layouts show a card for each system with its maker, release year (dot-matrix) and game count.
 - **13 colour schemes**: Volta, Violet, Indigo, Aqua, Ember and Mint, each in Dark and Light, plus
   Citrine Pop.
-- **3 font sizes**: Small, Medium, Large. They change the game list, descriptions, system names and the
-  settings menu.
+- **3 font sizes**: Medium, Small, Large.
 - **Themed settings menu**: panel, accent selector, switches, slider, buttons and Urbanist type in every
   colour scheme.
-- **Status capsule at the top right**: ArkOS's battery indicator and the clock sit inside it, styled with
-  the theme's own battery icons.
-- **163 high-quality system logos** covering every ArkOS system plus collections and arcade publishers.
-  They are white and tinted per scheme.
-- **Custom boot logo and loading screens** that replace the defaults (see below).
+- **Battery-safe corner**: nothing is drawn in the top-right corner (x > 448, y < 40), so ArkOS's own
+  battery and clock never overlap the design.
+- **163 high-quality system logos**, white and tinted per scheme.
+- **Loading screen** built into the theme (a `splash` view), plus optional boot-logo and loading-screen
+  extras (see below).
 - Fonts: [Urbanist](https://fonts.google.com/specimen/Urbanist) for the UI and
   [Doto](https://fonts.google.com/specimen/Doto) for the dot-matrix numerals.
 
 ## Install
 
 1. Copy the `es-theme-volta` folder into the `themes` folder on your SD card (`EASYROMS/themes`,
-   which is `/roms/themes` on the device).
-2. On the R36S: **Start → UI Settings → Theme → es-theme-volta**.
+   which is `/roms/themes` on the device). You should end up with `themes/es-theme-volta/theme.xml`.
+2. On the R36S: **Start → UI Settings → Theme Set → es-theme-volta**. Restart EmulationStation if the
+   theme doesn't switch straight away.
 3. **Start → UI Settings → Theme Configuration** to choose:
-   - *Color scheme*
-   - *Font size*
-   - *System carousel* (Horizontal / Vertical list / Wheel)
-4. Optional: in *UI Settings*, set *Game list view style* to *Detailed* (or *Video* / *Grid*).
 
-### Troubleshooting
-
-- **The theme isn't in the list, or every system looks unthemed.** The folder must sit directly in
-  `themes`: `themes/es-theme-volta/theme.xml`. Unzipping with "Extract all…" often creates
-  `themes/es-theme-volta/es-theme-volta/`. Move the inner folder up one level.
-- **Grey carousel, black game list, no colours** (versions before 1.1). Another theme had saved a colour
-  set or carousel name that Volta doesn't have, so nothing loaded. Volta now keeps its options under
-  its own keys and always falls back to Volta Dark / Medium / Horizontal. Update to the current version.
-- **Text looks small on ROCKNIX / AmberELEC / Knulli.** The sizes are tuned for ArkOS and dArkOS, whose
-  EmulationStation enlarges fonts by 1.31× on 640×480 screens. Pick *Font size → Large* in Theme
-  Configuration.
-- Still broken? Send `/home/ark/.emulationstation/es_log.txt` (or `~/.emulationstation/es_log.txt` on
-  other firmwares) and the name and version of your firmware.
-
-### Boot logo and loading screens
-
-`es-theme-volta/_boot/install.sh` replaces three things:
-
-| What | How |
+| Option | Choices (the first is the default) |
 |---|---|
-| EmulationStation startup screen and game-launch loading screen | copies `splash.svg` to `~/.emulationstation/resources/`, which ES checks before its built-in resources (no system files are touched) |
-| Loading text and battery % font | copies Urbanist over ES's default font in the same folder |
-| u-boot boot logo | replaces `logo.bmp` on the BOOT partition, only when the existing file is a plain 640×480 or 480×640 BMP at 8 or 24 bits. The original is backed up first |
+| Color scheme | Volta Dark · Volta Light · Violet Dark/Light · Indigo Dark/Light · Aqua Dark/Light · Ember Dark/Light · Mint Dark/Light · Citrine Pop |
+| Font size | Medium · Small · Large |
+| System carousel | Horizontal · Vertical list · Wheel |
 
-Run it over SSH:
+The `_preview` folder is only for screenshots, and `_boot` only for the optional extras. Neither is
+needed on the SD card.
+
+## Optional extras: boot logo and EmulationStation loading screen
+
+The theme doesn't need these, and nothing outside the theme folder is changed unless you run the
+script **with an option**:
 
 ```sh
-bash /roms/themes/es-theme-volta/_boot/install.sh            # everything
-bash /roms/themes/es-theme-volta/_boot/install.sh --no-bootlogo
-bash /roms/themes/es-theme-volta/_boot/install.sh --uninstall  # restore the originals
+bash /roms/themes/es-theme-volta/_boot/install.sh --splash      # ES startup / game-launch loading screen
+bash /roms/themes/es-theme-volta/_boot/install.sh --bootlogo    # u-boot boot logo (logo.bmp)
+bash /roms/themes/es-theme-volta/_boot/install.sh --uninstall   # undo everything (also the first release)
 ```
 
-Or copy `install.sh` into the `ports` folder and launch it from the Ports menu. Restart EmulationStation
-or reboot to see the change.
+- `--splash` copies `splash.svg` to `~/.emulationstation/resources/`, which ES checks before its
+  built-in files.
+- `--bootlogo` only replaces `logo.bmp` when the existing file is a plain uncompressed 640×480 or
+  480×640 BMP at 8 or 24 bits. The original is kept as `logo.bmp.volta-backup` on the BOOT partition, so
+  you can restore it from a PC.
+- The script no longer replaces ES's default font. The first release did; `--uninstall` removes it.
 
-Boot-logo files differ between R36S images and clones. If your logo is portrait (480×640) and shows
-sideways after installing, run the script again with `--portrait-ccw`. Unrecognised formats are left
-alone; you can also copy `_boot/logo-640x480-24.bmp` to the BOOT partition as `logo.bmp` from a PC.
+## Troubleshooting
 
-## Notes for the R36S
+- **Black screen / EmulationStation keeps restarting after installing the first release (1.0).**
+  1. Put the SD card in a PC and delete `EASYROMS/themes/es-theme-volta`. ES then falls back to
+     another theme.
+  2. If you ran `install.sh` from 1.0, it may have replaced `logo.bmp`, ES's default font and its
+     loading screen. Once the console boots, run `install.sh --uninstall` from this version (over SSH or
+     from the Ports menu) to restore the originals.
+  3. If the console resets before EmulationStation even appears, restore the original `logo.bmp` on the
+     BOOT partition from your firmware image.
 
-- ArkOS's EmulationStation (the `351v` branch of christianhaitian/EmulationStation-fcamod) counts
-  640×480 as a "small screen" and enlarges every font by 1.31×. The theme compensates, so text renders
-  at the designed pixel sizes.
-- On small screens ES hides the clock and battery while a menu is open. The menus are full-screen.
-- The bundled fonts map U+007F to an empty glyph. Without this, ES sizes every line from a tall
-  placeholder glyph and list text sits off-centre.
+  Then copy in this version. It uses the same structure as themes that run on the R36S and installs
+  nothing outside the theme folder.
+- **The theme isn't in the list, or systems look unthemed.** The folder must sit directly in `themes`:
+  `themes/es-theme-volta/theme.xml`. "Extract all…" often creates
+  `themes/es-theme-volta/es-theme-volta/`. Move the inner folder up a level.
+- **Text looks small on ROCKNIX / AmberELEC / Knulli.** The sizes are tuned for ArkOS/dArkOS, whose ES
+  enlarges fonts by 1.31× on this screen. Pick *Font size → Large*.
+- Still broken? Send `/home/ark/.emulationstation/es_log.txt` and the name and version of your firmware.
+
+## How the theme is built
+
+```
+theme.xml               fallback for systems without their own folder
+<system>/theme.xml      per-system variables (logo, name, maker, year), the include of
+                        _inc/main.xml, then the option subsets at the top level
+_inc/main.xml           every view with literal default values (Volta Dark, Medium, Horizontal)
+_inc/color-*.xml        colour scheme: only the properties it changes
+_inc/font-*.xml         font size: only the properties it changes
+_inc/system-*.xml       carousel layout: only the properties it changes
+_art/                   PNG artwork (per scheme), logos, splash, UI icons
+_fonts/                 Urbanist + Doto (static TTFs)
+```
+
+Option files never define variables. If an option fails to load, or a setting saved by another theme
+matches nothing, the theme still renders completely with its defaults.
 
 ## Rebuilding / customising
 
-All artwork and XML are generated by `build/build.py`. Layout constants, the colour schemes
-(`build/palettes.py`) and system metadata (`build/systems.py`) live in one place, so art and element
-positions stay in sync. Do not edit the generated XML by hand.
+All artwork and XML are generated by `build/build.py` (art) and `build/xmlgen.py` (XML). Layout
+constants, the colour schemes (`build/palettes.py`) and system metadata (`build/systems.py`) live in one
+place. The build checks that the defaults plus each option's overrides reproduce every combination
+exactly. Do not edit the generated XML by hand.
 
 ```sh
 pip install pillow fonttools freetype-py

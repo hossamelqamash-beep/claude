@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from collections import OrderedDict
 
 from PIL import Image
 
@@ -35,7 +36,7 @@ W, H = 640, 480
 # ---------------------------------------------------------------------------
 # Layout (pixels on the 640x480 R36S screen)
 # ---------------------------------------------------------------------------
-# ArkOS draws the clock + battery inside our status capsule, top right.
+# Top-right corner (x > 448, y < 40) is left empty for ArkOS' battery and clock.
 STATUS = (474, 8, 154, 32)
 BACK_BTN = (12, 8, 32, 32)
 HEADER_LOGO = (54, 24, 200, 26)      # x, centre-y, max w, max h
@@ -248,9 +249,7 @@ def chrome(p, glyph):
         "<div class='page'></div><div class='dots'></div>"
         f"<div class='rbtn' style='{box(bx, by, bw, bh)}'>"
         f"{glyph.format(c=btn_ink, a=css_hex(p['accent']))}</div>"
-        f"<div class='status' style='{box(x, y, w, h)}'></div>"
-        # thin divider between the clock and the battery inside the capsule
-        f"<div class='a' style='{box(x + 82, y + 9, 1, h - 18)}background:{ink(p, 0.12) if p['status'] != '#111114' else 'rgba(255,255,255,0.12)'}'></div>"
+        # nothing in the top-right corner: ArkOS draws its battery/clock there
     )
 
 
@@ -280,6 +279,10 @@ def sys_info_pill(card):
 
 
 def system_page(p, mode):
+    if p["name"] == "citrine-pop":
+        p = dict(p, cardA="#fffbe6", cardB="#fff0a8", cardC="#ffe066", cardEdge="rgba(255,255,255,0.8)",
+                 panelA="#fffbe6", panelB="#fff1b0", panelLine="rgba(0,0,0,0.08)", panelGlow=0.5,
+                 status="#fff7cc", mode="light")
     body = chrome(p, GRID_GLYPH)
     title_col = css_hex(p["bgText"])
     body += (f"<div class='a' style='left:54px;top:12px;font:600 19px U;color:{title_col};letter-spacing:0.2px'>"
@@ -488,24 +491,6 @@ def star_svg(filled):
             f"<polygon points='{' '.join(pts)}' fill='none' stroke='#ffffff' stroke-width='7' stroke-linejoin='round'/></svg>")
 
 
-def battery_svg(level, charging=False):
-    # square canvas: ES draws battery textures in a square slot
-    fill_w = {0: 0, 25: 6, 50: 12, 75: 18, 100: 24}[level]
-    s = ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' width='40' height='40'>"
-         "<rect x='3' y='12' width='31' height='16' rx='5' fill='none' stroke='#ffffff' stroke-width='2.2'/>"
-         "<rect x='35.2' y='17' width='2.6' height='6' rx='1.2' fill='#ffffff'/>")
-    if fill_w:
-        s += f"<rect x='6.5' y='15.5' width='{fill_w}' height='9' rx='2.4' fill='#ffffff'/>"
-    if charging:
-        s = ("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' width='40' height='40'>"
-             "<rect x='3' y='12' width='31' height='16' rx='5' fill='none' stroke='#ffffff' stroke-width='2.2'/>"
-             "<rect x='35.2' y='17' width='2.6' height='6' rx='1.2' fill='#ffffff'/>"
-             "<path d='M21 13.5 13 21.2h5.6l-2 5.3 8-7.7H19z' fill='#ffffff'/>")
-    if level == 0 and not charging:
-        s += "<rect x='6.5' y='15.5' width='3' height='9' rx='1.2' fill='#ffffff'/>"
-    return s + "</svg>"
-
-
 # ---------------------------------------------------------------------------
 # Boot splash (pure vector: ES renders it with nanosvg, so text -> paths)
 # ---------------------------------------------------------------------------
@@ -580,7 +565,7 @@ def splash_svg():
     return "".join(parts)
 
 
-def boot_logo_page():
+def boot_logo_page(caption=True):
     p = dict(PALETTES[0][2])
     p["name"] = "volta-dark"
     svg = splash_svg()
@@ -589,10 +574,10 @@ def boot_logo_page():
             "<div class='dots' style='opacity:0.6'></div>"
             f"<div class='a' style='left:{(W - 300) / 2}px;top:46px;width:300px;height:300px'>"
             f"{svg.replace('<svg ', '<svg style=\"width:300px;height:300px\" ', 1)}</div>"
-            "<div class='a' style='left:0;width:640px;top:378px;text-align:center;font:30px D;color:#fff;letter-spacing:3px'>"
-            "R36S</div>"
-            "<div class='a' style='left:0;width:640px;top:424px;text-align:center;font:500 15px U;color:#8d8d96'>"
-            "powering up&#8230;</div>")
+            + ("<div class='a' style='left:0;width:640px;top:378px;text-align:center;font:30px D;color:#fff;letter-spacing:3px'>"
+               "R36S</div>"
+               "<div class='a' style='left:0;width:640px;top:424px;text-align:center;font:500 15px U;color:#8d8d96'>"
+               "powering up&#8230;</div>" if caption else ""))
     return page_html(p, body)
 
 
@@ -651,542 +636,9 @@ def xml_escape(s):
     return html.escape(s, quote=False)
 
 
-def colorset_xml(name, display, p):
-    v = {
-        "cs": name,
-        "bgText": xml_hex(p["bgText"]), "bgDim": xml_hex(p["bgDim"]),
-        "text": xml_hex(p["text"]), "dim": xml_hex(p["dim"]), "faint": xml_hex(p["faint"]),
-        "cardText": xml_hex(p["cardText"]), "cardDim": xml_hex(p["cardDim"]),
-        "accent": xml_hex(p["accent"]), "selText": xml_hex(p["selText"]),
-        "logo": xml_hex(p["logo"]), "logoCard": xml_hex(p["logoCard"]),
-        "star": xml_hex(p["star"]), "starOff": xml_hex(p["starOff"]),
-        "menuText": xml_hex(p["text"]) if p["name"] != "citrine-pop" else "F4F4F6",
-        "menuDim": xml_hex(p["dim"]),
-        "menuSel": xml_hex(p["sel2"]),
-        "menuSelText": xml_hex(p["selText"]),
-        "menuLine": "FFFFFF14" if p["mode"] == "dark" or p["name"] == "citrine-pop" else "0000001A",
-        "statusText": xml_hex(p["text"]) if p["name"] != "citrine-pop" else "F4F4F6",
-    }
-    lines = "\n".join(f"\t\t<{k}>{val}</{k}>" for k, val in v.items())
-    return f"""<!-- {display} colour scheme (generated by build/build.py) -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<variables>
-{lines}
-\t</variables>
-</theme>
-"""
-
-
-def fontsize_xml(name, f):
-    lst = f["list"]
-    spacing = f["spacing"]
-    # ES row height = max(tallest glyph, size) * lineSpacing. With DEL patched out
-    # of the fonts the tallest Urbanist glyph is ~0.95 x size, so rows = size x spacing.
-    # Row text is drawn with a fixed 1.5 line spacing, putting its centre at
-    # 0.75 x glyph height; shift the selector so it is centred on the text.
-    px = eff_px(lst)
-    glyph = glyph_height(px)
-    row = max(glyph, px) * spacing
-    offset = 0.75 * glyph - row / 2
-    desc_line = glyph_height(eff_px(f["desc"])) * DESC_SPACING
-    v = {
-        "fs": name,
-        "listFont": fsz(lst),
-        "listSpacing": f"{spacing}",
-        "selHeight": f"{row / H:.4f}",
-        "selOffset": f"{offset / H:.4f}",
-        "descHeight": f"{desc_line * f['descLines'] / H:.4f}",
-        "descFont": fsz(f['desc']),
-        "menuFont": fsz(f['menu']),
-        "menuTitleFont": fsz(f['menuTitle']),
-        "menuSmallFont": fsz(f['menuSmall']),
-        "sysFont": fsz(f['sys']),
-    }
-    lines = "\n".join(f"\t\t<{k}>{val}</{k}>" for k, val in v.items())
-    return f"""<!-- {name} font size (generated by build/build.py) -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<variables>
-{lines}
-\t</variables>
-</theme>
-"""
-
-
-def img(name, path, pos, size=None, max_size=None, origin=None, color=None, extra=False, z=None, other=""):
-    s = f'\t\t<image name="{name}"{" extra=\"true\"" if extra else ""}>\n'
-    s += f"\t\t\t<path>{path}</path>\n"
-    s += f"\t\t\t<pos>{pos}</pos>\n"
-    if size:
-        s += f"\t\t\t<size>{size}</size>\n"
-    if max_size:
-        s += f"\t\t\t<maxSize>{max_size}</maxSize>\n"
-    if origin:
-        s += f"\t\t\t<origin>{origin}</origin>\n"
-    if color:
-        s += f"\t\t\t<color>{color}</color>\n"
-    if z is not None:
-        s += f"\t\t\t<zIndex>{z}</zIndex>\n"
-    s += other
-    s += "\t\t</image>\n"
-    return s
-
-
-def txt(name, pos, size, text=None, font="${fontSemi}", font_size="0.05", color="${text}", align="left",
-        valign=None, extra=False, z=None, upper=False, other=""):
-    s = f'\t\t<text name="{name}"{" extra=\"true\"" if extra else ""}>\n'
-    if text is not None:
-        s += f"\t\t\t<text>{text}</text>\n"
-    s += f"\t\t\t<pos>{pos}</pos>\n\t\t\t<size>{size}</size>\n"
-    s += f"\t\t\t<fontPath>{font}</fontPath>\n\t\t\t<fontSize>{font_size}</fontSize>\n"
-    s += f"\t\t\t<color>{color}</color>\n\t\t\t<alignment>{align}</alignment>\n"
-    if valign:
-        s += f"\t\t\t<verticalAlignment>{valign}</verticalAlignment>\n"
-    if upper:
-        s += "\t\t\t<forceUppercase>true</forceUppercase>\n"
-    if z is not None:
-        s += f"\t\t\t<zIndex>{z}</zIndex>\n"
-    s += other
-    s += "\t\t</text>\n"
-    return s
-
-
-def help_xml(color_var="bgText", dim_var="bgDim"):
-    return f"""\t\t<helpsystem name="help">
-\t\t\t<pos>{pair_x(14, HELP_Y)}</pos>
-\t\t\t<textColor>${{{dim_var}}}</textColor>
-\t\t\t<iconColor>${{{color_var}}}</iconColor>
-\t\t\t<fontPath>${{fontMedium}}</fontPath>
-\t\t\t<fontSize>{fsz(13)}</fontSize>
-\t\t</helpsystem>
-"""
-
-
-def card_extras(card, logo_tint="${logoCard}"):
-    """Per-system extras on the big system card (vertical / wheel layouts)."""
-    x, y, w, h = card
-    cx = x + w / 2
-    s = ""
-    s += txt("sysName", pair_x(x + 24, y + 20), pair_x(w - 48, 32), text="${system.fullName}",
-             font="${fontSemi}", font_size="${sysFont}", color="${cardText}", extra=True, z=12)
-    s += txt("sysMaker", pair_x(x + 24, y + 54), pair_x(w - 48, 20), text="${sysMaker}",
-             font="${fontMedium}", font_size=fsz(15), color="${cardDim}", extra=True, z=12)
-    s += img("sysLogoBig", "./../_art/logos/${system.theme}.png", pair_x(cx, y + 172),
-             max_size=pair_x(250, 96), origin="0.5 0.5", color=logo_tint, extra=True, z=12)
-    s += txt("sysYearLabel", pair_x(x + 24, y + h - 92), pair_x(150, 18), text="${sysYearLabel}",
-             font="${fontMedium}", font_size=fsz(13), color="${cardDim}", extra=True, z=12, upper=True)
-    s += txt("sysYear", pair_x(x + 22, y + h - 72), pair_x(170, 50), text="${sysYear}",
-             font="${fontDot}", font_size=fsz(44), color="${cardText}", extra=True, z=12)
-    return s
-
-
-def system_info_xml(rect, color="${cardText}"):
-    x, y, w, h = rect
-    return txt("systemInfo", pair_x(x, y), pair_x(w, h), font="${fontMedium}", font_size=fsz(13),
-               color=color, align="center", other="\t\t\t<backgroundColor>00000000</backgroundColor>\n")
-
-
-def systemview_xml(mode):
-    s = f"""<!-- System view: {mode} carousel (generated by build/build.py) -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<view name="system">
-"""
-    s += img("background", f"./../_art/${{cs}}/system-{mode}.jpg", "0 0", size="1 1", extra=True, z=0)
-    if mode == "horizontal":
-        x, y, w, h = H_CARD
-        s += f"""\t\t<carousel name="systemcarousel">
-\t\t\t<type>horizontal</type>
-\t\t\t<pos>{pair_x(0, y)}</pos>
-\t\t\t<size>{pair_x(W, h)}</size>
-\t\t\t<color>00000000</color>
-\t\t\t<logoSize>{pair_x(168, 74)}</logoSize>
-\t\t\t<logoScale>1.32</logoScale>
-\t\t\t<maxLogoCount>3</maxLogoCount>
-\t\t\t<logoAlignment>center</logoAlignment>
-\t\t\t<systemInfoDelay>0</systemInfoDelay>
-\t\t\t<zIndex>40</zIndex>
-\t\t</carousel>
-"""
-        s += img("logo", "./../_art/logos/${system.theme}.png", "0 0", color="${logoCard}", z=41)
-        s += txt("logoText", "0 0", "0 0", font="${fontSemi}", font_size=fsz(30), color="${logoCard}")
-        s += txt("sysName", pair_x(40, 312), pair_x(560, 34), text="${system.fullName}", font="${fontSemi}",
-                 font_size="${sysFont}", color="${bgText}", align="center", extra=True, z=12)
-        s += txt("sysMaker", pair_x(40, 346), pair_x(560, 22), text="${sysMakerYear}", font="${fontMedium}",
-                 font_size=fsz(15), color="${bgDim}", align="center", extra=True, z=12)
-        px, py, pw, ph = H_PILL
-        s += system_info_xml((px + 18, py, pw - 26, ph), color="${statusText}")
-    else:
-        card = V_CARD if mode == "vertical" else W_CARD
-        if mode == "vertical":
-            x, y, w, h = V_COLUMN
-            s += f"""\t\t<carousel name="systemcarousel">
-\t\t\t<type>vertical</type>
-\t\t\t<pos>{pair_x(x, y)}</pos>
-\t\t\t<size>{pair_x(w, h)}</size>
-\t\t\t<color>00000000</color>
-\t\t\t<logoSize>{pair_x(150, 34)}</logoSize>
-\t\t\t<logoScale>1.18</logoScale>
-\t\t\t<maxLogoCount>{CAROUSEL_SLOTS_V}</maxLogoCount>
-\t\t\t<logoAlignment>center</logoAlignment>
-\t\t\t<systemInfoDelay>0</systemInfoDelay>
-\t\t\t<zIndex>40</zIndex>
-\t\t</carousel>
-"""
-        else:
-            x, y, w, h = W_TRACK
-            s += f"""\t\t<carousel name="systemcarousel">
-\t\t\t<type>vertical_wheel</type>
-\t\t\t<pos>{pair_x(x, y)}</pos>
-\t\t\t<size>{pair_x(w, h)}</size>
-\t\t\t<color>00000000</color>
-\t\t\t<logoSize>{pair_x(170, 40)}</logoSize>
-\t\t\t<logoScale>1.15</logoScale>
-\t\t\t<logoRotation>9</logoRotation>
-\t\t\t<logoRotationOrigin>3.2 0.5</logoRotationOrigin>
-\t\t\t<maxLogoCount>7</maxLogoCount>
-\t\t\t<logoAlignment>center</logoAlignment>
-\t\t\t<systemInfoDelay>0</systemInfoDelay>
-\t\t\t<zIndex>40</zIndex>
-\t\t</carousel>
-"""
-        s += img("logo", "./../_art/logos/${system.theme}.png", "0 0", color="${logo}", z=41)
-        s += txt("logoText", "0 0", "0 0", font="${fontSemi}", font_size=fsz(20), color="${logo}")
-        s += card_extras(card)
-        s += system_info_xml(sys_info_pill(card))
-    s += help_xml()
-    s += "\t</view>\n</theme>\n"
-    return s
-
-
-def gamelist_xml():
-    lx, ly, lw, lh = LIST_INNER
-    ax, ay, aw, ah = ART_WELL
-    ix, iy, iw, ih = INFO
-    acx, acy = ax + aw / 2, ay + ah / 2
-    s = """<!-- Game list views (generated by build/build.py) -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<view name="basic, detailed, video, grid">
-"""
-    s += img("background", "./../_art/${cs}/gamelist.jpg", "0 0", size="1 1", z=0)
-    hx, hy, hw, hh = HEADER_LOGO
-    s += img("logo", "./../_art/logos/${system.theme}.png", pair_x(hx, hy), max_size=pair_x(hw, hh),
-             origin="0 0.5", color="${logo}", z=50)
-    s += f"""\t\t<textlist name="gamelist">
-\t\t\t<pos>{pair_x(lx, ly)}</pos>
-\t\t\t<size>{pair_x(lw, lh)}</size>
-\t\t\t<selectorImagePath>./../_art/${{cs}}/selector-${{fs}}.png</selectorImagePath>
-\t\t\t<selectorImageTile>false</selectorImageTile>
-\t\t\t<selectorColor>FFFFFFFF</selectorColor>
-\t\t\t<selectorColorEnd>FFFFFFFF</selectorColorEnd>
-\t\t\t<selectorHeight>${{selHeight}}</selectorHeight>
-\t\t\t<selectorOffsetY>${{selOffset}}</selectorOffsetY>
-\t\t\t<selectedColor>${{selText}}</selectedColor>
-\t\t\t<primaryColor>${{text}}</primaryColor>
-\t\t\t<secondaryColor>${{accent}}</secondaryColor>
-\t\t\t<fontPath>${{fontMedium}}</fontPath>
-\t\t\t<fontSize>${{listFont}}</fontSize>
-\t\t\t<lineSpacing>${{listSpacing}}</lineSpacing>
-\t\t\t<alignment>left</alignment>
-\t\t\t<horizontalMargin>{14 / W:.4f}</horizontalMargin>
-\t\t\t<zIndex>20</zIndex>
-\t\t</textlist>
-"""
-    s += help_xml()
-    s += "\t</view>\n"
-
-    # --- detailed + video + grid: art + info ---------------------------------
-    s += '\t<view name="detailed, video, grid">\n'
-    art_max = pair_x(aw - 2 * ART_PAD, ah - 2 * ART_PAD)
-    s += img("md_image", "", pair_x(acx, acy), max_size=art_max, origin="0.5 0.5", z=30,
-             other=f"\t\t\t<default>./../_art/${{cs}}/noart.png</default>\n\t\t\t<roundCorners>0.025</roundCorners>\n"
-             ).replace("\t\t\t<path></path>\n", "")
-    s += f"""\t\t<rating name="md_rating">
-\t\t\t<pos>{pair_x(ix + 18, iy + 11)}</pos>
-\t\t\t<size>{pair_x(0, 15)}</size>
-\t\t\t<filledPath>./../_art/ui/star-filled.png</filledPath>
-\t\t\t<unfilledPath>./../_art/ui/star-empty.png</unfilledPath>
-\t\t\t<color>${{star}}</color>
-\t\t\t<unfilledColor>${{starOff}}</unfilledColor>
-\t\t\t<zIndex>40</zIndex>
-\t\t</rating>
-\t\t<datetime name="md_releasedate">
-\t\t\t<pos>{pair_x(ix + iw - 18 - 120, iy + 6)}</pos>
-\t\t\t<size>{pair_x(120, 24)}</size>
-\t\t\t<fontPath>${{fontDot}}</fontPath>
-\t\t\t<fontSize>{fsz(20)}</fontSize>
-\t\t\t<color>${{cardText}}</color>
-\t\t\t<alignment>right</alignment>
-\t\t\t<format>%Y</format>
-\t\t\t<zIndex>40</zIndex>
-\t\t</datetime>
-\t\t<text name="md_genre">
-\t\t\t<pos>{pair_x(ix + 104, iy + 9)}</pos>
-\t\t\t<size>{pair_x(iw - 104 - 18 - 64, 18)}</size>
-\t\t\t<fontPath>${{fontMedium}}</fontPath>
-\t\t\t<fontSize>{fsz(13)}</fontSize>
-\t\t\t<color>${{cardDim}}</color>
-\t\t\t<alignment>left</alignment>
-\t\t\t<singleLineScroll>false</singleLineScroll>
-\t\t\t<zIndex>40</zIndex>
-\t\t</text>
-\t\t<text name="md_description">
-\t\t\t<pos>{pair_x(ix + 18, iy + 42)}</pos>
-\t\t\t<size>{nx(iw - 36)} ${{descHeight}}</size>
-\t\t\t<fontPath>${{fontMedium}}</fontPath>
-\t\t\t<fontSize>${{descFont}}</fontSize>
-\t\t\t<color>${{cardText}}</color>
-\t\t\t<alignment>left</alignment>
-\t\t\t<lineSpacing>{DESC_SPACING}</lineSpacing>
-\t\t\t<zIndex>40</zIndex>
-\t\t</text>
-"""
-    # labels and fields we don't show
-    for n in ("md_lbl_rating", "md_lbl_releasedate", "md_lbl_developer", "md_lbl_publisher", "md_lbl_genre",
-              "md_lbl_players", "md_lbl_lastplayed", "md_lbl_playcount", "md_developer", "md_publisher",
-              "md_players", "md_lastplayed", "md_playcount", "md_name"):
-        tag = "datetime" if n == "md_lastplayed" else "text"
-        s += f'\t\t<{tag} name="{n}">\n\t\t\t<visible>false</visible>\n\t\t\t<pos>2 2</pos>\n\t\t</{tag}>\n'
-    s += "\t</view>\n"
-
-    s += '\t<view name="video">\n'
-    s += f"""\t\t<video name="md_video">
-\t\t\t<pos>{pair_x(acx, acy)}</pos>
-\t\t\t<maxSize>{art_max}</maxSize>
-\t\t\t<origin>0.5 0.5</origin>
-\t\t\t<default>./../_art/${{cs}}/noart.png</default>
-\t\t\t<delay>1.2</delay>
-\t\t\t<showSnapshotNoVideo>true</showSnapshotNoVideo>
-\t\t\t<showSnapshotDelay>true</showSnapshotDelay>
-\t\t\t<roundCorners>0.025</roundCorners>
-\t\t\t<zIndex>31</zIndex>
-\t\t</video>
-"""
-    s += "\t</view>\n"
-
-    # --- grid: tiles in the left panel ---------------------------------------
-    s += '\t<view name="grid">\n'
-    gx, gy, gw, gh = LIST
-    s += f"""\t\t<imagegrid name="gamegrid">
-\t\t\t<pos>{pair_x(gx + 8, gy + 8)}</pos>
-\t\t\t<size>{pair_x(gw - 16, gh - 16)}</size>
-\t\t\t<margin>{pair_x(6, 6)}</margin>
-\t\t\t<autoLayout>3 3</autoLayout>
-\t\t\t<autoLayoutSelectedZoom>1</autoLayoutSelectedZoom>
-\t\t\t<imageSource>image</imageSource>
-\t\t\t<gameImage>./../_art/${{cs}}/noart.png</gameImage>
-\t\t\t<folderImage>./../_art/${{cs}}/noart.png</folderImage>
-\t\t\t<scrollDirection>vertical</scrollDirection>
-\t\t\t<centerSelection>false</centerSelection>
-\t\t\t<zIndex>20</zIndex>
-\t\t</imagegrid>
-\t\t<gridtile name="default">
-\t\t\t<padding>4 4</padding>
-\t\t\t<imageColor>FFFFFFFF</imageColor>
-\t\t\t<backgroundColor>${{text}}10</backgroundColor>
-\t\t\t<backgroundCenterColor>${{text}}10</backgroundCenterColor>
-\t\t\t<backgroundEdgeColor>${{text}}10</backgroundEdgeColor>
-\t\t\t<backgroundImage>./../_art/ui/tile.png</backgroundImage>
-\t\t\t<backgroundCornerSize>0.07 0.07</backgroundCornerSize>
-\t\t</gridtile>
-\t\t<gridtile name="selected">
-\t\t\t<backgroundColor>${{accent}}FF</backgroundColor>
-\t\t\t<backgroundCenterColor>${{accent}}FF</backgroundCenterColor>
-\t\t\t<backgroundEdgeColor>${{accent}}FF</backgroundEdgeColor>
-\t\t</gridtile>
-\t\t<text name="md_name">
-\t\t\t<visible>false</visible>
-\t\t\t<pos>2 2</pos>
-\t\t</text>
-\t</view>
-"""
-
-    # --- basic: no scraped data, show the system instead ---------------------
-    s += '\t<view name="basic">\n'
-    s += img("background", "./../_art/${cs}/gamelist-basic.jpg", "0 0", size="1 1", z=0)
-    s += img("basicLogo", "./../_art/logos/${system.theme}.png", pair_x(acx, acy - 14), max_size=pair_x(220, 84),
-             origin="0.5 0.5", color="${dim}", extra=True, z=30)
-    s += txt("basicName", pair_x(ax + 16, acy + 46), pair_x(aw - 32, 24), text="${system.fullName}",
-             font="${fontSemi}", font_size=fsz(17), color="${text}", align="center", extra=True, z=30)
-    s += txt("basicHint", pair_x(ix + 18, iy + 16), pair_x(iw - 36, ih - 32),
-             text="No game info yet. Open the menu with START and run the scraper to add box art, descriptions and ratings.",
-             font="${fontMedium}", font_size="${descFont}", color="${cardText}", extra=True, z=30,
-             other="\t\t\t<lineSpacing>1.25</lineSpacing>\n")
-    s += "\t</view>\n</theme>\n"
-    return s
-
-
-def menu_xml():
-    return """<!-- Settings menu (generated by build/build.py) -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<view name="menu">
-\t\t<menuBackground name="menubg">
-\t\t\t<path>./../_art/${cs}/menu.png</path>
-\t\t\t<fadePath>./../_art/ui/fade.png</fadePath>
-\t\t\t<color>FFFFFFFF</color>
-\t\t\t<centerColor>FFFFFFFF</centerColor>
-\t\t\t<cornerSize>32 32</cornerSize>
-\t\t</menuBackground>
-\t\t<menuText name="menutitle">
-\t\t\t<fontPath>${fontSemi}</fontPath>
-\t\t\t<fontSize>${menuTitleFont}</fontSize>
-\t\t\t<color>${menuText}</color>
-\t\t</menuText>
-\t\t<menuText name="menutext">
-\t\t\t<fontPath>${fontMedium}</fontPath>
-\t\t\t<fontSize>${menuFont}</fontSize>
-\t\t\t<color>${menuText}</color>
-\t\t\t<separatorColor>${menuLine}</separatorColor>
-\t\t\t<selectorColor>${menuSel}</selectorColor>
-\t\t\t<selectedColor>${menuSelText}</selectedColor>
-\t\t</menuText>
-\t\t<menuTextSmall name="menutextsmall">
-\t\t\t<fontPath>${fontMedium}</fontPath>
-\t\t\t<fontSize>${menuSmallFont}</fontSize>
-\t\t\t<color>${menuDim}</color>
-\t\t</menuTextSmall>
-\t\t<menuText name="menufooter">
-\t\t\t<fontPath>${fontMedium}</fontPath>
-\t\t\t<fontSize>${menuSmallFont}</fontSize>
-\t\t\t<color>${menuDim}</color>
-\t\t</menuText>
-\t\t<menuSwitch name="menuswitch">
-\t\t\t<pathOn>./../_art/${cs}/switch-on.png</pathOn>
-\t\t\t<pathOff>./../_art/${cs}/switch-off.png</pathOff>
-\t\t</menuSwitch>
-\t\t<menuSlider name="menuslider">
-\t\t\t<path>./../_art/${cs}/knob.png</path>
-\t\t</menuSlider>
-\t\t<menuButton name="menubutton">
-\t\t\t<path>./../_art/${cs}/button.png</path>
-\t\t\t<filledPath>./../_art/${cs}/button-filled.png</filledPath>
-\t\t</menuButton>
-\t\t<menuTextEdit name="menutextedit">
-\t\t\t<inactive>./../_art/${cs}/textedit.png</inactive>
-\t\t\t<active>./../_art/${cs}/textedit-active.png</active>
-\t\t</menuTextEdit>
-\t</view>
-</theme>
-"""
-
-
-def screen_xml():
-    x, y, w, h = STATUS
-    return f"""<!-- Always-on overlays: clock + battery inside the top-right status capsule -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<view name="screen">
-\t\t<text name="clock">
-\t\t\t<pos>{pair_x(x + 8, y)}</pos>
-\t\t\t<size>{pair_x(70, h)}</size>
-\t\t\t<fontPath>${{fontSemi}}</fontPath>
-\t\t\t<fontSize>{fsz(16)}</fontSize>
-\t\t\t<color>${{statusText}}</color>
-\t\t\t<alignment>center</alignment>
-\t\t\t<verticalAlignment>center</verticalAlignment>
-\t\t</text>
-\t\t<batteryIndicator name="batteryIndicator">
-\t\t\t<pos>{pair_x(x + 88, y + 6)}</pos>
-\t\t\t<size>{pair_x(w - 96, 20)}</size>
-\t\t\t<itemSpacing>{3 / W:.4f}</itemSpacing>
-\t\t\t<horizontalAlignment>center</horizontalAlignment>
-\t\t\t<color>${{statusText}}</color>
-\t\t\t<incharge>./../_art/ui/battery-charging.svg</incharge>
-\t\t\t<full>./../_art/ui/battery-100.svg</full>
-\t\t\t<at75>./../_art/ui/battery-75.svg</at75>
-\t\t\t<at50>./../_art/ui/battery-50.svg</at50>
-\t\t\t<at25>./../_art/ui/battery-25.svg</at25>
-\t\t\t<empty>./../_art/ui/battery-0.svg</empty>
-\t\t</batteryIndicator>
-\t</view>
-</theme>
-"""
-
-
-def main_xml():
-    cs = "\n".join(f'\t\t<include name="{n}" displayName="{d}">./color-{n}.xml</include>' for n, d, _ in PALETTES)
-    fs = "\n".join(f'\t\t<include name="{n}" displayName="{n.capitalize()}">./font-{n}.xml</include>'
-                   for n in ("medium", "small", "large"))
-    return f"""<!--
-	Volta - EmulationStation theme for the R36S (ArkOS, 640x480)
-	Generated by build/build.py - edit the generator, not this file.
--->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<variables>
-\t\t<fontMedium>./../_fonts/Urbanist-Medium.ttf</fontMedium>
-\t\t<fontSemi>./../_fonts/Urbanist-SemiBold.ttf</fontSemi>
-\t\t<fontDot>./../_fonts/Doto-Black.ttf</fontDot>
-\t</variables>
-
-\t<!--
-\t\tDefaults first, so the theme still works if a subset setting holds a value
-\t\tthis theme does not know. The subsets below override these variables.
-\t-->
-\t<include>./color-volta-dark.xml</include>
-\t<include>./font-medium.xml</include>
-
-\t<!--
-\t\tOptions use Volta-specific setting keys (subset.voltacolor, ...). The shared
-\t\tkeys (ThemeColorSet, ThemeSystemView) often hold names saved by the previous
-\t\ttheme; no entry would match and ES would load no colours or carousel at all.
-\t\tFirst entry of each subset is the default.
-\t-->
-\t<subset name="voltacolor" displayName="Color scheme">
-{cs}
-\t</subset>
-\t<subset name="voltafont" displayName="Font size">
-{fs}
-\t</subset>
-\t<subset name="voltacarousel" displayName="System carousel">
-\t\t<include name="horizontal" displayName="Horizontal">./system-horizontal.xml</include>
-\t\t<include name="vertical" displayName="Vertical list">./system-vertical.xml</include>
-\t\t<include name="wheel" displayName="Wheel">./system-wheel.xml</include>
-\t</subset>
-
-\t<include>./gamelist.xml</include>
-\t<include>./menu.xml</include>
-\t<include>./screen.xml</include>
-</theme>
-"""
-
-
-def system_theme_xml(folder, meta):
-    _logo, name, maker, year = meta
-    maker_year = " · ".join(x for x in (maker, year) if x)
-    return f"""<theme>
-\t<formatVersion>6</formatVersion>
-\t<variables>
-\t\t<sysMaker>{xml_escape(maker)}</sysMaker>
-\t\t<sysYear>{year}</sysYear>
-\t\t<sysYearLabel>{'Released' if year else ''}</sysYearLabel>
-\t\t<sysMakerYear>{xml_escape(maker_year)}</sysMakerYear>
-\t</variables>
-\t<include>./../_inc/main.xml</include>
-</theme>
-"""
-
-
-def root_theme_xml():
-    return """<!-- Fallback for systems without their own folder -->
-<theme>
-\t<formatVersion>6</formatVersion>
-\t<include>./_inc/main.xml</include>
-</theme>
-"""
-
-
 # ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
-def to_jpeg(png, jpg, q=93):
-    Image.open(png).convert("RGB").save(jpg, quality=q, optimize=True, progressive=False, subsampling=0)
-    os.remove(png)
-
-
 def write_bmp_variants():
     src = os.path.join(BOOT, "bootlogo.png")
     im = Image.open(src).convert("RGB")
@@ -1223,20 +675,17 @@ def main():
             for mode in ("horizontal", "vertical", "wheel"):
                 out = os.path.join(d, f"system-{mode}.png")
                 job(f"{name}-sys-{mode}", system_page(p, mode), W, H, out)
-                post.append(lambda o=out: to_jpeg(o, o[:-4] + ".jpg"))
             out = os.path.join(d, "gamelist.png")
             job(f"{name}-gl", gamelist_page(p), W, H, out)
-            post.append(lambda o=out: to_jpeg(o, o[:-4] + ".jpg"))
             out = os.path.join(d, "gamelist-basic.png")
             job(f"{name}-glb", gamelist_page(p, placeholder=False), W, H, out)
-            post.append(lambda o=out: to_jpeg(o, o[:-4] + ".jpg"))
             job(f"{name}-noart", noart_page(p, 564, 484), 564, 484, os.path.join(d, "noart.png"), True)
+            # one selector per scheme; ES stretches it to each font size's row height
             lw = LIST_INNER[2]
-            for fsn, f in FONT_SIZES.items():
-                px = eff_px(f["list"])
-                sh = round(max(glyph_height(px), px) * f["spacing"])
-                job(f"{name}-sel-{fsn}", selector_page(p, lw, sh), lw, sh,
-                    os.path.join(d, f"selector-{fsn}.png"), True)
+            f = FONT_SIZES["medium"]
+            px = eff_px(f["list"])
+            sh = round(max(glyph_height(px), px) * f["spacing"])
+            job(f"{name}-sel", selector_page(p, lw, sh), lw, sh, os.path.join(d, "selector.png"), True)
             job(f"{name}-menu", menu_bg_page(p), 96, 96, os.path.join(d, "menu.png"), True)
             job(f"{name}-on", switch_page(p, True), 128, 96, os.path.join(d, "switch-on.png"), True)
             job(f"{name}-off", switch_page(p, False), 128, 96, os.path.join(d, "switch-off.png"), True)
@@ -1261,9 +710,6 @@ def main():
                 f.write(star_svg(filled))
             job(f"star-{filled}", page_html(p0, f"<img src='file://{sp}' style='width:96px;height:96px'>", 96, 96),
                 96, 96, os.path.join(ui, "star-filled.png" if filled else "star-empty.png"), True)
-        for lvl in (0, 25, 50, 75, 100):
-            w(os.path.join(ui, f"battery-{lvl}.svg"), battery_svg(lvl))
-        w(os.path.join(ui, "battery-charging.svg"), battery_svg(100, charging=True))
         # list scroll fade used behind menus: soft vertical gradient
         fade = Image.new("RGBA", (4, 256))
         for yy in range(256):
@@ -1305,6 +751,7 @@ def main():
         os.makedirs(BOOT, exist_ok=True)
         w(os.path.join(BOOT, "splash.svg"), splash_svg())
         job("bootlogo", boot_logo_page(), W, H, os.path.join(BOOT, "bootlogo.png"))
+        job("splash", boot_logo_page(caption=False), W, H, os.path.join(ART, "splash.png"))
         post.append(write_bmp_variants)
 
     if jobs:
@@ -1327,20 +774,18 @@ def main():
 
     # --- XML ---------------------------------------------------------------------
     if want("xml"):
-        os.makedirs(INC, exist_ok=True)
-        for name, display, p in PALETTES:
-            w(os.path.join(INC, f"color-{name}.xml"), colorset_xml(name, display, dict(p, name=name)))
-        for name, f in FONT_SIZES.items():
-            w(os.path.join(INC, f"font-{name}.xml"), fontsize_xml(name, f))
-        for mode in ("horizontal", "vertical", "wheel"):
-            w(os.path.join(INC, f"system-{mode}.xml"), systemview_xml(mode))
-        w(os.path.join(INC, "gamelist.xml"), gamelist_xml())
-        w(os.path.join(INC, "menu.xml"), menu_xml())
-        w(os.path.join(INC, "screen.xml"), screen_xml())
-        w(os.path.join(INC, "main.xml"), main_xml())
-        w(os.path.join(THEME, "theme.xml"), root_theme_xml())
-        for folder, meta in SYSTEMS.items():
-            w(os.path.join(THEME, folder, "theme.xml"), system_theme_xml(folder, meta))
+        import xmlgen
+        if os.path.isdir(INC):
+            shutil.rmtree(INC)
+        xmlgen.write_all(lambda rel, text: w(os.path.join(THEME, rel), text))
+        for folder, (_logo, name, maker, year) in SYSTEMS.items():
+            w(os.path.join(THEME, folder, "theme.xml"), xmlgen.system_theme(OrderedDict(
+                sysLogo=folder, sysName=name, sysMaker=maker, sysYear=year,
+                sysYearLabel="Released" if year else "",
+                sysMakerYear=" · ".join(x for x in (maker, year) if x)), "./../_inc/"))
+        # fallback for systems without a folder: the carousel shows the system's own name
+        w(os.path.join(THEME, "theme.xml"), xmlgen.system_theme(OrderedDict(
+            sysLogo="", sysName="", sysMaker="", sysYear="", sysYearLabel="", sysMakerYear=""), "./_inc/"))
 
     shutil.rmtree(tmp, ignore_errors=True)
     print("theme written to", THEME)
