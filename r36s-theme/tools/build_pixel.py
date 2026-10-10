@@ -125,9 +125,10 @@ def console_source(theme, s):
 
 
 def main():
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
     ld, cd = os.path.join(OUT, "logos"), os.path.join(OUT, "consoles")
+    for d in (ld, cd):   # keep pixel/README.md
+        if os.path.isdir(d):
+            shutil.rmtree(d)
     os.makedirs(ld)
     os.makedirs(cd)
     report = {"wordmark": [], "no_console": []}
@@ -143,6 +144,9 @@ def main():
             continue
         _, big = pixelate(c, CONSOLE_GRID, CONSOLE_COLORS)
         save(big, os.path.join(cd, theme + ".png"))
+    # collection logos are original hand-built pixel art, not conversions
+    import build_pixel_collections
+    build_pixel_collections.main()
     n_logo, n_con = len(os.listdir(ld)), len(os.listdir(cd))
     print(f"logos: {n_logo}  consoles: {n_con}")
     print("wordmark logos (no official logo in the packs):", " ".join(report["wordmark"]))
