@@ -18,14 +18,14 @@ UP = 3  # supersampling factor for the warp; output is saved at 2x the collage s
 
 PANELS = {
     # name: (panel box in the collage, [(screen quad, screenshot)])
-    "volta": ((0, 0, 752, 574), [([(335, 59), (581, 64), (586, 261), (339, 265)], "volta/system-horizontal-dark.png")]),
-    "vcr": ((767, 310, 1254, 623), [([(920, 340), (1076, 331), (1089, 462), (918, 470)], "vcr/system-snes.png")]),
-    "neonglow": ((817, 922, 1254, 1254), [([(972, 967), (1132, 966), (1136, 1082), (972, 1086)], "neonglow/system-vertical.png")]),
-    "deskos": ((627, 632, 1254, 910), [([(857, 688), (998, 655), (1017, 753), (876, 786)], "deskos/system-classic.png")]),
+    "volta": ((0, 0, 752, 574), [([(336, 69), (577, 71), (581, 257), (338, 258)], "volta/system-horizontal-dark.png")]),
+    "vcr": ((767, 310, 1254, 623), [([(916, 342), (1075, 330), (1079, 463), (913, 467)], "vcr/system-snes.png")]),
+    "neonglow": ((817, 922, 1254, 1254), [([(969, 967), (1128, 966), (1129, 1077), (969, 1079)], "neonglow/system-vertical.png")]),
+    "deskos": ((627, 632, 1254, 910), [([(859, 689), (991, 657), (1012, 747), (881, 778)], "deskos/system-classic.png")]),
     "collection": ((0, 922, 515, 1254), [
-        ([(80, 952), (221, 948), (223, 1031), (86, 1034)], "volta/system-wheel-citrine.png"),
-        ([(247, 966), (340, 966), (342, 1032), (247, 1035)], "neonglow/system-wheel.png"),
-        ([(385, 972), (465, 975), (467, 1040), (384, 1040)], "vcr/system-gba-navy.png"),
+        ([(77, 946), (208, 947), (217, 1030), (88, 1034)], "volta/system-wheel-citrine.png"),
+        ([(245, 964), (342, 963), (344, 1032), (248, 1035)], "neonglow/system-wheel.png"),
+        ([(384, 972), (457, 971), (466, 1036), (390, 1038)], "vcr/system-gba-navy.png"),
     ]),
 }
 

@@ -106,6 +106,15 @@ section { padding-block: clamp(56px, 8vw, 100px); }
 .compat ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .compat li { font: 500 13px/1 var(--mono); color: #fff; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35); padding: 9px 12px; border-radius: 999px; }
 
+/* boot-loop fix */
+.fix { margin-top: 18px; display: grid; grid-template-columns: auto 1fr; gap: 14px 22px; align-items: start; background: var(--plum); border: 1px solid rgba(224, 254, 59, .45); border-radius: var(--r); padding: 22px 24px; }
+.fix-tag { font: 400 13px/1 var(--pixel); color: #1a0b3d; background: var(--lime); padding: 8px 10px; border-radius: 8px; white-space: nowrap; }
+.fix > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.fix h3 { font-size: 20px; font-weight: 700; }
+.fix p, .fix li { color: var(--muted); font-size: 16px; }
+.fix ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+@media (max-width: 620px) { .fix { grid-template-columns: 1fr; } .fix-tag { justify-self: start; } }
+
 /* install */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
 .steps li { counter-increment: s; background: var(--night); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -213,6 +222,18 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
             <tr><td>DeskOS</td><td><code>es-theme-deskos</code></td><td><code>themes/es-theme-deskos/snes/theme.xml</code></td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="fix" id="boot-loop">
+        <span class="fix-tag">If it gets stuck</span>
+        <div>
+          <h3>Boot loop after applying a theme?</h3>
+          <p>If your R36S keeps restarting after you switch to one of the themes:</p>
+          <ol>
+            <li>Turn the device off and take out the SD card.</li>
+            <li>Put the SD card into your computer and delete the theme folder you just selected from the <code>themes</code> folder.</li>
+            <li>Put the SD card back into your R36S and turn it on. It will start with your default system theme.</li>
+          </ol>
+        </div>
       </div>
     </div>
   </section>
