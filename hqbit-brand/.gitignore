@@ -1,0 +1,3 @@
+tools/.build/
+__pycache__/
+tools/render3d/node_modules
