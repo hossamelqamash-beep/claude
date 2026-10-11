@@ -1,5 +1,5 @@
 <title>HQbit R36S Themes</title>
-<meta name="description" content="Four free EmulationStation themes for the R36S by HQbit: Volta, NeonGlow, VCR OSD and DeskOS.">
+<meta name="description" content="Four free EmulationStation themes for the R36S and its clones on ArkOS, dArkOS and EmuELEC, by HQbit: Volta, NeonGlow, VCR OSD and DeskOS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Silkscreen:wght@400;700&display=swap">
@@ -98,6 +98,14 @@ section { padding-block: clamp(56px, 8vw, 100px); }
 .strip button:hover img { transform: scale(1.04); }
 @media (max-width: 920px) { .theme { grid-template-columns: 1fr; } .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
+/* compatibility */
+.compat { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; background: linear-gradient(110deg, #3a14b8, var(--purple)); border-radius: var(--r); padding: 22px 26px; margin-bottom: 18px; }
+.compat > div { display: flex; flex-direction: column; gap: 8px; max-width: 40em; min-width: 0; }
+.compat .eyebrow { color: #ffffffcc; }
+.compat p { color: #fff; }
+.compat ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.compat li { font: 500 13px/1 var(--mono); color: #fff; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35); padding: 9px 12px; border-radius: 999px; }
+
 /* install */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
 .steps li { counter-increment: s; background: var(--night); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -157,14 +165,14 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
       <div class="copy">
         <span class="eyebrow">EmulationStation themes · R36S</span>
         <h1>Themes built from bits<span style="color:var(--lime)">.</span></h1>
-        <p class="lede">Four free themes for the R36S and its clones running ArkOS or dArkOS. Each one is drawn for the 640×480 screen, so pixel art stays sharp and nothing hides behind the battery icon.</p>
-        <div class="facts"><span>4 themes</span><span>640×480 native</span><span>ArkOS / dArkOS</span><span>Free download</span></div>
+        <p class="lede">Four free themes for the R36S and its clones running EmuELEC, ArkOS or dArkOS, and the firmware built on them. Each one is drawn for the 640×480 screen, so pixel art stays sharp and nothing hides behind the battery icon.</p>
+        <div class="facts"><span>4 themes</span><span>640×480 native</span><span>EmuELEC · ArkOS · dArkOS</span><span>Free download</span></div>
         <div class="ctas" id="download">
           <a class="btn btn-solid" href="#themes">Choose a theme ↓</a>
           <a class="btn btn-line" href="https://drive.google.com/drive/folders/100a83ie8fWxjgm-VBcgk6h-fA1CaF0Ve" target="_blank" rel="noopener">All downloads on Google Drive</a>
         </div>
       </div>
-      <figure><img src="img/showcase-collection.jpg" width="1600" height="900" alt="The four HQbit themes, Volta, NeonGlow, VCR OSD and DeskOS, each shown on an R36S handheld"></figure>
+      <figure><img src="img/showcase-collection.jpg" width="1600" height="900" alt="Four white R36S handhelds on a purple surface, showing the Volta, NeonGlow, VCR OSD and DeskOS themes"></figure>
     </div>
   </div>
 
@@ -186,10 +194,14 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
         <h2>On your R36S in three steps</h2>
         <p>You only need a computer that can read the SD card. Nothing outside the theme folder is changed, so removing a theme is just deleting its folder.</p>
       </div>
+      <div class="compat">
+        <div><span class="eyebrow">Works with</span><p>The R36S and its 640×480 clones running <b>EmuELEC</b>, <b>ArkOS</b> or <b>dArkOS</b>, and firmware variants based on these systems.</p></div>
+        <ul><li>EmuELEC</li><li>ArkOS</li><li>dArkOS</li><li>Variants built on these</li></ul>
+      </div>
       <ol class="steps">
         <li><h3>Download and unzip</h3><p>Download the theme's zip and unzip it on your computer. If you get a folder inside a folder with the same name, use the inner one.</p></li>
-        <li><h3>Copy it to the SD card</h3><p>Put the SD card in your computer and copy the theme folder into <code>EASYROMS/themes/</code>.</p></li>
-        <li><h3>Switch to it</h3><p>On the R36S press <b>Start → UI Settings → Theme Set</b> and pick the theme. Colours, layouts and font sizes are under <b>Theme Configuration</b>.</p></li>
+        <li><h3>Copy it to the SD card</h3><p>Put the SD card in your computer and copy the theme folder into <code>EASYROMS/themes/</code> on ArkOS and dArkOS. On EmuELEC, copy it to EmulationStation's themes folder, <code>/storage/.config/emulationstation/themes/</code>, over the network share or SSH.</p></li>
+        <li><h3>Switch to it</h3><p>Press <b>Start → UI Settings → Theme Set</b> and pick the theme. Colours, layouts and font sizes are under <b>Theme Configuration</b>. Restart EmulationStation if it doesn't switch right away.</p></li>
       </ol>
       <div class="folders">
         <table>
@@ -198,7 +210,7 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
             <tr><td>Volta</td><td><code>es-theme-volta</code></td><td><code>themes/es-theme-volta/theme.xml</code></td></tr>
             <tr><td>NeonGlow</td><td><code>neonglow</code></td><td><code>themes/neonglow/3do/theme.xml</code></td></tr>
             <tr><td>VCR OSD</td><td><code>es-theme-vcr-osd</code></td><td><code>themes/es-theme-vcr-osd/theme.xml</code></td></tr>
-            <tr><td>DeskOS</td><td><code>themes/es-theme-deskos</code> (from inside the zip)</td><td><code>themes/es-theme-deskos/snes/theme.xml</code></td></tr>
+            <tr><td>DeskOS</td><td><code>es-theme-deskos</code></td><td><code>themes/es-theme-deskos/snes/theme.xml</code></td></tr>
           </tbody>
         </table>
       </div>
@@ -212,14 +224,14 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
           <span class="eyebrow">About HQbit</span>
           <h2 style="font-size:clamp(30px,4vw,48px);font-weight:700">A first project, and a starting point</h2>
           <p>HQbit is the pixel art and UI project of Hossam el Qamash. It started with one R36S clone and a simple question: can a first-time theme maker, working with AI, build EmulationStation themes that look good on a 640×480 screen?</p>
-          <p>These four themes are the answer so far. They were designed together with Claude, an AI assistant, and generated by code, so every logo, icon and layout is drawn at the screen's real pixel size. Volta runs on my own R36S, and the themes were checked in a desktop build of ArkOS's EmulationStation that uses the same graphics mode as the handheld.</p>
+          <p>These four themes are the answer so far. They were designed together with Claude, an AI assistant, and generated by code, so every logo, icon and layout is drawn at the screen's real pixel size. Volta runs on my own R36S clone, and the themes were checked in a desktop build of ArkOS's EmulationStation that uses the same graphics mode as the handheld. They're made for the EmulationStation builds in EmuELEC, ArkOS and dArkOS.</p>
           <p>This is my first project of this kind, so there is plenty of room to improve. I'd rather share it now and keep making it better than wait for perfect. It's also the start of more projects like it, for the R36S and for other popular handhelds.</p>
         </div>
         <div class="notes">
           <div class="note">
             <h3>Where it can get better</h3>
             <ul>
-              <li>More testing on real hardware, across different R36S clones and firmware versions</li>
+              <li>More testing on real hardware, across different R36S clones and EmuELEC, ArkOS and dArkOS versions</li>
               <li>Real photos from the device next to the rendered screenshots</li>
               <li>More layouts and options, and fine-tuning for long game names and small fonts</li>
               <li>Your feedback: what breaks, what's hard to read, what you'd like next</li>
@@ -249,7 +261,7 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
     <img src="img/hqbit-mark-white.svg" alt="">
     <div class="credits">
       <p><b style="color:var(--text)">HQbit</b> · Pixel · Digital · AI · UI · Made by Hossam el Qamash with Claude.</p>
-      <p>Free for personal, non-commercial use. Volta's system logos come from <a href="https://github.com/anthonycaccese/art-book-next-es-de" target="_blank" rel="noopener">Art Book Next</a> by Anthony Caccese and NeonGlow's from the <a href="https://github.com/fabricecaruso/es-theme-carbon" target="_blank" rel="noopener">Carbon</a> theme family, both CC BY-NC-SA, so those themes are shared under CC BY-NC-SA too. DeskOS's console art is from the AmberELEC 8bit theme (based on Rookervik's Carbon, edited by bebeidon). VCR OSD's art and its OSD Tape font are original; the font is under the SIL Open Font License.</p>
+      <p>Free for personal, non-commercial use. Volta's system logos come from <a href="https://github.com/anthonycaccese/art-book-next-es-de" target="_blank" rel="noopener">Art Book Next</a> by Anthony Caccese and NeonGlow's from the <a href="https://github.com/fabricecaruso/es-theme-carbon" target="_blank" rel="noopener">Carbon</a> theme family, both CC BY-NC-SA, so those themes are shared under CC BY-NC-SA too. The full-colour console art in DeskOS and VCR OSD is from the AmberELEC 8bit theme (based on Rookervik's Carbon, edited by bebeidon). VCR OSD's interface art and its OSD Tape font are original; the font is under the SIL Open Font License.</p>
       <p>Console names, designs and logos are trademarks of their owners. HQbit is a fan project and isn't affiliated with them.</p>
     </div>
   </div>
@@ -265,17 +277,17 @@ const DRIVE = (id) => ({ dl: `https://drive.google.com/uc?export=download&id=${i
 const THEMES = [
   { key: "volta", name: "Volta", ver: "V1.1", file: "es-theme-volta-v1.1.zip", size: "19.5 MB", id: "1jfAUjVUazuKZ4isimrGIOBgOwvpqMu3v",
     blurb: "A dark and light dashboard look: glossy gradient cards, tick-ring gauges, dot-matrix numbers and a yellow spark.",
-    points: ["13 colour schemes, dark and light", "Horizontal, vertical-list and wheel carousels", "163 system logos, tinted per scheme", "Runs on my own R36S"],
+    points: ["13 colour schemes, dark and light", "Horizontal, vertical-list and wheel carousels", "163 system logos, tinted per scheme", "Runs on my own R36S clone"],
     shots: [["system-horizontal-dark", "System view, horizontal, dark"], ["system-vertical-light", "System view, vertical list, light"], ["system-wheel-citrine", "System view, wheel, Citrine Pop"], ["gamelist-dark", "Game list, dark"], ["grid-citrine", "Grid view, Citrine Pop"], ["menu-dark", "Settings menu, dark"]] },
   { key: "neonglow", name: "NeonGlow", ver: "V1.2", file: "neonglow-r36s-v1.2.zip", size: "22.7 MB", id: "1zagYsgw08kCEeNPpscH_kbYS0evpNkQw",
     blurb: "Glass tiles that glow in each system's own colour, on a deep dark canvas or a clean light one.",
     points: ["13 colour schemes, including multicolour", "4 system layouts: list, horizontal, vertical, wheel", "194 systems and collections", "Battery and clock corners kept clear"],
     shots: [["system-vertical", "System view, vertical list"], ["system-wheel", "System view, wheel"], ["system-light-horizontal", "System view, light, horizontal"], ["gamelist-dark", "Game list, dark"], ["gamelist-multi", "Game list, multicolour"], ["theme-config", "Theme configuration menu"]] },
-  { key: "vcr", name: "VCR OSD", ver: "V1", file: "es-theme-vcr-osd.zip", size: "1.1 MB", id: "10ML-6Ol7IkJaX1lCp6zmsTupiSRVduTO",
-    blurb: "The blue screen of an old VCR: inverse OSD boxes, a tape-counter timeline and SMPTE colour bars when box art is missing.",
-    points: ["153 systems with hand-drawn pixel hardware", "Custom pixel font, Chunky VCR or Clean OSD", "VCR Blue, Deep Navy and Midnight colour sets", "Optional CRT scanlines and an hourglass loading screen"],
+  { key: "vcr", name: "VCR OSD", ver: "V1", file: "es-theme-vcr-osd 2.zip", size: "2.5 MB", id: "1ijczmn0aQdz8Q4HnP46QXjXCyoToOfYd",
+    blurb: "The blue screen of an old VCR: inverse OSD boxes, full-colour pixel consoles, a tape-counter timeline and SMPTE colour bars when box art is missing.",
+    points: ["153 systems, with full-colour pixel consoles", "Custom pixel font, Chunky VCR or Clean OSD", "VCR Blue, Deep Navy and Midnight colour sets", "Optional CRT scanlines and an hourglass loading screen"],
     shots: [["system-snes", "System view, VCR Blue"], ["gamelist-snes", "Game list with the NO SIGNAL card"], ["system-gba-navy", "System view, Deep Navy"], ["system-psx-midnight", "System view, Midnight"], ["system-megadrive", "System view, Mega Drive"], ["loading", "Loading screen"]] },
-  { key: "deskos", name: "DeskOS", ver: "V2", file: "deskos-r36s-theme-v2.zip", size: "5.7 MB", id: "1DHY3KDcJy7E-RDzqfUvO3i1ajcGJtAyS",
+  { key: "deskos", name: "DeskOS", ver: "V2", file: "es-theme-deskos.zip", size: "2.5 MB", id: "1P3L1RmrjIlxhRqTIc4MW_5TZfu7TYWgn",
     blurb: "A retro desktop on your handheld. Every system opens as a window with a full-colour pixel console and an INFO panel.",
     points: ["14 colour schemes: 7 light, 7 new dark", "Full-colour pixel consoles, scaled pixel-perfect", "Five wallpapers and themed menus", "Native 640×464 artwork"],
     shots: [["system-classic", "System view, Classic Cream"], ["system-night", "System view, Classic Night"], ["system-amber-night", "System view, Amber CRT Night"], ["gamelist-classic", "Game list, Classic Cream"], ["gamelist-ice-night", "Game list, Ice Night"], ["system-pocket", "System view, Pocket Pea"]] },
@@ -288,7 +300,7 @@ for (const t of THEMES) {
   el.className = "theme";
   el.id = t.key;
   el.innerHTML = `
-    <figure class="shot"><img src="img/showcase-${t.key}.jpg" width="1600" height="1000" loading="lazy" alt="${t.name} theme on an R36S, with the HQbit logo"></figure>
+    <figure class="shot"><img src="img/showcase-${t.key}.jpg" width="1600" height="1000" loading="lazy" alt="A white R36S showing the ${t.name} theme, with the HQbit logo"></figure>
     <div class="spec">
       <span class="ver">${t.ver}</span>
       <h3>${t.name}</h3>

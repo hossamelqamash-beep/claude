@@ -43,6 +43,8 @@ def system_view(sysname, colour="blue", games=18):
     im = Image.open(os.path.join(T, f"_art/ui/bg_system_{colour}.png")).convert("RGB")
     art = var(sysname, "sysArt") or sysname
     con = Image.open(os.path.join(T, f"_art/consoles/{art}.png")).convert("RGBA")
+    if con.size != (360, 240):          # the <size> element stretches the art to the 360x240 slot
+        con = con.resize((360, 240), Image.LANCZOS)
     im.paste(con, (140, 46), con)
     logo = Image.open(os.path.join(T, f"_art/logos/{art}.png")).convert("RGBA")
     im.paste(logo, ((640 - logo.width) // 2, 292 + (64 - logo.height) // 2), logo)
