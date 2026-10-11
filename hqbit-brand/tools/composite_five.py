@@ -6,7 +6,7 @@ usage: composite_five.py <green photo> <out.jpg>
 * Screens: keyed by greenness; the visible part is fitted with four lines (see composite_photos.fit_quad).
   Screens partly hidden behind the front device get their hidden side extended to the front screen's
   aspect, so the screenshot continues underneath and the matte cuts it where the device in front starts.
-  The photo's screens are taller than 4:3, so the 640x480 screenshot is letterboxed (black bars).
+  The photo's screens are taller than 4:3, so the 640x480 screenshot is cropped at the sides to fill them.
 * Reflections: each green blob on the floor is filled with that device's screen, flipped, blurred and
   dimmed by the reflection's own brightness, then cut by its soft green matte.
 """
@@ -20,6 +20,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from composite_photos import SCR, fit_quad, greenness  # noqa: E402
 
 UP = 2
+# horizontal crop position per screenshot, so the important part stays on screen
+FOCUS = {"neonglow/system-vertical.png": 0.35, "deskos/system-classic.png": 0.3}
 # (point inside the green screen, screenshot, hidden side or None, point inside its floor reflection or None)
 SCREENS = [
     ((77, 629), "volta/system-wheel-citrine.png", "right", (72, 1137)),        # white
@@ -49,14 +51,13 @@ def extend(quad, side, aspect):
     return np.float32([tl, tr, br, bl])
 
 
-def letterbox(shot, aspect):
-    """Put the 4:3 screenshot full-width on a screen of the given width/height aspect."""
+def fill(shot, aspect, focus=0.5):
+    """Crop the 4:3 screenshot to the screen's width/height aspect so it fills the screen without stretching.
+    focus: where to keep the crop horizontally (0 = left edge, 1 = right edge)."""
     h, w = shot.shape[:2]
-    H = int(round(w / aspect))
-    canvas = np.full((H, w, 3), 6, np.uint8)
-    y = (H - h) // 2
-    canvas[y:y + h] = shot
-    return canvas
+    W = int(round(h * aspect))
+    x = int(round((w - W) * focus))
+    return np.ascontiguousarray(shot[:, x:x + W])
 
 
 def warp(src, quad, size):
@@ -83,7 +84,7 @@ def main(src, dst):
         q = (quad * UP + (UP - 1) / 2).astype(np.float32)
         shot = cv2.imread(os.path.join(SCR, shot_path))
         shot = cv2.resize(shot, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-        screen = letterbox(shot, aspect).astype(np.float32) / 255
+        screen = fill(shot, aspect, FOCUS.get(shot_path, 0.5)).astype(np.float32) / 255
         screen = 0.03 + screen * 0.94
         region = cv2.dilate(cv2.resize(m, size, interpolation=cv2.INTER_NEAREST), np.ones((7, 7), np.uint8)).astype(np.float32)
         matte = cv2.dilate(np.clip((gr - 8) / 50, 0, 1) * region, np.ones((3, 3), np.uint8))
