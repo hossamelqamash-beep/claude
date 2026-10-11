@@ -139,6 +139,19 @@ def collection_photo_card(photo, W=1600, H=900):
  <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover;object-position:82% 50%"></div>"""
 
 
+def five_card(photo, W=1600, H=1000):
+    names = " · ".join(t["name"].upper() for t in THEMES)
+    return f"""{BG}
+<div style="position:absolute;left:72px;top:72px">{logo('horizontal', width=190)}</div>
+<div style="position:absolute;left:72px;top:300px;width:620px">
+ <div style="font-family:UB;font-weight:800;font-size:66px;line-height:1.05;letter-spacing:-.02em">The R36S theme collection</div>
+ <div style="font-size:24px;line-height:1.45;margin-top:26px;color:#ffffffe6">Four free EmulationStation themes, drawn for the 640×480 screen.</div>
+ <div style="font-family:JB;font-size:17px;margin-top:30px;color:{C['lime']}">{names}</div></div>
+<div style="position:absolute;left:72px;bottom:66px;width:620px;font-family:JB;font-size:14px;letter-spacing:.08em;color:#ffffffbb">R36S &amp; CLONES · EMUELEC · ARKOS · dARKOS</div>
+<div style="position:absolute;right:56px;top:40px;bottom:40px;width:700px;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px #0009;border:1px solid #ffffff2a">
+ <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover;object-position:50% 62%"></div>"""
+
+
 def build_photo_cards():
     P = os.path.join(ROOT, "photos", "real")
     focus = {"volta": "62% 50%", "vcr": "50% 50%", "neonglow": "55% 50%", "deskos": "48% 50%"}
@@ -151,8 +164,8 @@ def build_photo_cards():
         w(html, page(photo_card(t, f"{P}/hqbit-photo-{t['key']}.jpg"), 1600, 900))
         render(html, f"{OUT}/hqbit-showcase-{t['key']}.png", 1600, 900)
     html = f"{BUILD}/photo-card-collection.html"
-    w(html, page(collection_photo_card(f"{P}/hqbit-photo-collection.jpg"), 1600, 900))
-    render(html, f"{OUT}/hqbit-showcase-collection.png", 1600, 900)
+    w(html, page(five_card(f"{P}/hqbit-photo-collection-five.jpg"), 1600, 1000))
+    render(html, f"{OUT}/hqbit-showcase-collection.png", 1600, 1000)
 
 
 if __name__ == "__main__" and "--photos" in sys.argv:
