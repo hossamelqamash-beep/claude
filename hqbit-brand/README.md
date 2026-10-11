@@ -21,3 +21,9 @@ Unbounded (headlines) · Inter (body) · Silkscreen (pixel accents) · JetBrains
 
 ## Rebuild
 `python3 tools/build_brand.py` (needs Pillow and Playwright's Chromium headless shell).
+
+## Logo mark and 3D photos
+* `logo/hqbit-mark-*.svg` / `logo/png/hqbit-mark-*.png`: the logo mark, the B with the lime chip.
+* `photos/`: 3D product shots with the B mark (glass tiles, glowing glass keycap, purple keycap), rendered with three.js.
+  Rebuild: `cd tools/render3d && npm install three@0.170.0 playwright-core@1.56.1`, then from `hqbit-brand/`
+  run `python3 -m http.server 8765` and `node tools/render3d/render.mjs`.

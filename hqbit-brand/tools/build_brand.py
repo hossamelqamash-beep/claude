@@ -78,7 +78,7 @@ def build_logos():
     for name, (layout, fill, chip, bg) in OL.VARIANTS.items():
         s = OL.svg(layout, fill, chip, bg)
         w(f"{L}/{name}.svg", s)
-        svg_png(s, f"{L}/png/{name}.png", 2400 if layout == "horizontal" else 1200, transparent=bg is None)
+        svg_png(s, f"{L}/png/{name}.png", {"horizontal": 2400, "b": 1024}.get(layout, 1200), transparent=bg is None)
     icon = app_icon_svg()
     w(f"{L}/hqbit-app-icon.svg", icon)
     for size in (1024, 512, 192, 32):

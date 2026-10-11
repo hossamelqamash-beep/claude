@@ -51,6 +51,10 @@ def svg(layout="horizontal", fill=WHITE, chip=LIME, bg=None, pad=None, square=Fa
         pad = LH * 0.5 if pad is None else pad
         x0, x1, y0, y1 = HQ_X[0], BIT_X[1], TOP, BOTTOM
         body = _letters(fill, chip, ring)
+    elif layout == "b":                    # the logo mark: the B with the lime chip
+        pad = LH * 0.3 if pad is None else pad
+        x0, x1, y0, y1 = 433.08, 543.36, 251.27, 342.58
+        body = f'<path fill="{fill}" d="{B}"/><path fill="{chip}" d="{CHIP}"/>' + (f'<path fill="{ring}" d="{RING}"/>' if ring else "")
     elif layout == "hq":
         pad = LH * 0.35 if pad is None else pad
         x0, x1, y0, y1 = HQ_X[0], HQ_X[1], TOP, BOTTOM
@@ -86,6 +90,10 @@ VARIANTS = {
     "hqbit-logo-stacked-on-purple": ("stacked", WHITE, LIME, PURPLE),
     "hqbit-logo-stacked-white": ("stacked", WHITE, LIME, None),
     "hqbit-logo-stacked-purple": ("stacked", PURPLE, PURPLE, None),
+    "hqbit-mark-on-purple": ("b", WHITE, LIME, PURPLE),
+    "hqbit-mark-white": ("b", WHITE, LIME, None),
+    "hqbit-mark-purple": ("b", PURPLE, LIME, None),
+    "hqbit-mark-black": ("b", "#0D0619", LIME, None),
     "hq-logo-on-purple": ("hq", WHITE, None, PURPLE),
     "hq-logo-white": ("hq", WHITE, None, None),
     "hq-logo-purple": ("hq", PURPLE, None, None),
