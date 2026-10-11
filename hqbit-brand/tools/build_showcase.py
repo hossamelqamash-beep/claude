@@ -136,12 +136,12 @@ def collection_photo_card(photo, W=1600, H=900):
  <div style="font-family:JB;font-size:15px;margin-top:26px;color:{C['lime']}">{names}</div></div>
 <div style="position:absolute;left:64px;bottom:58px;width:440px;font-family:JB;font-size:13px;line-height:1.6;letter-spacing:.08em;color:#ffffffbb">R36S &amp; CLONES · EMUELEC · ARKOS · dARKOS</div>
 <div style="position:absolute;right:56px;top:56px;bottom:56px;width:{W-600}px;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px #0008;border:1px solid #ffffff2a">
- <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover"></div>"""
+ <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover;object-position:82% 50%"></div>"""
 
 
 def build_photo_cards():
     P = os.path.join(ROOT, "photos", "real")
-    focus = {"volta": "62% 50%", "vcr": "45% 50%", "neonglow": "50% 50%", "deskos": "50% 50%"}
+    focus = {"volta": "62% 50%", "vcr": "50% 50%", "neonglow": "55% 50%", "deskos": "48% 50%"}
     for t in THEMES:
         t = dict(t, focus=focus.get(t["key"], "50% 50%"))
         if t["key"] == "vcr":

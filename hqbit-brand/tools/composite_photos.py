@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""Place theme screenshots onto the R36S screens in product photos.
+"""Place theme screenshots onto the R36S screens in a green-screen product photo collage.
 
-usage: composite_photos.py <collage.png> <out dir>
+usage: composite_photos.py <green-screen collage> <out dir>
 
-For each screen:
-1. Find the glass panel: the non-white region inside the device's white frame, grown from a seed quad
-   (for clear/purple shells, the lit display itself). Fit a straight line to each side of its outline and
-   intersect them, which gives the panel's corners without the rounding.
-2. The active display sits inside the glass with a thin black border; its corners are found through the
-   panel's homography, so the inset follows the perspective.
-3. Warp the screenshot (with rounded corners) into the active area at 4x, tone it to the photo (lifted
-   blacks, softer contrast, a tint from the scene), darken its edges slightly, and add a faint glass sheen.
-   The photo's own bezel and rim reflections stay untouched.
+Each display in the collage is solid green. For each one:
+1. Key out the green: a soft matte from how much green exceeds red/blue, so the screen's own edge and
+   rounded corners stay exactly as photographed.
+2. Fit a straight line to each side of the green area and intersect them for the four corners; the
+   screenshot is perspective-warped (at 4x) onto that quad and cut by the matte.
+3. Remove green spill from the bezel next to the screen, tone the screenshot to the photo (lifted
+   blacks, a hint of the room colour, slight edge falloff), add a faint glass sheen.
 """
 import os
 import sys
@@ -23,133 +21,105 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.join(ROOT, "showcase", "screens")
 UP = 4
 
-# seed quads (TL, TR, BR, BL) measured on the collage; mode "glass" = white frame, "lit" = transparent shell
+# name: (panel box in the collage, [(point inside the green screen, screenshot[, quarter turns])])
 PANELS = {
-    "volta": ((0, 0, 752, 574), [("glass", [(336, 69), (577, 71), (581, 257), (338, 258)], "volta/system-horizontal-dark.png")]),
-    "vcr": ((767, 310, 1254, 623), [("glass", [(916, 342), (1075, 330), (1079, 463), (913, 467)], "vcr/system-snes.png")]),
-    "neonglow": ((817, 922, 1254, 1254), [("glass", [(969, 967), (1128, 966), (1129, 1077), (969, 1079)], "neonglow/system-vertical.png")]),
-    "deskos": ((627, 632, 1254, 910), [("glass", [(859, 689), (991, 657), (1012, 747), (881, 778)], "deskos/system-classic.png")]),
-    "collection": ((0, 922, 515, 1254), [
-        ("glass", [(77, 946), (208, 947), (217, 1030), (88, 1034)], "volta/system-wheel-citrine.png"),
-        ("lit", [(245, 963), (344, 962), (351, 1033), (248, 1036)], "neonglow/system-wheel.png"),
-        ("lit", [(384, 971), (458, 970), (468, 1037), (390, 1039)], "vcr/system-gba-navy.png"),
-    ]),
+    "volta": ((0, 0, 757, 578), [((460, 150), "volta/system-horizontal-dark.png")]),
+    "neonglow": ((767, 0, 1254, 300), [((1080, 90), "neonglow/system-vertical.png", 1)]),
+    "vcr": ((767, 306, 1254, 620), [((1000, 395), "vcr/system-snes.png")]),
+    "deskos": ((626, 629, 1254, 912), [((935, 715), "deskos/system-classic.png")]),
+    "collection": ((0, 586, 616, 912), [((390, 695), "volta/system-wheel-citrine.png"),
+                                        ((492, 700), "vcr/system-gba-navy.png")]),
 }
-INSET = (0.027, 0.034)        # active display inside the glass panel (fraction of width, height)
 
 
-def region_hull(img, seed, mode):
-    q = np.array(seed, np.float32)
-    x0, y0 = (q.min(0) - 30).astype(int)
-    x1, y1 = (q.max(0) + 30).astype(int)
-    x0, y0 = max(x0, 0), max(y0, 0)
-    roi = img[y0:y1, x0:x1]
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV).astype(int)
-    seedm = np.zeros(roi.shape[:2], np.uint8)
-    cv2.fillPoly(seedm, [(q - [x0, y0]).astype(np.int32)], 1)
-    if mode == "glass":
-        cand = ~((hsv[..., 2] > 150) & (hsv[..., 1] < 90))
-        grow = cv2.dilate(seedm, np.ones((15, 15), np.uint8))
-    else:  # lit display on a transparent shell: brighter than the dark bezel around it
-        cand = hsv[..., 2] > 55
-        grow = cv2.dilate(seedm, np.ones((7, 7), np.uint8))
-    cand = (cand & (grow > 0)).astype(np.uint8)
-    n, lab = cv2.connectedComponents(cand)
-    best = max(range(1, n), key=lambda i: ((lab == i) & (seedm == 1)).sum())
-    m = (lab == best).astype(np.uint8) * 255
-    m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
-    cs, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    hull = cv2.convexHull(max(cs, key=cv2.contourArea)).reshape(-1, 2).astype(np.float32) + [x0, y0]
-    dense = []                                   # resample the hull every 0.5 px so straight sides have points
-    for p0, p1 in zip(hull, np.roll(hull, -1, 0)):
-        n = max(2, int(np.linalg.norm(p1 - p0) * 2))
-        dense.append(p0 + (p1 - p0) * np.linspace(0, 1, n, endpoint=False)[:, None])
-    return np.concatenate(dense).astype(np.float32)
+def greenness(img):
+    b, g, r = [img[..., i].astype(np.float32) for i in range(3)]
+    return g - np.maximum(r, b)
 
 
-def fit_quad(hull, seed):
-    """Fit a line to each side of the outline (ignoring the rounded corners) and intersect them."""
-    s = np.array(seed, np.float32)
+def screen_mask(img, inside):
+    m = (greenness(img) > 40).astype(np.uint8)
+    n, lab = cv2.connectedComponents(m)
+    return (lab == lab[inside[1], inside[0]]).astype(np.uint8)
+
+
+def fit_quad(mask):
+    cs, _ = cv2.findContours(mask * 255, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    cnt = max(cs, key=cv2.contourArea)
+    pts = cnt.reshape(-1, 2).astype(np.float32)
+    hull = cv2.convexHull(cnt)
+    peri = cv2.arcLength(hull, True)
+    eps = 0.02
+    while True:
+        ap = cv2.approxPolyDP(hull, eps * peri, True).reshape(-1, 2).astype(np.float32)
+        if len(ap) <= 4:
+            break
+        eps += 0.005
+    c = ap.mean(0)
+    ap = ap[np.argsort(np.arctan2(ap[:, 1] - c[1], ap[:, 0] - c[0]))]
+    ap = np.roll(ap, -int(np.argmin(ap.sum(1))), 0)          # TL, TR, BR, BL
     lines = []
     for i in range(4):
-        a, b = s[i], s[(i + 1) % 4]
+        a, b = ap[i], ap[(i + 1) % 4]
         d = b - a
         L = np.linalg.norm(d)
-        t = ((hull - a) @ d) / (L * L)
+        t = ((pts - a) @ d) / (L * L)
         nrm = np.array([-d[1], d[0]]) / L
-        dist = np.abs((hull - a) @ nrm)
-        sel = hull[(t > 0.18) & (t < 0.82) & (dist < 0.12 * L)]
+        sel = pts[(t > 0.15) & (t < 0.85) & (np.abs((pts - a) @ nrm) < 0.08 * L)]
         vx, vy, x, y = cv2.fitLine(sel, cv2.DIST_HUBER, 0, 0.01, 0.01).ravel()
         lines.append((np.array([x, y]), np.array([vx, vy])))
-    pts = []
-    for i in range(4):                       # corner i lies between side i-1 and side i
+    out = []
+    for i in range(4):                                       # corner i between side i-1 and side i
         (p1, d1), (p2, d2) = lines[i - 1], lines[i]
         t = np.linalg.solve(np.array([d1, -d2]).T, p2 - p1)
-        pts.append(p1 + t[0] * d1)
-    return np.array(pts, np.float32)
-
-
-def inset_quad(quad, fx, fy):
-    H = cv2.getPerspectiveTransform(np.float32([[0, 0], [1, 0], [1, 1], [0, 1]]), quad)
-    unit = np.float32([[fx, fy], [1 - fx, fy], [1 - fx, 1 - fy], [fx, 1 - fy]]).reshape(-1, 1, 2)
-    return cv2.perspectiveTransform(unit, H).reshape(-1, 2)
-
-
-def tone(shot, tint):
-    s = shot.astype(np.float32) / 255
-    s = 0.035 + s * 0.93                                   # lifted blacks, softer whites, like a lit LCD in a photo
-    s = np.clip((s - 0.5) * 0.96 + 0.5, 0, 1)
-    return s * 0.94 + tint * 0.06                          # a hint of the room's colour
-
-
-def rounded_mask(w, h, r):
-    m = np.zeros((h, w), np.uint8)
-    cv2.rectangle(m, (r, 0), (w - r, h), 255, -1)
-    cv2.rectangle(m, (0, r), (w, h - r), 255, -1)
-    for cx, cy in ((r, r), (w - r, r), (w - r, h - r), (r, h - r)):
-        cv2.circle(m, (cx, cy), r, 255, -1, lineType=cv2.LINE_AA)
-    return m
+        out.append(p1 + t[0] * d1)
+    return np.array(out, np.float32)
 
 
 def composite(src, out_dir, name):
     box, screens = PANELS[name]
     col = cv2.imread(src)
-    panel = col[box[1]:box[3], box[0]:box[2]]
+    x0, y0, x1, y1 = box
+    panel = col[y0:y1, x0:x1]
     big = cv2.resize(panel, None, fx=UP, fy=UP, interpolation=cv2.INTER_LANCZOS4).astype(np.float32) / 255
-    out = big.copy()
     size = (big.shape[1], big.shape[0])
+    gr = cv2.resize(greenness(panel), size, interpolation=cv2.INTER_CUBIC)
+    out = big.copy()
     quads = []
-    for mode, seed, shot_path in screens:
-        if mode == "glass":
-            active = inset_quad(fit_quad(region_hull(col, seed, mode), seed), *INSET)
-        else:                                    # transparent shells: edges too faint to detect, use the measured quad
-            active = np.array(seed, np.float32)
-        quads.append(active)
-        act = ((active - [box[0], box[1]]) * UP + (UP - 1) / 2).astype(np.float32)
+    for inside, shot_path, *rot in screens:
+        m = screen_mask(col, inside)[y0:y1, x0:x1]
+        quad = np.roll(fit_quad(m), -(rot[0] if rot else 0), 0)   # rot: device lying on its side
+        quads.append((quad + [x0, y0]).tolist())
+        q = (quad * UP + (UP - 1) / 2).astype(np.float32)
+        region = cv2.dilate(cv2.resize(m, size, interpolation=cv2.INTER_NEAREST), np.ones((13, 13), np.uint8)).astype(np.float32)
+        matte = np.clip((gr - 8) / 50, 0, 1) * region
+        matte = cv2.dilate(matte, np.ones((5, 5), np.uint8))                 # cover the anti-aliased rim
+        matte = cv2.GaussianBlur(matte, (0, 0), UP * 0.45)[..., None]
         shot = cv2.imread(os.path.join(SCR, shot_path))
+        shot = cv2.resize(shot, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255
         sh, sw = shot.shape[:2]
-        shot = cv2.resize(shot, (sw * 3, sh * 3), interpolation=cv2.INTER_CUBIC)
-        sh, sw = shot.shape[:2]
-        tint = cv2.GaussianBlur(big, (0, 0), 40)[int(act[:, 1].mean()), int(act[:, 0].mean())]
-        s = tone(shot, tint)
+        tint = cv2.GaussianBlur(big, (0, 0), 60)[int(q[:, 1].mean()), int(q[:, 0].mean())]
+        s = (0.03 + shot * 0.94) * 0.95 + tint * 0.05
         yy, xx = np.mgrid[0:sh, 0:sw].astype(np.float32)
         edge = np.minimum(np.minimum(xx, sw - 1 - xx) / sw, np.minimum(yy, sh - 1 - yy) / sh)
-        s *= (0.9 + 0.1 * np.clip(edge / 0.06, 0, 1))[..., None]           # slight falloff at the edges
-        rm = rounded_mask(sw, sh, int(0.025 * sw)).astype(np.float32) / 255
-        H = cv2.getPerspectiveTransform(np.float32([[0, 0], [sw, 0], [sw, sh], [0, sh]]), act)
-        ws = cv2.warpPerspective(s, H, size, flags=cv2.INTER_AREA)
-        wm = cv2.warpPerspective(rm, H, size, flags=cv2.INTER_LINEAR)
-        ws = cv2.GaussianBlur(ws, (0, 0), UP * 0.45)                         # match the photo's softness
-        wm = cv2.GaussianBlur(wm, (0, 0), UP * 0.5)[..., None]
-        tl, tr, br, bl = act
-        band = np.float32([tl, tl + (tr - tl) * 0.62, tl + (tr - tl) * 0.18 + (bl - tl) * 0.55, tl + (bl - tl) * 0.75])
+        s *= (0.92 + 0.08 * np.clip(edge / 0.05, 0, 1))[..., None]
+        H = cv2.getPerspectiveTransform(np.float32([[0, 0], [sw, 0], [sw, sh], [0, sh]]), q)
+        ws = cv2.warpPerspective(s, H, size, flags=cv2.INTER_AREA, borderMode=cv2.BORDER_REPLICATE)
+        ws = cv2.GaussianBlur(ws, (0, 0), UP * 0.4)
+        tl, tr, br, bl = q
+        band = np.float32([tl, tl + (tr - tl) * 0.6, tl + (tr - tl) * 0.15 + (bl - tl) * 0.55, tl + (bl - tl) * 0.72])
         g = np.zeros(size[::-1], np.float32)
-        cv2.fillPoly(g, [band.astype(np.int32)], 0.07)
-        g = cv2.GaussianBlur(g, (0, 0), UP * 14)[..., None] * wm             # soft diagonal glass sheen
-        layer = ws * wm + out * (1 - wm)
+        cv2.fillPoly(g, [band.astype(np.int32)], 0.06)
+        g = cv2.GaussianBlur(g, (0, 0), UP * 14)[..., None] * matte
+        layer = ws * matte + out * (1 - matte)
         out = layer + g * (1 - layer)
+    # despill: around the screens, pull green down towards max(red, blue)
+    ring = cv2.dilate((gr > 10).astype(np.uint8), np.ones((5 * UP, 5 * UP), np.uint8)).astype(bool)
+    bch, gch, rch = out[..., 0], out[..., 1], out[..., 2]
+    lim = np.maximum(bch, rch)
+    out[..., 1] = np.where(ring & (gch > lim), lim + (gch - lim) * 0.15, gch)
     res = cv2.resize(np.clip(out * 255, 0, 255).astype(np.uint8), (panel.shape[1] * 2, panel.shape[0] * 2), interpolation=cv2.INTER_AREA)
-    res = cv2.addWeighted(res, 1.35, cv2.GaussianBlur(res, (0, 0), 1.2), -0.35, 0)
+    res = cv2.addWeighted(res, 1.3, cv2.GaussianBlur(res, (0, 0), 1.2), -0.3, 0)
     cv2.imwrite(os.path.join(out_dir, f"hqbit-photo-{name}.jpg"), res, [cv2.IMWRITE_JPEG_QUALITY, 93])
     return quads
 
