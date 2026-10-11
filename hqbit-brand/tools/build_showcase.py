@@ -99,7 +99,7 @@ def collection():
 <div style="position:absolute;right:120px;top:200px;opacity:.6">{pix(SPARKLE, 6, '#ffffff')}</div>"""
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--photos" not in sys.argv:
     os.makedirs(BUILD, exist_ok=True)
     for t in THEMES:
         html = f"{BUILD}/showcase-{t['key']}.html"
@@ -109,3 +109,52 @@ if __name__ == "__main__":
     w(html, page(collection(), 1920, 1080))
     render(html, f"{OUT}/hqbit-showcase-collection.png", 1920, 1080)
     print("done")
+
+
+# ---------------------------------------------------------------- cards built on the product photos (photos/real)
+def photo_card(t, photo, W=1600, H=900):
+    chips = "".join(f'<span style="font-family:JB;font-size:15px;background:#ffffff1f;border:1px solid #ffffff40;padding:7px 12px;border-radius:999px">{c}</span>' for c in t["chips"])
+    return f"""{BG}
+<div style="position:absolute;left:64px;top:64px">{logo('horizontal', width=170)}</div>
+<div style="position:absolute;left:64px;top:230px;width:440px">
+ <div style="font-family:PX;font-size:17px;color:{C['lime']}">{t['version'].upper()}</div>
+ <div style="font-family:UB;font-weight:800;font-size:{70 if len(t['name']) < 8 else 60}px;line-height:1;letter-spacing:-.02em;margin-top:10px">{t['name']}</div>
+ <div style="font-size:21px;line-height:1.45;margin-top:22px;color:#ffffffe6">{t['line']}</div>
+ <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:26px">{chips}</div></div>
+<div style="position:absolute;left:64px;bottom:58px;width:440px;font-family:JB;font-size:13px;line-height:1.6;letter-spacing:.08em;color:#ffffffbb">R36S &amp; CLONES · EMUELEC · ARKOS · dARKOS</div>
+<div style="position:absolute;right:56px;top:56px;bottom:56px;width:{W-600}px;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px #0008;border:1px solid #ffffff2a">
+ <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover;object-position:{t.get('focus', '50% 50%')}"></div>"""
+
+
+def collection_photo_card(photo, W=1600, H=900):
+    names = " · ".join(t["name"].upper() for t in THEMES)
+    return f"""{BG}
+<div style="position:absolute;left:64px;top:64px">{logo('horizontal', width=170)}</div>
+<div style="position:absolute;left:64px;top:240px;width:440px">
+ <div style="font-family:UB;font-weight:800;font-size:52px;line-height:1.05;letter-spacing:-.02em">The R36S theme collection</div>
+ <div style="font-size:21px;line-height:1.45;margin-top:22px;color:#ffffffe6">Four free EmulationStation themes, drawn for the 640×480 screen.</div>
+ <div style="font-family:JB;font-size:15px;margin-top:26px;color:{C['lime']}">{names}</div></div>
+<div style="position:absolute;left:64px;bottom:58px;width:440px;font-family:JB;font-size:13px;line-height:1.6;letter-spacing:.08em;color:#ffffffbb">R36S &amp; CLONES · EMUELEC · ARKOS · dARKOS</div>
+<div style="position:absolute;right:56px;top:56px;bottom:56px;width:{W-600}px;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px #0008;border:1px solid #ffffff2a">
+ <img src="file://{photo}" style="width:100%;height:100%;object-fit:cover"></div>"""
+
+
+def build_photo_cards():
+    P = os.path.join(ROOT, "photos", "real")
+    focus = {"volta": "62% 50%", "vcr": "45% 50%", "neonglow": "50% 50%", "deskos": "50% 50%"}
+    for t in THEMES:
+        t = dict(t, focus=focus.get(t["key"], "50% 50%"))
+        if t["key"] == "vcr":
+            t["line"] = "The blue screen of an old VCR, with full-colour pixel consoles, a custom pixel font and a tape-counter timeline."
+            t["chips"] = ["153 systems", "Full-colour consoles", "Custom pixel font", "CRT scanlines"]
+        html = f"{BUILD}/photo-card-{t['key']}.html"
+        w(html, page(photo_card(t, f"{P}/hqbit-photo-{t['key']}.jpg"), 1600, 900))
+        render(html, f"{OUT}/hqbit-showcase-{t['key']}.png", 1600, 900)
+    html = f"{BUILD}/photo-card-collection.html"
+    w(html, page(collection_photo_card(f"{P}/hqbit-photo-collection.jpg"), 1600, 900))
+    render(html, f"{OUT}/hqbit-showcase-collection.png", 1600, 900)
+
+
+if __name__ == "__main__" and "--photos" in sys.argv:
+    build_photo_cards()
+    print("photo cards done")
