@@ -136,10 +136,7 @@ code { font: 500 0.88em/1.4 var(--mono); background: rgba(255,255,255,.08); padd
 .note { background: var(--plum); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
 .note h3 { font-size: 19px; font-weight: 700; }
 .note ul { margin: 0; padding-left: 20px; color: var(--muted); display: grid; gap: 6px; }
-.photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: clamp(32px, 5vw, 56px); }
-.photos img { border-radius: var(--r); border: 1px solid var(--line); width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .photos { grid-template-columns: 1fr 1fr; } .photos img:last-child { display: none; } }
 
 /* footer */
 footer { border-top: 1px solid var(--line); padding-block: 40px; color: var(--muted); font-size: 14px; }
@@ -267,11 +264,6 @@ dialog button { font: 700 13px/1 var(--display); background: var(--text); color:
             </ul>
           </div>
         </div>
-      </div>
-      <div class="photos">
-        <img src="img/photo-keycap.jpg" width="900" height="1125" alt="A purple keycap with the HQbit B mark among black keycaps" loading="lazy">
-        <img src="img/photo-glass.jpg" width="900" height="1600" alt="A glowing glass keycap with the HQbit B mark on a keyboard, with the words Pixel themes for R36S" loading="lazy">
-        <img src="img/photo-tiles.jpg" width="900" height="1275" alt="Purple glass tiles with the HQbit B mark on the centre tile" loading="lazy">
       </div>
     </div>
   </section>
