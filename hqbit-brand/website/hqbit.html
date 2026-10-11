@@ -1,0 +1,316 @@
+<title>HQbit R36S Themes</title>
+<meta name="description" content="Four free EmulationStation themes for the R36S by HQbit: Volta, NeonGlow, VCR OSD and DeskOS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Silkscreen:wght@400;700&display=swap">
+<style>
+/* Layout: one dark-purple handheld world. Sticky bar, split hero, one band per theme
+   (showcase image + spec panel + screen strip), install steps, project brief, credits. */
+:root {
+  color-scheme: dark;
+  --void: #0d0619;
+  --night: #160a2e;
+  --plum: #22104a;
+  --purple: #612bfe;
+  --purple-hi: #7a4bff;
+  --lilac: #b9a3ff;
+  --text: #f6f3ff;
+  --muted: #c9bdf0;
+  --lime: #e0fe3b;
+  --line: rgba(255, 255, 255, 0.12);
+  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --pixel: "Silkscreen", "Courier New", monospace;
+  --r: 18px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0; background: var(--void); color: var(--text);
+  font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.08; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.eyebrow { font: 500 13px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--lilac); }
+.chip-bit { display: inline-block; width: 1.1em; height: 0.48em; border-radius: 0.08em 0.24em 0.24em 0.08em; background: var(--lime); vertical-align: 0.1em; }
+:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
+
+/* bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(13, 6, 25, 0.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.bar img { width: 112px; }
+.bar nav { display: flex; gap: clamp(12px, 3vw, 28px); font: 500 14px/1 var(--body); }
+.bar nav a { text-decoration: none; color: var(--muted); }
+.bar nav a:hover { color: var(--text); }
+@media (max-width: 560px) { .bar nav a.opt { display: none; } }
+
+/* hero */
+.hero { position: relative; overflow: hidden; background: radial-gradient(90% 120% at 85% 10%, #7448ff 0%, var(--purple) 34%, #3a14b8 64%, var(--void) 100%); }
+.hero::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 44px 44px; -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, #000 40%, transparent 100%); }
+.hero .wrap { position: relative; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(48px, 8vw, 96px) clamp(40px, 6vw, 72px); }
+.hero .copy { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.hero h1 { font-size: clamp(40px, 6.2vw, 76px); font-weight: 800; }
+.hero .lede { font-size: clamp(17px, 1.6vw, 20px); color: #ece6ff; max-width: 34em; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 500 13px/1.4 var(--mono); color: #ffffffcc; letter-spacing: 0.04em; }
+.facts span::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--lime); margin-right: 8px; vertical-align: 1px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; font: 700 15px/1 var(--display); letter-spacing: 0; text-decoration: none; padding: 16px 22px; border-radius: 14px; border: 2px solid transparent; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn-solid { background: var(--text); color: var(--purple); box-shadow: 0 5px 0 #2a0f8f; }
+.btn-line { border-color: rgba(255,255,255,.75); color: var(--text); background: transparent; }
+.hero figure { margin: 0; min-width: 0; }
+.hero figure img { border-radius: var(--r); box-shadow: 0 30px 80px rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); }
+@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+/* sections */
+section { padding-block: clamp(56px, 8vw, 100px); }
+.section-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: clamp(28px, 4vw, 44px); max-width: 46em; }
+.section-head h2 { font-size: clamp(30px, 4vw, 48px); font-weight: 700; }
+.section-head p { color: var(--muted); }
+
+/* theme bands */
+.themes { background: var(--night); border-block: 1px solid var(--line); }
+.theme { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(20px, 3vw, 36px); align-items: start; padding-block: clamp(28px, 4vw, 40px); border-top: 1px solid var(--line); }
+.theme:first-of-type { border-top: 0; padding-top: 0; }
+.theme .shot { margin: 0; min-width: 0; }
+.theme .shot img { border-radius: var(--r); border: 1px solid var(--line); }
+.spec { display: flex; flex-direction: column; gap: 16px; min-width: 0; background: var(--plum); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(20px, 2.6vw, 30px); }
+.spec .ver { font: 400 14px/1 var(--pixel); color: var(--lime); }
+.spec h3 { font-size: clamp(28px, 3vw, 40px); font-weight: 800; }
+.spec p { color: #e7e0ff; }
+.spec ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.spec li { display: flex; gap: 12px; align-items: baseline; }
+.spec li::before { content: ""; flex: none; width: 16px; height: 8px; border-radius: 2px 5px 5px 2px; background: var(--lime); transform: translateY(-1px); }
+.file { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; font: 500 13px/1.4 var(--mono); color: var(--muted); padding-top: 14px; border-top: 1px dashed var(--line); }
+.file b { color: var(--text); font-weight: 500; word-break: break-all; }
+.dl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.dl .btn { padding: 14px 18px; font-size: 14px; }
+.dl .btn-solid { background: var(--lime); color: #1a0b3d; box-shadow: 0 5px 0 #7c8f12; }
+.dl .alt { font: 500 13px/1 var(--body); color: var(--lilac); }
+.strip { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.strip button { padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--void); cursor: zoom-in; aspect-ratio: 4 / 3; }
+.strip button img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+.strip button:hover img { transform: scale(1.04); }
+@media (max-width: 920px) { .theme { grid-template-columns: 1fr; } .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* install */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+.steps li { counter-increment: s; background: var(--night); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.steps li::before { content: "STEP " counter(s); font: 400 13px/1 var(--pixel); color: var(--lime); }
+.steps h3 { font-size: 20px; font-weight: 700; }
+.steps p { color: var(--muted); font-size: 16px; }
+code { font: 500 0.88em/1.4 var(--mono); background: rgba(255,255,255,.08); padding: 2px 6px; border-radius: 6px; word-break: break-word; }
+.folders { margin-top: 18px; overflow-x: auto; background: var(--night); border: 1px solid var(--line); border-radius: var(--r); }
+.folders table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+.folders th, .folders td { text-align: left; padding: 12px 18px; border-top: 1px solid var(--line); }
+.folders th { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--lilac); border-top: 0; }
+@media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
+
+/* about */
+.about { background: linear-gradient(180deg, var(--void), var(--night)); }
+.about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.about-grid .prose { display: flex; flex-direction: column; gap: 18px; color: #e9e3ff; min-width: 0; max-width: 38em; }
+.notes { display: grid; gap: 16px; min-width: 0; }
+.note { background: var(--plum); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.note h3 { font-size: 19px; font-weight: 700; }
+.note ul { margin: 0; padding-left: 20px; color: var(--muted); display: grid; gap: 6px; }
+.photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: clamp(32px, 5vw, 56px); }
+.photos img { border-radius: var(--r); border: 1px solid var(--line); width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+@media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .photos { grid-template-columns: 1fr 1fr; } .photos img:last-child { display: none; } }
+
+/* footer */
+footer { border-top: 1px solid var(--line); padding-block: 40px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; }
+footer img { width: 54px; }
+footer .credits { display: grid; gap: 8px; max-width: 60em; }
+footer a { color: var(--lilac); }
+
+/* lightbox */
+dialog { border: 0; padding: 0; background: transparent; max-width: min(1100px, 94vw); }
+dialog::backdrop { background: rgba(8, 3, 18, .86); backdrop-filter: blur(4px); }
+dialog img { border-radius: 12px; width: 100%; image-rendering: auto; }
+dialog .cap { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-top: 10px; color: var(--muted); font: 500 13px/1.3 var(--mono); }
+dialog button { font: 700 13px/1 var(--display); background: var(--text); color: var(--purple); border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <a href="#top" aria-label="HQbit home"><img src="img/hqbit-logo-white.svg" alt="HQbit"></a>
+    <nav aria-label="Sections">
+      <a href="#themes">Themes</a>
+      <a href="#install" class="opt">Install</a>
+      <a href="#about">About</a>
+      <a href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div class="copy">
+        <span class="eyebrow">EmulationStation themes · R36S</span>
+        <h1>Themes built from bits<span style="color:var(--lime)">.</span></h1>
+        <p class="lede">Four free themes for the R36S and its clones running ArkOS or dArkOS. Each one is drawn for the 640×480 screen, so pixel art stays sharp and nothing hides behind the battery icon.</p>
+        <div class="facts"><span>4 themes</span><span>640×480 native</span><span>ArkOS / dArkOS</span><span>Free download</span></div>
+        <div class="ctas" id="download">
+          <a class="btn btn-solid" href="#themes">Choose a theme ↓</a>
+          <a class="btn btn-line" href="https://drive.google.com/drive/folders/100a83ie8fWxjgm-VBcgk6h-fA1CaF0Ve" target="_blank" rel="noopener">All downloads on Google Drive</a>
+        </div>
+      </div>
+      <figure><img src="img/showcase-collection.jpg" width="1600" height="900" alt="The four HQbit themes, Volta, NeonGlow, VCR OSD and DeskOS, each shown on an R36S handheld"></figure>
+    </div>
+  </div>
+
+  <section class="themes" id="themes">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The collection</span>
+        <h2>Pick the look your handheld deserves</h2>
+        <p>Every theme covers the system carousel, game lists, the settings menu and missing box art. Tap a screenshot to see it full size.</p>
+      </div>
+      <div id="theme-list"></div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Install</span>
+        <h2>On your R36S in three steps</h2>
+        <p>You only need a computer that can read the SD card. Nothing outside the theme folder is changed, so removing a theme is just deleting its folder.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Download and unzip</h3><p>Download the theme's zip and unzip it on your computer. If you get a folder inside a folder with the same name, use the inner one.</p></li>
+        <li><h3>Copy it to the SD card</h3><p>Put the SD card in your computer and copy the theme folder into <code>EASYROMS/themes/</code>.</p></li>
+        <li><h3>Switch to it</h3><p>On the R36S press <b>Start → UI Settings → Theme Set</b> and pick the theme. Colours, layouts and font sizes are under <b>Theme Configuration</b>.</p></li>
+      </ol>
+      <div class="folders">
+        <table>
+          <thead><tr><th>Theme</th><th>Folder to copy</th><th>Ends up as</th></tr></thead>
+          <tbody>
+            <tr><td>Volta</td><td><code>es-theme-volta</code></td><td><code>themes/es-theme-volta/theme.xml</code></td></tr>
+            <tr><td>NeonGlow</td><td><code>neonglow</code></td><td><code>themes/neonglow/3do/theme.xml</code></td></tr>
+            <tr><td>VCR OSD</td><td><code>es-theme-vcr-osd</code></td><td><code>themes/es-theme-vcr-osd/theme.xml</code></td></tr>
+            <tr><td>DeskOS</td><td><code>themes/es-theme-deskos</code> (from inside the zip)</td><td><code>themes/es-theme-deskos/snes/theme.xml</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="prose">
+          <span class="eyebrow">About HQbit</span>
+          <h2 style="font-size:clamp(30px,4vw,48px);font-weight:700">A first project, and a starting point</h2>
+          <p>HQbit is the pixel art and UI project of Hossam el Qamash. It started with one R36S clone and a simple question: can a first-time theme maker, working with AI, build EmulationStation themes that look good on a 640×480 screen?</p>
+          <p>These four themes are the answer so far. They were designed together with Claude, an AI assistant, and generated by code, so every logo, icon and layout is drawn at the screen's real pixel size. Volta runs on my own R36S, and the themes were checked in a desktop build of ArkOS's EmulationStation that uses the same graphics mode as the handheld.</p>
+          <p>This is my first project of this kind, so there is plenty of room to improve. I'd rather share it now and keep making it better than wait for perfect. It's also the start of more projects like it, for the R36S and for other popular handhelds.</p>
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h3>Where it can get better</h3>
+            <ul>
+              <li>More testing on real hardware, across different R36S clones and firmware versions</li>
+              <li>Real photos from the device next to the rendered screenshots</li>
+              <li>More layouts and options, and fine-tuning for long game names and small fonts</li>
+              <li>Your feedback: what breaks, what's hard to read, what you'd like next</li>
+            </ul>
+          </div>
+          <div class="note">
+            <h3>What's next</h3>
+            <ul>
+              <li>New themes and updates to these four</li>
+              <li>Matching boot and loading screens</li>
+              <li>Versions for other popular handhelds and their screen sizes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="photos">
+        <img src="img/photo-keycap.jpg" width="900" height="1125" alt="A purple keycap with the HQbit B mark among black keycaps" loading="lazy">
+        <img src="img/photo-glass.jpg" width="900" height="1600" alt="A glowing glass keycap with the HQbit B mark on a keyboard, with the words Pixel themes for R36S" loading="lazy">
+        <img src="img/photo-tiles.jpg" width="900" height="1275" alt="Purple glass tiles with the HQbit B mark on the centre tile" loading="lazy">
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/hqbit-mark-white.svg" alt="">
+    <div class="credits">
+      <p><b style="color:var(--text)">HQbit</b> · Pixel · Digital · AI · UI · Made by Hossam el Qamash with Claude.</p>
+      <p>Free for personal, non-commercial use. Volta's system logos come from <a href="https://github.com/anthonycaccese/art-book-next-es-de" target="_blank" rel="noopener">Art Book Next</a> by Anthony Caccese and NeonGlow's from the <a href="https://github.com/fabricecaruso/es-theme-carbon" target="_blank" rel="noopener">Carbon</a> theme family, both CC BY-NC-SA, so those themes are shared under CC BY-NC-SA too. DeskOS's console art is from the AmberELEC 8bit theme (based on Rookervik's Carbon, edited by bebeidon). VCR OSD's art and its OSD Tape font are original; the font is under the SIL Open Font License.</p>
+      <p>Console names, designs and logos are trademarks of their owners. HQbit is a fan project and isn't affiliated with them.</p>
+    </div>
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Screenshot">
+  <img id="lb-img" src="" alt="">
+  <div class="cap"><span id="lb-cap"></span><button type="button" id="lb-close">Close</button></div>
+</dialog>
+
+<script>
+const DRIVE = (id) => ({ dl: `https://drive.google.com/uc?export=download&id=${id}`, view: `https://drive.google.com/file/d/${id}/view` });
+const THEMES = [
+  { key: "volta", name: "Volta", ver: "V1.1", file: "es-theme-volta-v1.1.zip", size: "19.5 MB", id: "1jfAUjVUazuKZ4isimrGIOBgOwvpqMu3v",
+    blurb: "A dark and light dashboard look: glossy gradient cards, tick-ring gauges, dot-matrix numbers and a yellow spark.",
+    points: ["13 colour schemes, dark and light", "Horizontal, vertical-list and wheel carousels", "163 system logos, tinted per scheme", "Runs on my own R36S"],
+    shots: [["system-horizontal-dark", "System view, horizontal, dark"], ["system-vertical-light", "System view, vertical list, light"], ["system-wheel-citrine", "System view, wheel, Citrine Pop"], ["gamelist-dark", "Game list, dark"], ["grid-citrine", "Grid view, Citrine Pop"], ["menu-dark", "Settings menu, dark"]] },
+  { key: "neonglow", name: "NeonGlow", ver: "V1.2", file: "neonglow-r36s-v1.2.zip", size: "22.7 MB", id: "1zagYsgw08kCEeNPpscH_kbYS0evpNkQw",
+    blurb: "Glass tiles that glow in each system's own colour, on a deep dark canvas or a clean light one.",
+    points: ["13 colour schemes, including multicolour", "4 system layouts: list, horizontal, vertical, wheel", "194 systems and collections", "Battery and clock corners kept clear"],
+    shots: [["system-vertical", "System view, vertical list"], ["system-wheel", "System view, wheel"], ["system-light-horizontal", "System view, light, horizontal"], ["gamelist-dark", "Game list, dark"], ["gamelist-multi", "Game list, multicolour"], ["theme-config", "Theme configuration menu"]] },
+  { key: "vcr", name: "VCR OSD", ver: "V1", file: "es-theme-vcr-osd.zip", size: "1.1 MB", id: "10ML-6Ol7IkJaX1lCp6zmsTupiSRVduTO",
+    blurb: "The blue screen of an old VCR: inverse OSD boxes, a tape-counter timeline and SMPTE colour bars when box art is missing.",
+    points: ["153 systems with hand-drawn pixel hardware", "Custom pixel font, Chunky VCR or Clean OSD", "VCR Blue, Deep Navy and Midnight colour sets", "Optional CRT scanlines and an hourglass loading screen"],
+    shots: [["system-snes", "System view, VCR Blue"], ["gamelist-snes", "Game list with the NO SIGNAL card"], ["system-gba-navy", "System view, Deep Navy"], ["system-psx-midnight", "System view, Midnight"], ["system-megadrive", "System view, Mega Drive"], ["loading", "Loading screen"]] },
+  { key: "deskos", name: "DeskOS", ver: "V2", file: "deskos-r36s-theme-v2.zip", size: "5.7 MB", id: "1DHY3KDcJy7E-RDzqfUvO3i1ajcGJtAyS",
+    blurb: "A retro desktop on your handheld. Every system opens as a window with a full-colour pixel console and an INFO panel.",
+    points: ["14 colour schemes: 7 light, 7 new dark", "Full-colour pixel consoles, scaled pixel-perfect", "Five wallpapers and themed menus", "Native 640×464 artwork"],
+    shots: [["system-classic", "System view, Classic Cream"], ["system-night", "System view, Classic Night"], ["system-amber-night", "System view, Amber CRT Night"], ["gamelist-classic", "Game list, Classic Cream"], ["gamelist-ice-night", "Game list, Ice Night"], ["system-pocket", "System view, Pocket Pea"]] },
+];
+
+const list = document.getElementById("theme-list");
+for (const t of THEMES) {
+  const d = DRIVE(t.id);
+  const el = document.createElement("article");
+  el.className = "theme";
+  el.id = t.key;
+  el.innerHTML = `
+    <figure class="shot"><img src="img/showcase-${t.key}.jpg" width="1600" height="1000" loading="lazy" alt="${t.name} theme on an R36S, with the HQbit logo"></figure>
+    <div class="spec">
+      <span class="ver">${t.ver}</span>
+      <h3>${t.name}</h3>
+      <p>${t.blurb}</p>
+      <ul>${t.points.map((p) => `<li>${p}</li>`).join("")}</ul>
+      <div class="file"><b>${t.file}</b><span>${t.size} · zip</span></div>
+      <div class="dl">
+        <a class="btn btn-solid" href="${d.dl}" target="_blank" rel="noopener">Download ${t.name}</a>
+        <a class="alt" href="${d.view}" target="_blank" rel="noopener">Open in Google Drive ↗</a>
+      </div>
+    </div>
+    <div class="strip">${t.shots.map(([f, cap]) => `<button type="button" data-src="img/${t.key}-${f}.jpg" data-cap="${t.name} · ${cap}" aria-label="Enlarge: ${t.name}, ${cap}"><img src="img/${t.key}-${f}.jpg" width="640" height="480" loading="lazy" alt="${t.name}: ${cap}"></button>`).join("")}</div>`;
+  list.appendChild(el);
+}
+
+const lb = document.getElementById("lightbox"), lbImg = document.getElementById("lb-img"), lbCap = document.getElementById("lb-cap");
+list.addEventListener("click", (e) => {
+  const b = e.target.closest(".strip button");
+  if (!b) return;
+  lbImg.src = b.dataset.src; lbImg.alt = b.dataset.cap; lbCap.textContent = b.dataset.cap;
+  if (typeof lb.showModal === "function") lb.showModal(); else lb.setAttribute("open", "");
+});
+document.getElementById("lb-close").addEventListener("click", () => lb.close ? lb.close() : lb.removeAttribute("open"));
+lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
+</script>
